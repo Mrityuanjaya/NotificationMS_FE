@@ -10,20 +10,17 @@ const LoginUser = () => {
   const [password, setPassword] = useState("");
 
   async function handleClick() {
-    const verifyUser = () => {
-      if (email.length === 0)
-        toast.error(ERROR_MESSAGES.EMAIL_REQUIRED, TOAST_CONFIG);
-      else if (password.length === 0)
-        toast.error(ERROR_MESSAGES.PASSWORD_REQUIRED, TOAST_CONFIG);
-      else if (!EMAIL_REGEX.test(email)) {
-        toast.error(ERROR_MESSAGES.EMAIL_INVALID, TOAST_CONFIG);
-      }
-    };
-    verifyUser();
+    if (email.length === 0)
+      toast.error(ERROR_MESSAGES.EMAIL_REQUIRED, TOAST_CONFIG);
+    else if (password.length === 0)
+      toast.error(ERROR_MESSAGES.PASSWORD_REQUIRED, TOAST_CONFIG);
+    else if (!EMAIL_REGEX.test(email)) {
+      toast.error(ERROR_MESSAGES.EMAIL_INVALID, TOAST_CONFIG);
+    }
   }
 
   return (
-    <div className="container">
+    <div className="container mt-5">
       <div className="row py-5 mt-4 align-items-center">
         <div className="col-md-5 pr-lg-5 mb-5 mb-md-0">
           <img

@@ -1,21 +1,23 @@
 @import '/src/styles/Colors.css';
 
-html { font-size: 10px; }
-
 .container {
   margin-top: 15rem;
 }
 
 .form-control {
-  font-size: 2rem;
-  padding: 2rem 1rem;
+  font-size: 1rem;
+  padding: 1rem 0.5rem;
 }
 
 .btn{
-  font-size: 2.5rem;
-  margin: 3rem;
-  padding: 1rem 4rem;
-  border-radius: 0.6rem;
+  font-size: 1.5rem;
+  margin: 0.5rem;
+  padding: 0.5rem 2rem;
+  border-radius: 0.4rem;
   background-color: var(--lightpurple);
   color: var(--textcolor);
+}
+
+.btn:hover{
+  border-color: var(--lightpurple); 
 }
