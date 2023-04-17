@@ -10,24 +10,18 @@ import {
     NOTIFICATIONS_ROUTE,
     RECIPIENTS_ROUTE,
 } from "constants/routes";
-import {AdminContainer, ChannelContainer, LoginContainer, NotificationContainer, RecipientContainer} from "containers";
-import useApi from "hooks/useApi";
-import { useEffect } from "react";
+import {AdminContainer, ChannelContainer, NotificationContainer, RecipientContainer} from "containers";
+import LoginForm from "containers/LoginForm/LoginForm";
 import { Route, Routes } from "react-router-dom";
-import loginApi from "services/auth";
 
 function App() {
-    const postLoginApi = useApi(loginApi.loginUser);
-    useEffect(() => {
-        postLoginApi.request("nancyy@example.com", "string");
-    }, []);
     return (
         <>
             <NavBarComponent />
             <Routes>
-                <Route path={HOME_ROUTE} element={<LoginContainer />} />
+                <Route path={HOME_ROUTE} element={<LoginForm />} />
                 <Route path={HOME_ROUTE} element={<AdminContainer />} />
-                <Route path={LOGIN_ROUTE} element={<LoginContainer />} />
+                <Route path={LOGIN_ROUTE} element={<LoginForm />} />
                 <Route path={CHANNELS_ROUTE} element={<ChannelContainer />} />
                 <Route
                     path={NOTIFICATIONS_ROUTE}
