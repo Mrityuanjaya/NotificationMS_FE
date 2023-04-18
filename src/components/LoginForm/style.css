@@ -1,9 +1,5 @@
 @import '/src/styles/Colors.css';
 
-.container {
-  margin-top: 15rem;
-}
-
 .form-control {
   font-size: 1rem;
   padding: 1rem 0.5rem;

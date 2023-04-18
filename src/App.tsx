@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import LoginUser from "containers/LoginForm/LoginForm";
+import LoginUser from "containers/LoginForm/LoginFormContainer";
 import NotFound from "components/NotFound/NotFound";
 import routes from "constants/routes";
 

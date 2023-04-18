@@ -1,23 +1,12 @@
 import { useState } from "react";
-import { ERROR_MESSAGES, TOAST_CONFIG, EMAIL_REGEX } from "constants/constants";
 import "./style.css";
 import login from "assets/login.webp";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { LoginProps } from "components/LoginForm/types";
 
-const LoginUser = () => {
+const LoginUser = (props: LoginProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  async function handleClick() {
-    if (email.length === 0)
-      toast.error(ERROR_MESSAGES.EMAIL_REQUIRED, TOAST_CONFIG);
-    else if (password.length === 0)
-      toast.error(ERROR_MESSAGES.PASSWORD_REQUIRED, TOAST_CONFIG);
-    else if (!EMAIL_REGEX.test(email)) {
-      toast.error(ERROR_MESSAGES.EMAIL_INVALID, TOAST_CONFIG);
-    }
-  }
 
   return (
     <div className="container mt-5">
@@ -57,7 +46,10 @@ const LoginUser = () => {
                 />
               </div>
               <div className="d-flex justify-content-center">
-                <button className="btn" onClick={handleClick}>
+                <button
+                  className="btn"
+                  onClick={() => props.onClickFunction(email, password)}
+                >
                   Login
                 </button>
               </div>
