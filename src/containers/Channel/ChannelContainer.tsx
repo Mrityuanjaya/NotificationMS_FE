@@ -1,5 +1,3 @@
-import React from 'react'
-
 function ChannelContainer() {
   return (
     <div>ChannelContainer</div>

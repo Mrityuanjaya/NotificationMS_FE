@@ -1,10 +1,21 @@
-import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "store/hooks";
+import { setLoginStatus } from "store/slices/userSlice";
 function NavBar() {
+    const dispatch = useAppDispatch();
+    const loginStatus = useAppSelector((state)=>state.user.loginStatus);
+    const systemAdminStatus = useAppSelector((state)=>state.user.systemAdminStatus);
+    const navigate = useNavigate();
+    const logoutUser = () => {
+        localStorage.clear();
+        dispatch(setLoginStatus(false));
+        navigate("/login");
+    };
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">
-                <Link className="navbar-brand" to="#">
+                <Link className="navbar-brand" to="/">
                     Notification MS
                 </Link>
                 <button
@@ -23,13 +34,11 @@ function NavBar() {
                     id="navbarNavAltMarkup"
                 >
                     <div className="navbar-nav">
-                        <Link
-                            className="nav-link active"
-                            aria-current="page"
-                            to="/"
-                        >
-                            Admins
-                        </Link>
+                        { systemAdminStatus && (
+                            <Link className="nav-link" to="/admin">
+                                Admins
+                            </Link>
+                        )}
                         <Link className="nav-link" to="/channels">
                             Channels
                         </Link>
@@ -41,6 +50,15 @@ function NavBar() {
                         </Link>
                     </div>
                 </div>
+                {loginStatus && (
+                    <button
+                        type="button"
+                        className="btn btn-light mx-3 py-2"
+                        onClick={logoutUser}
+                    >
+                        Logout
+                    </button>
+                )}
             </div>
         </nav>
     );
