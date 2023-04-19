@@ -11,9 +11,11 @@ export const TOAST_CONFIG: ToastOptions = {
 }
 
 export const ERROR_MESSAGES = {
-    EMAIL_REQUIRED: 'Email is required',
-    EMAIL_INVALID: 'Email is invalid',
-    PASSWORD_REQUIRED: 'Password is required',
+    APPLICATION_ID_REQUIRED: 'Application Id is required.',
+    NAME_REQUIRED: 'Name is required.',
+    EMAIL_REQUIRED: 'Email is required.',
+    EMAIL_INVALID: 'Email is invalid.',
+    PASSWORD_REQUIRED: 'Password is required.',
     NETWORK_ERROR: 'Network Error',
 }
 export const SUCCESS_MESSAGES = {
