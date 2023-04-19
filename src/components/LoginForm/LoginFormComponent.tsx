@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./style.css";
+import "styles/Styles.css";
 import login from "assets/login.webp";
 import "react-toastify/dist/ReactToastify.css";
 import { LoginProps } from "components/LoginForm/types";
@@ -47,7 +47,7 @@ const LoginUser = (props: LoginProps) => {
               </div>
               <div className="d-flex justify-content-center">
                 <button
-                  className="btn"
+                  className="button"
                   onClick={() => props.onClickFunction(email, password)}
                 >
                   Login
