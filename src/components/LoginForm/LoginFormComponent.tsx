@@ -1,10 +1,10 @@
 import { useState } from "react";
-import "styles/Styles.css";
-import login from "assets/login.webp";
+import "styles/styles.css";
+import login_img from "assets/login.webp";
 import "react-toastify/dist/ReactToastify.css";
 import { LoginProps } from "components/LoginForm/types";
 
-const LoginUser = (props: LoginProps) => {
+const LoginFormComponent = (props: LoginProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -13,7 +13,7 @@ const LoginUser = (props: LoginProps) => {
       <div className="row py-5 mt-4 align-items-center">
         <div className="col-md-5 pr-lg-5 mb-5 mb-md-0">
           <img
-            src={login}
+            src={login_img}
             alt="Login Image"
             className="img-fluid mb-3 d-none d-md-block"
           />
@@ -61,4 +61,4 @@ const LoginUser = (props: LoginProps) => {
   );
 };
 
-export default LoginUser;
+export default LoginFormComponent;
