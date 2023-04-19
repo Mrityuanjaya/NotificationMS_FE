@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import login_img from "assets/login.webp";
 import "components/LoginForm/style.css"
 import "styles/Styles.css";
-import login from "assets/login.webp";
 import "react-toastify/dist/ReactToastify.css";
-
+import { LoginProps } from "./types";
 const LoginFormComponent = (props: LoginProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
