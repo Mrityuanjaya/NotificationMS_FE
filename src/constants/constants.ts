@@ -18,3 +18,9 @@ export const ERROR_MESSAGES = {
     PASSWORD_REQUIRED: 'Password is required.',
     NETWORK_ERROR: 'Network Error',
 }
+export const SUCCESS_MESSAGES = {
+    LOGIN_SUCCESSFUL: 'Login Successful'
+}
+
+export const SYSTEM_ADMIN_ROLE = 1;
+export const ADMIN_ROLE = 2;
