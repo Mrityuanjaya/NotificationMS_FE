@@ -19,7 +19,9 @@ export const ERROR_MESSAGES = {
     NETWORK_ERROR: 'Network Error',
 }
 export const SUCCESS_MESSAGES = {
-    LOGIN_SUCCESSFUL: 'Login Successful'
+    LOGIN_SUCCESSFUL: 'Login Successful',
+    ACCEPT_SUCCESSFUL: 'Invite Accepted Successfully',
+    INVITE_SUCCESSFUL: 'Invite send Successfully'
 }
 
 export const SYSTEM_ADMIN_ROLE = 1;

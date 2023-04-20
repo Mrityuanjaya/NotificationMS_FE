@@ -1,9 +1,5 @@
-import React from 'react'
-
 function NotificationContainer() {
-  return (
-    <div>NotificationContainer</div>
-  )
+  return <div>NotificationContainer</div>;
 }
 
-export default NotificationContainer
+export default NotificationContainer;

@@ -1,9 +1,9 @@
 import {
-    EMAIL_REGEX,
-    ERROR_MESSAGES,
     SUCCESS_MESSAGES,
-    SYSTEM_ADMIN_ROLE,
+    ERROR_MESSAGES,
     TOAST_CONFIG,
+    EMAIL_REGEX,
+    SYSTEM_ADMIN_ROLE,
 } from "constants/constants";
 import { CHANNELS_ROUTE } from "constants/routes";
 import useApi from "hooks/useApi";

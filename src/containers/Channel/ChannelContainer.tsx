@@ -1,7 +1,5 @@
 function ChannelContainer() {
-  return (
-    <div>ChannelContainer</div>
-  )
+  return <div>ChannelContainer</div>;
 }
 
-export default ChannelContainer
+export default ChannelContainer;
