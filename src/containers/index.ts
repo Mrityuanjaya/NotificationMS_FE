@@ -5,4 +5,4 @@ export {default as LoginFormContainer } from 'containers/LoginForm/LoginFormCont
 export {default as NotificationContainer} from 'containers/Notifications/NotificationContainer'
 export {default as RecipientContainer} from 'containers/Recipient/RecipientContainer'
 export {default as InviteFormContainer} from 'containers/Admin/InviteFormContainer'
-export {default as VerificationContainer} from 'containers/Admin/InviteFormContainer'
+export {default as VerificationContainer} from 'containers/Admin/VerificationContainer'

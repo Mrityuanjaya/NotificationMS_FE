@@ -3,7 +3,7 @@ const routes = {
     LOGIN_ROUTE : "/login",
     ADMIN_ROUTE : "/admin",
     INVITE_ROUTE : "/invite",
-    VERIFY_ROUTE : "/verify: token",
+    VERIFY_ROUTE : "/verify",
     CHANNELS_ROUTE : "/channels",
     RECIPIENTS_ROUTE : "/recipients",
     NOTIFICATIONS_ROUTE : "/notifications",

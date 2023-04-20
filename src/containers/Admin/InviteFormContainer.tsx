@@ -1,9 +1,4 @@
-import {
-  EMAIL_REGEX,
-  ERROR_MESSAGES,
-  SUCCESS_MESSAGES,
-  TOAST_CONFIG,
-} from "constants/constants";
+import { EMAIL_REGEX, ERROR_MESSAGES, TOAST_CONFIG } from "constants/constants";
 import useApi from "hooks/useApi";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
@@ -33,10 +28,10 @@ const InviteFormContainer = () => {
   useEffect(() => {
     if (postInviteApi.data !== null) {
       {
-        toast.success(SUCCESS_MESSAGES.INVITE_SUCCESSFUL, TOAST_CONFIG);
+        toast.success(`${postInviteApi.data}`, TOAST_CONFIG);
       }
     } else if (postInviteApi.error !== "") {
-      toast.error(postInviteApi.error, TOAST_CONFIG);
+      toast.error(`${postInviteApi.error}`, TOAST_CONFIG);
     }
   }, [postInviteApi.loading]);
 
