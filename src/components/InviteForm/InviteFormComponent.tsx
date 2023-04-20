@@ -9,7 +9,8 @@ const InviteFormComponent = (props: InviteProps) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [applicationId, setApplicationId] = useState("");
-
+  if(!loginStatus)
+    navigate(ROUTES.LOGIN_ROUTE);
   return (
     <div className="container mt-5">
       <div className="row py-5 mt-4 align-items-center">

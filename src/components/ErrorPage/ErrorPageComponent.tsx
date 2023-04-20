@@ -1,6 +1,6 @@
 import LoaderComponent from "components/Loader/loader";
 import { useAppSelector } from "store/hooks";
-
+import { ErrorProps } from "components/ErrorPage/types";
 export default function ErrorPage(props: ErrorProps) {
     const loadingStatus = useAppSelector((state)=>state.user.loadingStatus);
     if(loadingStatus)

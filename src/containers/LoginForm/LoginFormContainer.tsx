@@ -5,7 +5,7 @@ import {
     EMAIL_REGEX,
     SYSTEM_ADMIN_ROLE,
 } from "constants/constants";
-import { CHANNELS_ROUTE } from "constants/routes";
+import ROUTES from "constants/routes";
 import useApi from "hooks/useApi";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -53,7 +53,7 @@ const LoginFormContainer = () => {
                     (postLoginApi.data["role"] == SYSTEM_ADMIN_ROLE).toString()
                 );
                 toast.success(SUCCESS_MESSAGES.LOGIN_SUCCESSFUL, TOAST_CONFIG);
-                navigate(CHANNELS_ROUTE);
+                navigate(ROUTES.DASHBOARD_ROUTE);
             }
         } else if (postLoginApi.error !== "") {
             toast.error(postLoginApi.error, TOAST_CONFIG);

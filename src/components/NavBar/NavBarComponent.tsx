@@ -38,17 +38,20 @@ function NavBar() {
                 >
                     <div className="navbar-nav">
                         {systemAdminStatus && (
-                            <Link className="nav-link" to="/admin">
+                            <Link className="nav-link" to={ROUTES.ADMIN_ROUTE}>
                                 Admins
                             </Link>
                         )}
-                        <Link className="nav-link" to="/channels">
+                        <Link className="nav-link" to={ROUTES.DASHBOARD_ROUTE}>
+                            Dashboard
+                        </Link>
+                        <Link className="nav-link" to={ROUTES.CHANNELS_ROUTE}>
                             Channels
                         </Link>
-                        <Link className="nav-link" to="/notifications">
+                        <Link className="nav-link" to={ROUTES.NOTIFICATIONS_ROUTE}>
                             Notifications
                         </Link>
-                        <Link className="nav-link" to="/recipients">
+                        <Link className="nav-link" to={ROUTES.RECIPIENTS_ROUTE}>
                             Recipients
                         </Link>
                     </div>
