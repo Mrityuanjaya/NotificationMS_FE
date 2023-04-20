@@ -2,10 +2,13 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import { setLoginStatus } from "store/slices/userSlice";
+
 function NavBar() {
     const dispatch = useAppDispatch();
-    const loginStatus = useAppSelector((state)=>state.user.loginStatus);
-    const systemAdminStatus = useAppSelector((state)=>state.user.systemAdminStatus);
+    const loginStatus = useAppSelector((state) => state.user.loginStatus);
+    const systemAdminStatus = useAppSelector(
+        (state) => state.user.systemAdminStatus
+    );
     const navigate = useNavigate();
     const logoutUser = () => {
         localStorage.clear();
@@ -34,7 +37,7 @@ function NavBar() {
                     id="navbarNavAltMarkup"
                 >
                     <div className="navbar-nav">
-                        { systemAdminStatus && (
+                        {systemAdminStatus && (
                             <Link className="nav-link" to="/admin">
                                 Admins
                             </Link>
@@ -50,15 +53,13 @@ function NavBar() {
                         </Link>
                     </div>
                 </div>
-                {loginStatus && (
-                    <button
-                        type="button"
-                        className="btn btn-light mx-3 py-2"
-                        onClick={logoutUser}
-                    >
-                        Logout
-                    </button>
-                )}
+                <button
+                    type="button"
+                    className="btn btn-light mx-3 py-2"
+                    onClick={logoutUser}
+                >
+                    Logout
+                </button>
             </div>
         </nav>
     );

@@ -13,7 +13,7 @@ const getSystemAdminStatus = async (token: string) => {
         "/validate_system_admin",
         {
             headers: {
-                "token": token,
+                Authorization: `Bearer ${token}`,
             },
         }
     );

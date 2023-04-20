@@ -1,9 +1,12 @@
-import { useState } from "react";
 import login_img from "assets/login.webp";
-import "components/LoginForm/style.css"
-import "styles/Styles.css";
+import { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
+import "styles/styles.css";
+
+import "components/LoginForm/style.css";
+
 import { LoginProps } from "./types";
+
 const LoginFormComponent = (props: LoginProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -46,7 +49,10 @@ const LoginFormComponent = (props: LoginProps) => {
                 />
               </div>
               <div className="d-flex justify-content-center">
-                <button className="button" onClick={()=>props.onClickFunction(email, password)}>
+                <button
+                  className="button"
+                  onClick={() => props.onClickFunction(email, password)}
+                >
                   Login
                 </button>
               </div>
@@ -56,6 +62,6 @@ const LoginFormComponent = (props: LoginProps) => {
       </div>
     </div>
   );
-}
+};
 
 export default LoginFormComponent;
