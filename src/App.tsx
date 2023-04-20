@@ -1,31 +1,22 @@
 import "App.css";
-import {
-  ADMIN_ROUTE,
-  APPLICATIONS_ROUTE,
-  CHANNELS_ROUTE,
-  ERROR_ROUTE,
-  HOME_ROUTE,
-  LOGIN_ROUTE,
-  NOTIFICATIONS_ROUTE,
-  RECIPIENTS_ROUTE,
-} from "constants/routes";
+import { ErrorPageComponent, NavBarComponent } from "components";
+import ROUTES from "constants/routes";
 import {
   AdminContainer,
+  ApplicationContainer,
   ChannelContainer,
+  InviteFormContainer,
+  LoginFormContainer,
   NotificationContainer,
   RecipientContainer,
+  VerificationContainer,
 } from "containers";
-import LoginFormContainer from "containers/LoginForm/LoginFormContainer";
 import useApi from "hooks/useApi";
 import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import systemAdminStatusApi from "services/auth";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import { setLoginStatus, setSystemAdminStatus } from "store/slices/userSlice";
-
-import ErrorPageComponent from "components/ErrorPage/ErrorPageComponent";
-import NavBarComponent from "components/NavBar/NavBarComponent";
-import ApplicationContainer from "containers/Applications/ApplicationContainer";
 
 function App() {
   const loginStatus = useAppSelector((state) => state.user.loginStatus);
@@ -54,30 +45,40 @@ function App() {
     <>
       {loginStatus && <NavBarComponent />}
       <Routes>
-        <Route path={HOME_ROUTE} element={<LoginFormContainer />} />
+        <Route path={ROUTES.HOME_ROUTE} element={<LoginFormContainer />} />
         {systemAdminStatus && (
-          <Route path={ADMIN_ROUTE} element={<AdminContainer />} />
+          <Route path={ROUTES.ADMIN_ROUTE} element={<AdminContainer />} />
         )}
         {!loginStatus && (
-          <Route path={LOGIN_ROUTE} element={<LoginFormContainer />} />
+          <Route path={ROUTES.LOGIN_ROUTE} element={<LoginFormContainer />} />
         )}
         {loginStatus && (
-          <Route path={CHANNELS_ROUTE} element={<ChannelContainer />} />
+          <Route path={ROUTES.CHANNELS_ROUTE} element={<ChannelContainer />} />
         )}
         {loginStatus && (
           <Route
-            path={NOTIFICATIONS_ROUTE}
+            path={ROUTES.NOTIFICATIONS_ROUTE}
             element={<NotificationContainer />}
           />
         )}
         {loginStatus && (
-          <Route path={RECIPIENTS_ROUTE} element={<RecipientContainer />} />
+          <Route
+            path={ROUTES.RECIPIENTS_ROUTE}
+            element={<RecipientContainer />}
+          />
         )}
         {loginStatus && (
-          <Route path={APPLICATIONS_ROUTE} element={<ApplicationContainer />} />
+          <Route
+            path={ROUTES.APPLICATIONS_ROUTE}
+            element={<ApplicationContainer />}
+          />
         )}
+        {loginStatus && (
+          <Route path={ROUTES.INVITE_ROUTE} element={<InviteFormContainer />} />
+        )}
+        <Route path={ROUTES.VERIFY_ROUTE} element={<VerificationContainer />} />
         <Route
-          path={ERROR_ROUTE}
+          path={ROUTES.ERROR_ROUTE}
           element={<ErrorPageComponent status={404} message="page not found" />}
         />
       </Routes>

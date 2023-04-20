@@ -1,8 +1,14 @@
-export const HOME_ROUTE = "/";
-export const LOGIN_ROUTE = "/login";
-export const ADMIN_ROUTE = "/admin";
-export const CHANNELS_ROUTE = "/channels";
-export const RECIPIENTS_ROUTE = "/recipients";
-export const NOTIFICATIONS_ROUTE = "/notifications";
-export const APPLICATIONS_ROUTE = "/applications"
-export const ERROR_ROUTE = "*";
+const routes = {
+    HOME_ROUTE : "/",
+    LOGIN_ROUTE : "/login",
+    ADMIN_ROUTE : "/admin",
+    INVITE_ROUTE : "/invite",
+    VERIFY_ROUTE : "/verify: token",
+    CHANNELS_ROUTE : "/channels",
+    RECIPIENTS_ROUTE : "/recipients",
+    NOTIFICATIONS_ROUTE : "/notifications",
+    APPLICATIONS_ROUTE : "/applications",
+    ERROR_ROUTE :"*"
+  };
+  
+  export default routes;

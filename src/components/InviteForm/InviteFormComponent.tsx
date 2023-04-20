@@ -1,20 +1,21 @@
-import login_img from "assets/login.webp";
+import invite_img from "assets/Invite.svg";
 import { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import "styles/styles.css";
 
-import { LoginProps } from "components/LoginForm/types";
+import { InviteProps } from "components/InviteForm/types";
 
-const LoginFormComponent = (props: LoginProps) => {
+const InviteFormComponent = (props: InviteProps) => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [applicationId, setApplicationId] = useState("");
 
   return (
     <div className="container mt-5">
       <div className="row py-5 mt-4 align-items-center">
         <div className="col-md-5 pr-lg-5 mb-5 mb-md-0">
           <img
-            src={login_img}
+            src={invite_img}
             alt="Login Image"
             className="img-fluid mb-3 d-none d-md-block"
           />
@@ -22,6 +23,18 @@ const LoginFormComponent = (props: LoginProps) => {
         <div className="col-md-7 col-lg-6 ml-auto">
           <form onSubmit={(event) => event.preventDefault()}>
             <div className="row">
+              <div className="input-group col-lg-12 mb-4">
+                <input
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                  id="name"
+                  type="name"
+                  name="name"
+                  placeholder="Name"
+                  className="form-control bg-white border-left-style: none border-md p-3"
+                  required
+                />
+              </div>
               <div className="input-group col-lg-12 mb-4">
                 <input
                   value={email}
@@ -36,12 +49,12 @@ const LoginFormComponent = (props: LoginProps) => {
               </div>
               <div className="input-group col-lg-6 mb-4">
                 <input
-                  value={password}
-                  onChange={(event) => setPassword(event.target.value)}
-                  id="password"
-                  type="password"
-                  name="password"
-                  placeholder="Password"
+                  value={applicationId}
+                  onChange={(event) => setApplicationId(event.target.value)}
+                  id="applicationId"
+                  type="applicationId"
+                  name="applicationId"
+                  placeholder="Application Id"
                   className="form-control bg-white border-left-style: none border-md p-3"
                   required
                 />
@@ -49,9 +62,11 @@ const LoginFormComponent = (props: LoginProps) => {
               <div className="d-flex justify-content-center">
                 <button
                   className="button"
-                  onClick={() => props.onClickFunction(email, password)}
+                  onClick={() =>
+                    props.onClickFunction(name, email, applicationId)
+                  }
                 >
-                  Login
+                  Invite
                 </button>
               </div>
             </div>
@@ -62,4 +77,4 @@ const LoginFormComponent = (props: LoginProps) => {
   );
 };
 
-export default LoginFormComponent;
+export default InviteFormComponent;
