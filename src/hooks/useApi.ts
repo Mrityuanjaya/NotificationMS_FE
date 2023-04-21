@@ -12,6 +12,7 @@ export default (
         try {
             const result = await apiFunc(...args);
             setData(result.data);
+            setError("");
         } catch (err) {
             if (err instanceof Error) setError(err.message);
             else setError("Unexpected Error!");
