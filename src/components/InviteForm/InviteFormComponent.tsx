@@ -13,7 +13,8 @@ const InviteFormComponent = (props: InviteProps) => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [applicationId, setApplicationId] = useState("");
+  const [applicationId, setApplicationId] = useState(Number);
+
   if(!loginStatus)
     navigate(ROUTES.LOGIN_ROUTE);
   return (
@@ -54,16 +55,20 @@ const InviteFormComponent = (props: InviteProps) => {
                 />
               </div>
               <div className="input-group col-lg-6 mb-4">
-                <input
+                <select
+                  className="input-group col-lg-6 mb-4 bg-white border-md p-3"
                   value={applicationId}
-                  onChange={(event) => setApplicationId(event.target.value)}
-                  id="applicationId"
-                  type="applicationId"
-                  name="applicationId"
-                  placeholder="Application Id"
-                  className="form-control bg-white border-left-style: none border-md p-3"
-                  required
-                />
+                  data-index={props.options}
+                  onChange={(event) => {
+                    setApplicationId(parseInt(event.target.value));
+                  }}
+                >
+                  {props.options.map((option) => (
+                    <option key={option.id} value={option.id}>
+                      {option.name}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="d-flex justify-content-center">
                 <button

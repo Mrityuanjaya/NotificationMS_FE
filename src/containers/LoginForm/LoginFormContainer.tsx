@@ -1,9 +1,11 @@
+import { LoginFormComponent } from "components";
 import {
-    EMAIL_REGEX,
-    ERROR_MESSAGES,
-    SUCCESS_MESSAGES,
-    SYSTEM_ADMIN_ROLE,
-    TOAST_CONFIG,
+  EMAIL_REGEX,
+  ERROR_MESSAGES,
+  MAX_EMAIL_LENGTH,
+  SUCCESS_MESSAGES,
+  SYSTEM_ADMIN_ROLE,
+  TOAST_CONFIG,
 } from "constants/constants";
 import ROUTES from "constants/routes";
 import useApi from "hooks/useApi";
@@ -15,9 +17,6 @@ import loginApi from "services/auth";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import { setLoginStatus, setSystemAdminStatus } from "store/slices/userSlice";
 
-import LoaderComponent from "components/Loader/loader";
-import LoginFormComponent from "components/LoginForm/LoginFormComponent";
-
 const LoginFormContainer = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
@@ -28,7 +27,7 @@ const LoginFormContainer = () => {
             toast.error(ERROR_MESSAGES.EMAIL_REQUIRED, TOAST_CONFIG);
         else if (password.length === 0)
             toast.error(ERROR_MESSAGES.PASSWORD_REQUIRED, TOAST_CONFIG);
-        else if (!EMAIL_REGEX.test(email))
+        else if (!EMAIL_REGEX.test(email) || email.length > MAX_EMAIL_LENGTH)
             toast.error(ERROR_MESSAGES.EMAIL_INVALID, TOAST_CONFIG);
         else {
             await postLoginApi.request(email, password);

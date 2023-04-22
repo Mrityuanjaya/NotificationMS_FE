@@ -1,6 +1,9 @@
+import { InviteFormComponent } from "components";
 import {
     EMAIL_REGEX,
     ERROR_MESSAGES,
+    MAX_EMAIL_LENGTH,
+    MAX_NAME_LENGTH,
     SUCCESS_MESSAGES,
     TOAST_CONFIG,
 } from "constants/constants";
@@ -9,17 +12,10 @@ import { useEffect } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import inviteApi from "services/admins";
-import ROUTES from "constants/routes";
-import InviteFormComponent from "components/InviteForm/InviteFormComponent";
-import LoaderComponent from "components/Loader/loader";
-import { useAppSelector } from "store/hooks";
-import { useNavigate } from "react-router-dom";
 
 const InviteFormContainer = () => {
     const postInviteApi = useApi(inviteApi.inviteUser);
-    const loginStatus = useAppSelector((state)=>state.user.loginStatus);
-    const systemAdminStatus = useAppSelector((state)=>state.user.systemAdminStatus);
-    const navigate = useNavigate();
+
     async function handleClick(
         name: string,
         email: string,
@@ -33,26 +29,18 @@ const InviteFormContainer = () => {
             toast.error(ERROR_MESSAGES.APPLICATION_ID_REQUIRED, TOAST_CONFIG);
         else if (!EMAIL_REGEX.test(email))
             toast.error(ERROR_MESSAGES.EMAIL_INVALID, TOAST_CONFIG);
-        else {
-            const token = localStorage.getItem("token");
-            await postInviteApi.request(name, email, applicationId, token);
-        }
+        else await postInviteApi.request(name, email, applicationId);
     }
     useEffect(() => {
-        if (!postInviteApi.loading) {
-            if (postInviteApi.data !== null) {
-                toast.success(`${postInviteApi.data}`, TOAST_CONFIG);
-            } else if (postInviteApi.error !== "") {
-                toast.error(`${postInviteApi.error}`, TOAST_CONFIG);
+        if (postInviteApi.data !== null) {
+            {
+                toast.success(SUCCESS_MESSAGES.INVITE_SUCCESSFUL, TOAST_CONFIG);
             }
+        } else if (postInviteApi.error !== "") {
+            toast.error(postInviteApi.error, TOAST_CONFIG);
         }
     }, [postInviteApi.loading]);
 
-    if(!loginStatus)
-    navigate(ROUTES.LOGIN_ROUTE);
-    else if(!systemAdminStatus)
-    navigate(ROUTES.DASHBOARD_ROUTE);
-    postInviteApi.loading && <LoaderComponent />;
     return <InviteFormComponent onClickFunction={handleClick} />;
 };
 

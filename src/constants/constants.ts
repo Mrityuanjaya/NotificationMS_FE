@@ -1,6 +1,8 @@
 import { ToastOptions } from "react-toastify"
 
 export const EMAIL_REGEX = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/;
+export const MAX_EMAIL_LENGTH = 360;
+export const MAX_NAME_LENGTH = 255;
 
 export const TOAST_CONFIG: ToastOptions = {
     position: "top-right",
@@ -17,6 +19,7 @@ export const ERROR_MESSAGES = {
     EMAIL_INVALID: 'Email is invalid.',
     PASSWORD_REQUIRED: 'Password is required.',
     NETWORK_ERROR: 'Network Error',
+    NAME_INVALID: 'Name is too long.',
     NO_FILE_SELECTED: 'No File Selected'
 }
 export const SUCCESS_MESSAGES = {
@@ -24,6 +27,7 @@ export const SUCCESS_MESSAGES = {
     ACCEPT_SUCCESSFUL: 'Invite Accepted Successfully',
     INVITE_SUCCESSFUL: 'Invite Sent Successfully',
     RECIPIENTS_UPLOAD_SUCCESSFUL: 'Recipients uploaded Successfully'
+    CREATE_APPLICATION_SUCCESSFUL: 'Application Created SuccessFully'
 }
 
 export const SYSTEM_ADMIN_ROLE = 1;
