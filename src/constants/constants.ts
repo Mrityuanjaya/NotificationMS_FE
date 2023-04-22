@@ -26,7 +26,7 @@ export const SUCCESS_MESSAGES = {
     LOGIN_SUCCESSFUL: 'Login Successful',
     ACCEPT_SUCCESSFUL: 'Invite Accepted Successfully',
     INVITE_SUCCESSFUL: 'Invite Sent Successfully',
-    RECIPIENTS_UPLOAD_SUCCESSFUL: 'Recipients uploaded Successfully'
+    RECIPIENTS_UPLOAD_SUCCESSFUL: 'Recipients uploaded Successfully',
     CREATE_APPLICATION_SUCCESSFUL: 'Application Created SuccessFully'
 }
 

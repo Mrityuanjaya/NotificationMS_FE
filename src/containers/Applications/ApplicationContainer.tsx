@@ -5,11 +5,14 @@ import {
   SUCCESS_MESSAGES,
   TOAST_CONFIG,
 } from "constants/constants";
+import ROUTES from "constants/routes";
 import useApi from "hooks/useApi";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import applicationApi from "services/application";
+import { useAppSelector } from "store/hooks";
 
 const ApplicationContainer = () => {
   const navigate = useNavigate();
@@ -22,7 +25,7 @@ const ApplicationContainer = () => {
       toast.error(ERROR_MESSAGES.NAME_REQUIRED, TOAST_CONFIG);
     else if (name.length > MAX_NAME_LENGTH)
       toast.error(ERROR_MESSAGES.NAME_INVALID, TOAST_CONFIG);
-    else await postAplicationApi.request(name);
+    else await postAplicationApi.request(name, localStorage.getItem("token"));
   }
 
   useEffect(() => {
