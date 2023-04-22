@@ -1,5 +1,5 @@
+import { AxiosError, AxiosResponse } from "axios";
 import { useState } from "react";
-import { AxiosResponse, AxiosError } from "axios";
 
 export default (
     apiFunc: (...args: any[]) => Promise<AxiosResponse<any, any>>
@@ -12,11 +12,11 @@ export default (
         try {
             const result = await apiFunc(...args);
             setData(result.data);
-            // setError("");
+            setError("");
         } catch (err) {
             if (err instanceof AxiosError) setError(err.response?.data.detail);
             else setError("Unexpected Error!");
-            // setData(()=>null);
+            setData(() => null);
         } finally {
             setLoading(false);
         }
@@ -29,5 +29,3 @@ export default (
         request,
     };
 };
-
-

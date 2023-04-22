@@ -4,12 +4,12 @@ import {
     AdminContainer,
     ApplicationContainer,
     ChannelContainer,
+    DashboardContainer,
     InviteFormContainer,
     LoginFormContainer,
     NotificationContainer,
     RecipientContainer,
     VerificationContainer,
-    DashboardContainer
 } from "containers";
 import useApi from "hooks/useApi";
 import { useEffect } from "react";
@@ -17,6 +17,7 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import authApi from "services/auth";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import {
+    setLoadingStatus,
     setLoginStatus,
     setSystemAdminStatus,
 } from "store/slices/userSlice";
@@ -24,43 +25,36 @@ import {
 function App() {
     const loginStatus = useAppSelector((state) => state.user.loginStatus);
     const dispatch = useAppDispatch();
-    const getValidatedUserApi = useApi(
-        authApi.validateUser
-    );
+    const getValidatedUserApi = useApi(authApi.validateUser);
     const navigate = useNavigate();
     useEffect(() => {
+        dispatch(setLoadingStatus(true));
         getValidatedUserApi.request(localStorage.getItem("token"));
     }, []);
 
     useEffect(() => {
         if (getValidatedUserApi.data !== null) {
-            if(!getValidatedUserApi.data["loginStatus"])
-            {
+            if (!getValidatedUserApi.data["loginStatus"]) {
                 localStorage.clear();
                 dispatch(setLoginStatus(false));
                 dispatch(setSystemAdminStatus(false));
-                // navigate(ROUTES.LOGIN_ROUTE);
-            }
-            else if(!getValidatedUserApi.data["systemAdminStatus"])
-            {
+                navigate(ROUTES.LOGIN_ROUTE);
+            } else if (!getValidatedUserApi.data["systemAdminStatus"]) {
                 dispatch(setLoginStatus(true));
                 dispatch(setSystemAdminStatus(false));
                 localStorage.setItem("systemAdminStatus", "false");
-            }
-            else 
-            {
+            } else {
                 localStorage.setItem("systemAdminStatus", "true");
                 dispatch(setLoginStatus(true));
                 dispatch(setSystemAdminStatus(true));
             }
-        }
-        else if(getValidatedUserApi.error !== "")
-        {
+        } else if (getValidatedUserApi.error !== "") {
             localStorage.clear();
             dispatch(setLoginStatus(false));
             dispatch(setSystemAdminStatus(false));
-            // navigate(ROUTES.LOGIN_ROUTE);
+            navigate(ROUTES.LOGIN_ROUTE);
         }
+        setLoadingStatus(false);
     }, [getValidatedUserApi.loading]);
 
     return (

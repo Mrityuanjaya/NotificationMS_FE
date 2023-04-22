@@ -1,11 +1,11 @@
 import { LoginFormComponent } from "components";
 import {
-  EMAIL_REGEX,
-  ERROR_MESSAGES,
-  MAX_EMAIL_LENGTH,
-  SUCCESS_MESSAGES,
-  SYSTEM_ADMIN_ROLE,
-  TOAST_CONFIG,
+    EMAIL_REGEX,
+    ERROR_MESSAGES,
+    MAX_EMAIL_LENGTH,
+    SUCCESS_MESSAGES,
+    SYSTEM_ADMIN_ROLE,
+    TOAST_CONFIG,
 } from "constants/constants";
 import ROUTES from "constants/routes";
 import useApi from "hooks/useApi";
@@ -14,14 +14,13 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import loginApi from "services/auth";
-import { useAppDispatch, useAppSelector } from "store/hooks";
+import { useAppDispatch } from "store/hooks";
 import { setLoginStatus, setSystemAdminStatus } from "store/slices/userSlice";
 
 const LoginFormContainer = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const postLoginApi = useApi(loginApi.loginUser);
-    const loginStatus = useAppSelector((state) => state.user.loginStatus);
     async function handleClick(email: string, password: string) {
         if (email.length === 0)
             toast.error(ERROR_MESSAGES.EMAIL_REQUIRED, TOAST_CONFIG);
@@ -64,7 +63,6 @@ const LoginFormContainer = () => {
             }
         }
     }, [postLoginApi.loading]);
-    if (loginStatus) navigate(ROUTES.DASHBOARD_ROUTE);
     return <LoginFormComponent onClickFunction={handleClick} />;
 };
 

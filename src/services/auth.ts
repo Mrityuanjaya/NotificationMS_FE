@@ -9,14 +9,11 @@ const loginUser = async (username: string, password: string) => {
 };
 
 const validateUser = async (token: string) => {
-    return client.get(
-        "/validate_user",
-        {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        }
-    );
+    return client.get("/validate_user", {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
 };
 
 export default { loginUser, validateUser };

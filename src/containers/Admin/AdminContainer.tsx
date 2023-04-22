@@ -6,11 +6,13 @@ import "styles/styles.css";
 function AdminContainer() {
     const navigate = useNavigate();
     const loginStatus = useAppSelector((state) => state.user.loginStatus);
+    const loadingStatus = useAppSelector((state) => state.user.loadingStatus);
     const systemAdminStatus = useAppSelector(
         (state) => state.user.systemAdminStatus
     );
-    if (!loginStatus) navigate(ROUTES.LOGIN_ROUTE);
-    else if (!systemAdminStatus) navigate(ROUTES.DASHBOARD_ROUTE);
+    if (!loadingStatus && !loginStatus) navigate(ROUTES.LOGIN_ROUTE);
+    else if (!loadingStatus && !systemAdminStatus)
+        navigate(ROUTES.DASHBOARD_ROUTE);
     return (
         <div className="d-flex justify-content-center">
             <Link className="button" to={ROUTES.INVITE_ROUTE}>

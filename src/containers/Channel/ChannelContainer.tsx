@@ -5,7 +5,8 @@ import { useAppSelector } from "store/hooks";
 function ChannelContainer() {
     const navigate = useNavigate();
     const loginStatus = useAppSelector((state) => state.user.loginStatus);
-    if (!loginStatus) navigate(ROUTES.LOGIN_ROUTE);
+    const loadingStatus = useAppSelector((state) => state.user.loadingStatus);
+    if (!loadingStatus && !loginStatus) navigate(ROUTES.LOGIN_ROUTE);
     return <div>ChannelContainer</div>;
 }
 

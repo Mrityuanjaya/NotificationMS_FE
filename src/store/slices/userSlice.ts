@@ -5,7 +5,7 @@ export const userSlice = createSlice({
     initialState: {
         loginStatus: false,
         systemAdminStatus: false,
-        loadingStatus: false
+        loadingStatus: false,
     },
     reducers: {
         setLoginStatus: (state, action) => {
@@ -16,9 +16,10 @@ export const userSlice = createSlice({
         },
         setLoadingStatus: (state, action) => {
             state.loadingStatus = action.payload;
-        }
+        },
     },
 });
 
-export const { setLoginStatus, setSystemAdminStatus, setLoadingStatus } = userSlice.actions;
+export const { setLoginStatus, setSystemAdminStatus, setLoadingStatus } =
+    userSlice.actions;
 export default userSlice.reducer;
