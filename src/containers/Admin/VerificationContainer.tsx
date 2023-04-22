@@ -14,12 +14,12 @@ const VerificationContainer = () => {
         postVerifyApi.request(token);
     }, []);
     useEffect(() => {
-        if (postVerifyApi.data !== null) {
-            {
+        if (!postVerifyApi.loading) {
+            if (postVerifyApi.data !== null) {
                 toast.success(`${postVerifyApi.data}`, TOAST_CONFIG);
+            } else if (postVerifyApi.error !== "") {
+                toast.error(`${postVerifyApi.error}`, TOAST_CONFIG);
             }
-        } else if (postVerifyApi.error !== "") {
-            toast.error(`${postVerifyApi.error}`, TOAST_CONFIG);
         }
     }, [postVerifyApi.loading]);
 

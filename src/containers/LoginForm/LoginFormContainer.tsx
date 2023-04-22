@@ -1,9 +1,9 @@
 import {
-    SUCCESS_MESSAGES,
-    ERROR_MESSAGES,
-    TOAST_CONFIG,
     EMAIL_REGEX,
+    ERROR_MESSAGES,
+    SUCCESS_MESSAGES,
     SYSTEM_ADMIN_ROLE,
+    TOAST_CONFIG,
 } from "constants/constants";
 import ROUTES from "constants/routes";
 import useApi from "hooks/useApi";
@@ -22,7 +22,6 @@ const LoginFormContainer = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const postLoginApi = useApi(loginApi.loginUser);
-    const loadingStatus = useAppSelector((state) => state.user.loadingStatus);
     const loginStatus = useAppSelector((state) => state.user.loginStatus);
     async function handleClick(email: string, password: string) {
         if (email.length === 0)
@@ -36,32 +35,38 @@ const LoginFormContainer = () => {
         }
     }
     useEffect(() => {
-        if (postLoginApi.data !== null) {
-            {
-                localStorage.setItem(
-                    "token",
-                    postLoginApi.data["access_token"]
-                );
-                dispatch(setLoginStatus(true));
-                dispatch(
-                    setSystemAdminStatus(
-                        postLoginApi.data["role"] == SYSTEM_ADMIN_ROLE
-                    )
-                );
-                localStorage.setItem(
-                    "isSystemAdmin",
-                    (postLoginApi.data["role"] == SYSTEM_ADMIN_ROLE).toString()
-                );
-                toast.success(SUCCESS_MESSAGES.LOGIN_SUCCESSFUL, TOAST_CONFIG);
-                navigate(ROUTES.DASHBOARD_ROUTE);
+        if (!postLoginApi.loading) {
+            if (postLoginApi.data !== null) {
+                {
+                    localStorage.setItem(
+                        "token",
+                        postLoginApi.data["access_token"]
+                    );
+                    dispatch(setLoginStatus(true));
+                    dispatch(
+                        setSystemAdminStatus(
+                            postLoginApi.data["role"] == SYSTEM_ADMIN_ROLE
+                        )
+                    );
+                    localStorage.setItem(
+                        "systemAdminStatus",
+                        (
+                            postLoginApi.data["role"] == SYSTEM_ADMIN_ROLE
+                        ).toString()
+                    );
+                    toast.success(
+                        SUCCESS_MESSAGES.LOGIN_SUCCESSFUL,
+                        TOAST_CONFIG
+                    );
+                    navigate(ROUTES.DASHBOARD_ROUTE);
+                }
+            } else if (postLoginApi.error !== "") {
+                toast.error(postLoginApi.error, TOAST_CONFIG);
             }
-        } else if (postLoginApi.error !== "") {
-            toast.error(postLoginApi.error, TOAST_CONFIG);
         }
     }, [postLoginApi.loading]);
-
-    if (loadingStatus) return <LoaderComponent />;
-    else return <LoginFormComponent onClickFunction={handleClick} />;
+    if (loginStatus) navigate(ROUTES.DASHBOARD_ROUTE);
+    return <LoginFormComponent onClickFunction={handleClick} />;
 };
 
 export default LoginFormContainer;

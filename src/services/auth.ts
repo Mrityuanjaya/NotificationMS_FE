@@ -8,9 +8,9 @@ const loginUser = async (username: string, password: string) => {
     return token;
 };
 
-const getSystemAdminStatus = async (token: string) => {
+const validateUser = async (token: string) => {
     return client.get(
-        "/validate_system_admin",
+        "/validate_user",
         {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -19,4 +19,4 @@ const getSystemAdminStatus = async (token: string) => {
     );
 };
 
-export default { loginUser, getSystemAdminStatus };
+export default { loginUser, validateUser };

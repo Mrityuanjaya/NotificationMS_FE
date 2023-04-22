@@ -5,7 +5,6 @@ import { setLoginStatus } from "store/slices/userSlice";
 
 function NavBar() {
     const dispatch = useAppDispatch();
-    const loginStatus = useAppSelector((state) => state.user.loginStatus);
     const systemAdminStatus = useAppSelector(
         (state) => state.user.systemAdminStatus
     );
@@ -13,7 +12,7 @@ function NavBar() {
     const logoutUser = () => {
         localStorage.clear();
         dispatch(setLoginStatus(false));
-        navigate("/login");
+        navigate(ROUTES.LOGIN_ROUTE);
     };
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -45,24 +44,33 @@ function NavBar() {
                         <Link className="nav-link" to={ROUTES.DASHBOARD_ROUTE}>
                             Dashboard
                         </Link>
+                        <Link
+                            className="nav-link"
+                            to={ROUTES.APPLICATIONS_ROUTE}
+                        >
+                            Applications
+                        </Link>
                         <Link className="nav-link" to={ROUTES.CHANNELS_ROUTE}>
                             Channels
                         </Link>
-                        <Link className="nav-link" to={ROUTES.NOTIFICATIONS_ROUTE}>
+                        <Link
+                            className="nav-link"
+                            to={ROUTES.NOTIFICATIONS_ROUTE}
+                        >
                             Notifications
                         </Link>
                         <Link className="nav-link" to={ROUTES.RECIPIENTS_ROUTE}>
                             Recipients
                         </Link>
                     </div>
+                    <button
+                        type="button"
+                        className="btn btn-light mx-3 py-2 float-end"
+                        onClick={logoutUser}
+                    >
+                        Logout
+                    </button>
                 </div>
-                <button
-                    type="button"
-                    className="btn btn-light mx-3 py-2"
-                    onClick={logoutUser}
-                >
-                    Logout
-                </button>
             </div>
         </nav>
     );

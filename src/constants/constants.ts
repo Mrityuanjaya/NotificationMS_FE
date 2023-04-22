@@ -17,11 +17,13 @@ export const ERROR_MESSAGES = {
     EMAIL_INVALID: 'Email is invalid.',
     PASSWORD_REQUIRED: 'Password is required.',
     NETWORK_ERROR: 'Network Error',
+    NO_FILE_SELECTED: 'No File Selected'
 }
 export const SUCCESS_MESSAGES = {
     LOGIN_SUCCESSFUL: 'Login Successful',
     ACCEPT_SUCCESSFUL: 'Invite Accepted Successfully',
-    INVITE_SUCCESSFUL: 'Invite send Successfully'
+    INVITE_SUCCESSFUL: 'Invite Sent Successfully',
+    RECIPIENTS_UPLOAD_SUCCESSFUL: 'Recipients uploaded Successfully'
 }
 
 export const SYSTEM_ADMIN_ROLE = 1;
