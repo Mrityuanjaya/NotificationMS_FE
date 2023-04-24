@@ -7,3 +7,4 @@ export {default as RecipientContainer} from 'containers/Recipient/RecipientConta
 export {default as InviteFormContainer} from 'containers/Admin/InviteFormContainer'
 export {default as VerificationContainer} from 'containers/Admin/VerificationContainer'
 export {default as DashboardContainer} from 'containers/Dashboard/DashboardContainer'
+export {default as EditAdminContainer} from 'containers/Admin/EditAdminContainer'

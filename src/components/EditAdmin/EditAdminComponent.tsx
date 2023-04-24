@@ -1,4 +1,4 @@
-import invite_img from "assets/Invite.svg";
+import EditImage from "assets/EditPage.webp";
 import ROUTES from "constants/routes";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -6,14 +6,15 @@ import "react-toastify/dist/ReactToastify.css";
 import { useAppSelector } from "store/hooks";
 import "styles/styles.css";
 
-import { InviteProps } from "components/InviteForm/types";
+import { EditAdminProps } from "./types";
 
-const InviteFormComponent = (props: InviteProps) => {
+const EditAdminComponent = (props: EditAdminProps) => {
     const loginStatus = useAppSelector((state) => state.user.loginStatus);
     const navigate = useNavigate();
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [applicationId, setApplicationId] = useState(1);
+
+    const [name, setName] = useState(props.user.name);
+    const [email, setEmail] = useState(props.user.email);
+    const [role, setRole] = useState(props.user.role);
 
     if (!loginStatus) navigate(ROUTES.LOGIN_ROUTE);
     return (
@@ -21,7 +22,7 @@ const InviteFormComponent = (props: InviteProps) => {
             <div className="row py-5 mt-4 align-items-center">
                 <div className="col-md-5 pr-lg-5 mb-5 mb-md-0">
                     <img
-                        src={invite_img}
+                        src={EditImage}
                         alt="Login Image"
                         className="img-fluid mb-3 d-none d-md-block"
                     />
@@ -57,40 +58,26 @@ const InviteFormComponent = (props: InviteProps) => {
                                     required
                                 />
                             </div>
-                            <div className="input-group col-lg-6 mb-4">
+                            <div>
                                 <select
-                                    className="input-group col-lg-6 mb-4 bg-white border-md p-3"
-                                    value={applicationId}
-                                    data-index={props.options}
-                                    onChange={(event) => {
-                                        console.log(event.target.value);
-                                        setApplicationId(
-                                            Number(event.target.value)
-                                        );
-                                    }}
+                                    className="form-select"
+                                    value={role}
+                                    onChange={(event) =>
+                                        setRole(Number(event.target.value))
+                                    }
                                 >
-                                    {props.options.map((option) => (
-                                        <option
-                                            key={option.id}
-                                            value={option.id}
-                                        >
-                                            {option.name}
-                                        </option>
-                                    ))}
+                                    <option value="1">System Admin</option>
+                                    <option value="2">Admin</option>
                                 </select>
                             </div>
                             <div className="d-flex justify-content-center">
                                 <button
                                     className="button"
                                     onClick={() =>
-                                        props.onClickFunction(
-                                            name,
-                                            email,
-                                            applicationId
-                                        )
+                                        props.onClickFunction(name, email, role)
                                     }
                                 >
-                                    Invite
+                                    Save
                                 </button>
                             </div>
                         </div>
@@ -101,4 +88,4 @@ const InviteFormComponent = (props: InviteProps) => {
     );
 };
 
-export default InviteFormComponent;
+export default EditAdminComponent;
