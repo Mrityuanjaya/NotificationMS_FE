@@ -1,8 +1,6 @@
-import React from "react";
+import { TableRowComponent } from "components";
 
 import { TableProps } from "components/Table/types";
-
-import TableRow from "./TableRowComponent";
 
 function Table(props: TableProps) {
     return (
@@ -18,7 +16,7 @@ function Table(props: TableProps) {
             </thead>
             <tbody>
                 {props.dataFields.map((data, index) => (
-                    <TableRow
+                    <TableRowComponent
                         key={index}
                         headingFields={props.headingFields}
                         data={data}

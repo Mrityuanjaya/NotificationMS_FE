@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useAppSelector } from "store/hooks";
 import "styles/styles.css";
 
-import { EditAdminProps } from "./types";
+import { EditAdminProps } from "components/EditAdmin/types";
 
 const EditAdminComponent = (props: EditAdminProps) => {
     const loginStatus = useAppSelector((state) => state.user.loginStatus);

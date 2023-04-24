@@ -1,9 +1,6 @@
-import React from "react";
+import { DeleteButton, EditButton } from "components";
 
-import DeleteButton from "components/Buttons/DeleteButtonComponent";
-import EditButton from "components/Buttons/EditButtonComponent";
-
-import { TableRowProps } from "./types";
+import { TableRowProps } from "components/Table/types";
 
 function TableRow(props: TableRowProps) {
     const { headingFields, data, deleteInvitation, handleEdit } = props;
@@ -15,17 +12,18 @@ function TableRow(props: TableRowProps) {
             <td>
                 {deleteInvitation !== undefined && (
                     <DeleteButton
-                        user_id={data.user_id}
-                        application_id={data.application_id}
-                        handleDelete={deleteInvitation}
+                        args={[data.user_id, data.application_id]}
+                        handleClick={deleteInvitation}
+                        disabled={data.is_active == "False"}
                     />
                 )}
             </td>
             <td>
                 {handleEdit !== undefined && (
                     <EditButton
-                        user_id={data.user_id}
-                        handleEdit={handleEdit}
+                        args={[data.user_id]}
+                        handleClick={handleEdit}
+                        disabled={false}
                     />
                 )}
             </td>

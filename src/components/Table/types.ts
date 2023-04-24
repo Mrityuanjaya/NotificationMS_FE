@@ -1,5 +1,3 @@
-import { ReactNode } from "react"
-
 interface Table{
     headingFields:string[]
     deleteInvitation?:(user_id: number, application_id: number) => Promise<void>,
