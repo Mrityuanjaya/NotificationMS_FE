@@ -1,3 +1,4 @@
+import { RecipientComponent } from "components";
 import {
     ERROR_MESSAGES,
     SUCCESS_MESSAGES,
@@ -12,20 +13,36 @@ import "react-toastify/dist/ReactToastify.css";
 import useRecipientApi from "services/recipients";
 import { useAppSelector } from "store/hooks";
 
+import TableComponent from "components/Table/TableComponent";
+
 function RecipientContainer() {
     const navigate = useNavigate();
     const loginStatus = useAppSelector((state) => state.user.loginStatus);
     const loadingStatus = useAppSelector((state) => state.user.loadingStatus);
-    const systemAdminStatus = useAppSelector(
-        (state) => state.user.systemAdminStatus
-    );
     const [file, setFile] = useState<File>();
     const postRecipientApi = useApi(useRecipientApi.postRecipients);
-    const upload_recipients = () => {
+    const getRecipientApi = useApi(useRecipientApi.getRecipients);
+    const uploadRecipients = () => {
         if (file !== undefined)
             postRecipientApi.request(file, localStorage.getItem("token"));
         else toast.error(ERROR_MESSAGES.NO_FILE_SELECTED, TOAST_CONFIG);
     };
+
+    useEffect(() => {
+        getRecipientApi.request(localStorage.getItem("token"));
+    }, []);
+
+    useEffect(() => {
+        if (getRecipientApi.data !== null) {
+            // console.log(getRecipientApi.data)
+            toast.success(
+                SUCCESS_MESSAGES.RECIPIENT_FETCH_SUCCESSFUL,
+                TOAST_CONFIG
+            );
+        } else if (getRecipientApi.error !== "") {
+            toast.error(getRecipientApi.error, TOAST_CONFIG);
+        }
+    }, [getRecipientApi.loading]);
 
     useEffect(() => {
         if (postRecipientApi.loading) {
@@ -46,26 +63,20 @@ function RecipientContainer() {
     };
     if (!loadingStatus && !loginStatus) navigate(ROUTES.LOGIN_ROUTE);
     return (
-        <div className="mb-3">
-            {systemAdminStatus && (
-                <div className="mx-3 py-3 btn-group">
-                    <label htmlFor="formFileLg">Upload Recipients</label>
-                    <input
-                        className="form-control form-control-lg"
-                        id="formFileLg"
-                        type="file"
-                        accept=".csv"
-                        onChange={handleUploadChange}
-                    />
-                    <button
-                        className="btn btn-dark btn-lg"
-                        onClick={upload_recipients}
-                    >
-                        Submit
-                    </button>
-                </div>
+        <>
+            <RecipientComponent
+                handleUploadChange={handleUploadChange}
+                uploadRecipients={uploadRecipients}
+            />
+            {getRecipientApi.data && (
+                <TableComponent
+                    name="recipients"
+                    items={getRecipientApi.data}
+                />
             )}
-        </div>
+            {/* <button className="btn btn-dark mx-2">prev</button> */}
+            {/* <button className="btn btn-dark mx-2">next</button> */}
+        </>
     );
 }
 

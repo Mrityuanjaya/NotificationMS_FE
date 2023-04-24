@@ -27,6 +27,7 @@ export const SUCCESS_MESSAGES = {
     ACCEPT_SUCCESSFUL: 'Invite Accepted Successfully',
     INVITE_SUCCESSFUL: 'Invite Sent Successfully',
     RECIPIENTS_UPLOAD_SUCCESSFUL: 'Recipients uploaded Successfully',
+    RECIPIENT_FETCH_SUCCESSFUL: 'Recipients fetched successfully',
     CREATE_APPLICATION_SUCCESSFUL: 'Application Created SuccessFully'
 }
 
