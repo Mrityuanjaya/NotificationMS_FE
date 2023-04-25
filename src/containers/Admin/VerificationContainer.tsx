@@ -5,6 +5,7 @@ import ROUTES from "constants/routes";
 import useApi from "hooks/useApi";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import inviteApi from "services/admins";

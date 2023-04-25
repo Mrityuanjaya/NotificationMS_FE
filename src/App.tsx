@@ -1,89 +1,114 @@
-import "App.css";
 import { ErrorPageComponent, NavBarComponent } from "components";
 import ROUTES from "constants/routes";
 import {
-  AdminContainer,
-  ApplicationContainer,
-  ChannelContainer,
-  InviteFormContainer,
-  LoginFormContainer,
-  NotificationContainer,
-  RecipientContainer,
-  VerificationContainer,
+    AdminContainer,
+    ApplicationContainer,
+    ChannelContainer,
+    DashboardContainer,
+    EditAdminContainer,
+    InviteFormContainer,
+    LoginFormContainer,
+    NotificationContainer,
+    RecipientContainer,
+    VerificationContainer,
 } from "containers";
 import useApi from "hooks/useApi";
 import { useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
-import systemAdminStatusApi from "services/auth";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import authApi from "services/auth";
 import { useAppDispatch, useAppSelector } from "store/hooks";
 import { setLoginStatus, setSystemAdminStatus } from "store/slices/userSlice";
 
 function App() {
-  const loginStatus = useAppSelector((state) => state.user.loginStatus);
-  const systemAdminStatus = useAppSelector(
-    (state) => state.user.systemAdminStatus
-  );
-  const dispatch = useAppDispatch();
-  const getSystemAdminStatusApi = useApi(
-    systemAdminStatusApi.getSystemAdminStatus
-  );
+    const loginStatus = useAppSelector((state) => state.user.loginStatus);
+    const dispatch = useAppDispatch();
+    const getValidatedUserApi = useApi(authApi.validateUser);
+    const navigate = useNavigate();
+    useEffect(() => {
+        getValidatedUserApi.request(localStorage.getItem("token"));
+    }, []);
 
-  useEffect(() => {
-    dispatch(setSystemAdminStatus(localStorage.getItem("isSystemAdmin")));
-    getSystemAdminStatusApi.request(localStorage.getItem("token"));
-  }, []);
+    useEffect(() => {
+        if (getValidatedUserApi.data !== null) {
+            if (!getValidatedUserApi.data["loginStatus"]) {
+                localStorage.clear();
+                dispatch(setLoginStatus(false));
+                dispatch(setSystemAdminStatus(false));
+                // navigate(ROUTES.LOGIN_ROUTE);
+            } else if (!getValidatedUserApi.data["systemAdminStatus"]) {
+                dispatch(setLoginStatus(true));
+                dispatch(setSystemAdminStatus(false));
+                localStorage.setItem("systemAdminStatus", "false");
+            } else {
+                localStorage.setItem("systemAdminStatus", "true");
+                dispatch(setLoginStatus(true));
+                dispatch(setSystemAdminStatus(true));
+            }
+        } else if (getValidatedUserApi.error !== "") {
+            localStorage.clear();
+            dispatch(setLoginStatus(false));
+            dispatch(setSystemAdminStatus(false));
+            // navigate(ROUTES.LOGIN_ROUTE);
+        }
+    }, [getValidatedUserApi.loading]);
 
-  useEffect(() => {
-    if (getSystemAdminStatusApi.data !== null) {
-      localStorage.setItem("isSystemAdmin", getSystemAdminStatusApi.data);
-      dispatch(setSystemAdminStatus(getSystemAdminStatusApi.data));
-      dispatch(setLoginStatus(true));
-    }
-  }, [getSystemAdminStatusApi.loading]);
-
-  return (
-    <>
-      {loginStatus && <NavBarComponent />}
-      <Routes>
-        <Route path={ROUTES.HOME_ROUTE} element={<LoginFormContainer />} />
-        {systemAdminStatus && (
-          <Route path={ROUTES.ADMIN_ROUTE} element={<AdminContainer />} />
-        )}
-        {!loginStatus && (
-          <Route path={ROUTES.LOGIN_ROUTE} element={<LoginFormContainer />} />
-        )}
-        {loginStatus && (
-          <Route path={ROUTES.CHANNELS_ROUTE} element={<ChannelContainer />} />
-        )}
-        {loginStatus && (
-          <Route
-            path={ROUTES.NOTIFICATIONS_ROUTE}
-            element={<NotificationContainer />}
-          />
-        )}
-        {loginStatus && (
-          <Route
-            path={ROUTES.RECIPIENTS_ROUTE}
-            element={<RecipientContainer />}
-          />
-        )}
-        {loginStatus && (
-          <Route
-            path={ROUTES.APPLICATIONS_ROUTE}
-            element={<ApplicationContainer />}
-          />
-        )}
-        {loginStatus && (
-          <Route path={ROUTES.INVITE_ROUTE} element={<InviteFormContainer />} />
-        )}
-        <Route path={ROUTES.VERIFY_ROUTE} element={<VerificationContainer />} />
-        <Route
-          path={ROUTES.ERROR_ROUTE}
-          element={<ErrorPageComponent status={404} message="page not found" />}
-        />
-      </Routes>
-    </>
-  );
+    return (
+        <>
+            {loginStatus && <NavBarComponent />}
+            <Routes>
+                <Route
+                    path={ROUTES.HOME_ROUTE}
+                    element={<LoginFormContainer />}
+                />
+                <Route path={ROUTES.ADMIN_ROUTE} element={<AdminContainer />} />
+                <Route
+                    path={ROUTES.LOGIN_ROUTE}
+                    element={<LoginFormContainer />}
+                />
+                <Route
+                    path={ROUTES.DASHBOARD_ROUTE}
+                    element={<DashboardContainer />}
+                />
+                <Route
+                    path={ROUTES.CHANNELS_ROUTE}
+                    element={<ChannelContainer />}
+                />
+                <Route
+                    path={ROUTES.NOTIFICATIONS_ROUTE}
+                    element={<NotificationContainer />}
+                />
+                <Route
+                    path={ROUTES.RECIPIENTS_ROUTE}
+                    element={<RecipientContainer />}
+                />
+                <Route
+                    path={ROUTES.APPLICATIONS_ROUTE}
+                    element={<ApplicationContainer />}
+                />
+                <Route
+                    path={ROUTES.INVITE_ROUTE}
+                    element={<InviteFormContainer />}
+                />
+                <Route
+                    path={ROUTES.VERIFY_ROUTE}
+                    element={<VerificationContainer />}
+                />
+                <Route
+                    path={ROUTES.EDIT_ADMIN_ROUTE}
+                    element={<EditAdminContainer />}
+                />
+                <Route
+                    path={ROUTES.ERROR_ROUTE}
+                    element={
+                        <ErrorPageComponent
+                            status={404}
+                            message="page not found"
+                        />
+                    }
+                />
+            </Routes>
+        </>
+    );
 }
 
 export default App;

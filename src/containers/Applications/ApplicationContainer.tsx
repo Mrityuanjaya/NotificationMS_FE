@@ -5,13 +5,19 @@ import {
   SUCCESS_MESSAGES,
   TOAST_CONFIG,
 } from "constants/constants";
+import ROUTES from "constants/routes";
 import useApi from "hooks/useApi";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import applicationApi from "services/application";
+import { useAppSelector } from "store/hooks";
 
 const ApplicationContainer = () => {
+  const navigate = useNavigate();
+    const loginStatus = useAppSelector((state) => state.user.loginStatus);
+    if (!loginStatus) navigate(ROUTES.LOGIN_ROUTE);
   const postAplicationApi = useApi(applicationApi.postApplications);
 
   async function handleClick(name: string) {

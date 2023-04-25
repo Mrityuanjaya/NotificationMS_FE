@@ -20,11 +20,13 @@ export const ERROR_MESSAGES = {
     PASSWORD_REQUIRED: 'Password is required.',
     NETWORK_ERROR: 'Network Error',
     NAME_INVALID: 'Name is too long.',
+    NO_FILE_SELECTED: 'No File Selected'
 }
 export const SUCCESS_MESSAGES = {
     LOGIN_SUCCESSFUL: 'Login Successful',
     ACCEPT_SUCCESSFUL: 'Invite Accepted Successfully',
-    INVITE_SUCCESSFUL: 'Invite send Successfully',
+    INVITE_SUCCESSFUL: 'Invite Sent Successfully',
+    RECIPIENTS_UPLOAD_SUCCESSFUL: 'Recipients uploaded Successfully',
     CREATE_APPLICATION_SUCCESSFUL: 'Application Created SuccessFully'
 }
 
