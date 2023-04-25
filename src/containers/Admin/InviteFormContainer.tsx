@@ -23,7 +23,6 @@ const InviteFormContainer = () => {
         email: string,
         applicationId: number
     ) {
-        console.log(applicationId);
         if (name.length === 0)
             toast.error(ERROR_MESSAGES.NAME_REQUIRED, TOAST_CONFIG);
         else if (name.length > MAX_NAME_LENGTH)

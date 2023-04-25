@@ -39,7 +39,6 @@ function AdminContainer() {
 
     useEffect(() => {
         if (getAllAdminsApi.data !== null) {
-            console.log(getAllAdminsApi.data);
             setAdmins(getAllAdminsApi.data);
         }
     }, [getAllAdminsApi.loading]);
@@ -48,7 +47,6 @@ function AdminContainer() {
         user_id: number,
         application_id: number
     ) => {
-        console.log(user_id);
         await deleteUserApi.request(
             user_id,
             application_id,
