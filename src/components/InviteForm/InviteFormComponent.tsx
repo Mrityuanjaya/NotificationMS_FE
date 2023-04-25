@@ -8,7 +8,7 @@ import { InviteProps } from "components/InviteForm/types";
 const InviteFormComponent = (props: InviteProps) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [applicationId, setApplicationId] = useState(Number);
+  const [applicationId, setApplicationId] = useState(1);
 
   return (
     <div className="container mt-5">

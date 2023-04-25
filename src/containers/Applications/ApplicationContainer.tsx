@@ -19,7 +19,7 @@ const ApplicationContainer = () => {
       toast.error(ERROR_MESSAGES.NAME_REQUIRED, TOAST_CONFIG);
     else if (name.length > MAX_NAME_LENGTH)
       toast.error(ERROR_MESSAGES.NAME_INVALID, TOAST_CONFIG);
-    else await postAplicationApi.request(name);
+    else await postAplicationApi.request(name, localStorage.getItem("token"));
   }
 
   useEffect(() => {

@@ -16,6 +16,7 @@ import applicationApi from "services/application";
 const InviteFormContainer = () => {
   const getApplicationApi = useApi(applicationApi.getapplicationList);
   const postInviteApi = useApi(inviteApi.inviteUser);
+  const token = localStorage.getItem("token");
 
   async function handleClick(
     name: string,
@@ -32,11 +33,11 @@ const InviteFormContainer = () => {
       toast.error(ERROR_MESSAGES.EMAIL_INVALID, TOAST_CONFIG);
     else if (!EMAIL_REGEX.test(email))
       toast.error(ERROR_MESSAGES.EMAIL_INVALID, TOAST_CONFIG);
-    else await postInviteApi.request(name, email, applicationId);
+    else await postInviteApi.request(name, email, applicationId, token);
   }
 
   useEffect(() => {
-    getApplicationApi.request();
+    getApplicationApi.request(token);
   }, []);
 
   useEffect(() => {
