@@ -3,6 +3,7 @@ import ROUTES from "constants/routes";
 import {
     AdminContainer,
     ApplicationContainer,
+    ApplicationTableContainer,
     ChannelContainer,
     DashboardContainer,
     EditAdminContainer,
@@ -84,6 +85,10 @@ function App() {
                 <Route
                     path={ROUTES.APPLICATIONS_ROUTE}
                     element={<ApplicationContainer />}
+                />
+                <Route
+                    path={ROUTES.APPLICATIONSTABLE_ROUTE}
+                    element={<ApplicationTableContainer />}
                 />
                 <Route
                     path={ROUTES.INVITE_ROUTE}

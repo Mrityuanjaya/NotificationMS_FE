@@ -46,7 +46,7 @@ function NavBar() {
                         </Link>
                         <Link
                             className="nav-link"
-                            to={ROUTES.APPLICATIONS_ROUTE}
+                            to={ROUTES.APPLICATIONSTABLE_ROUTE}
                         >
                             Applications
                         </Link>

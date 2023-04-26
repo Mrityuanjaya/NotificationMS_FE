@@ -4,7 +4,7 @@ import { TableProps } from "components/Table/types";
 
 function Table(props: TableProps) {
     return (
-        <table className="table">
+        <table className="table table-striped table-bordered vertical-align: middle text-center">
             <thead>
                 <tr>
                     {props.headingFields.map((key, index) => (

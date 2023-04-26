@@ -21,3 +21,7 @@
   background-color: var(--white);
   border-style: solid;
 }
+
+table{    
+  margin: 5rem auto;  
+}    

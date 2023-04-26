@@ -9,24 +9,24 @@ function TableRow(props: TableRowProps) {
             {headingFields.map((field, index) => (
                 <td key={index}>{(data as any)[field]}</td>
             ))}
-            <td>
-                {deleteInvitation !== undefined && (
+            {deleteInvitation !== undefined && (
+                <td>
                     <DeleteButton
                         args={[data.user_id, data.application_id]}
                         handleClick={deleteInvitation}
                         disabled={data.is_active == "False"}
                     />
-                )}
-            </td>
-            <td>
-                {handleEdit !== undefined && (
+                </td>
+            )}
+            {handleEdit !== undefined && (
+                <td>
                     <EditButton
                         args={[data.user_id]}
                         handleClick={handleEdit}
                         disabled={false}
                     />
-                )}
-            </td>
+                </td>
+            )}
         </tr>
     );
 }
