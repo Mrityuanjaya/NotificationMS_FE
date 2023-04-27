@@ -6,7 +6,7 @@ function DashboardContainer() {
     const navigate = useNavigate();
     const loginStatus = useAppSelector((state) => state.user.loginStatus);
     const loadingStatus = useAppSelector((state) => state.user.loadingStatus);
-    if (!loadingStatus && loginStatus) navigate(ROUTES.LOGIN_ROUTE);
+    if (!loadingStatus && !loginStatus) navigate(ROUTES.LOGIN_ROUTE);
     return <div>DashboardContainer</div>;
 }
 

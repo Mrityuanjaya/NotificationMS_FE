@@ -14,12 +14,14 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import loginApi from "services/auth";
-import { useAppDispatch } from "store/hooks";
+import { useAppDispatch, useAppSelector } from "store/hooks";
 import { setLoginStatus, setSystemAdminStatus } from "store/slices/userSlice";
 
 const LoginFormContainer = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
+    const loginStatus = useAppSelector((state) => state.user.loginStatus);
+    const loadingStatus = useAppSelector((state) => state.user.loadingStatus);
     const postLoginApi = useApi(loginApi.loginUser);
     async function handleClick(email: string, password: string) {
         if (email.length === 0)
@@ -32,6 +34,7 @@ const LoginFormContainer = () => {
             await postLoginApi.request(email, password);
         }
     }
+    if (!loadingStatus && loginStatus) navigate(ROUTES.DASHBOARD_ROUTE);
     useEffect(() => {
         if (!postLoginApi.loading) {
             if (postLoginApi.data !== null) {

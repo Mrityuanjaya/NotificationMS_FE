@@ -1,6 +1,7 @@
 import { RecipientComponent } from "components";
 import {
     ERROR_MESSAGES,
+    RECIPIENTS_PER_PAGE,
     SUCCESS_MESSAGES,
     TOAST_CONFIG,
 } from "constants/constants";
@@ -20,6 +21,8 @@ function RecipientContainer() {
     const loginStatus = useAppSelector((state) => state.user.loginStatus);
     const loadingStatus = useAppSelector((state) => state.user.loadingStatus);
     const [file, setFile] = useState<File>();
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(Number);
     const postRecipientApi = useApi(useRecipientApi.postRecipients);
     const getRecipientApi = useApi(useRecipientApi.getRecipients);
     const uploadRecipients = () => {
@@ -28,29 +31,41 @@ function RecipientContainer() {
         else toast.error(ERROR_MESSAGES.NO_FILE_SELECTED, TOAST_CONFIG);
     };
 
-    useEffect(() => {
-        getRecipientApi.request(localStorage.getItem("token"));
-    }, []);
+    const handleNextClick = () => {
+        setCurrentPage((pageNo) => pageNo + 1);
+    };
+
+    const handlePrevClick = () => {
+        setCurrentPage((pageNo) => pageNo - 1);
+    };
 
     useEffect(() => {
-        if (getRecipientApi.data !== null) {
-            // console.log(getRecipientApi.data)
-            toast.success(
-                SUCCESS_MESSAGES.RECIPIENT_FETCH_SUCCESSFUL,
-                TOAST_CONFIG
-            );
-        } else if (getRecipientApi.error !== "") {
-            toast.error(getRecipientApi.error, TOAST_CONFIG);
+        getRecipientApi.request(localStorage.getItem("token"), currentPage, RECIPIENTS_PER_PAGE);
+    }, [currentPage]);
+
+    useEffect(() => {
+        if (!getRecipientApi.loading) {
+            if (getRecipientApi.data !== null) {
+                setTotalPages(Math.ceil(getRecipientApi.data["total_recipients"]/RECIPIENTS_PER_PAGE));
+                toast.success(
+                    SUCCESS_MESSAGES.RECIPIENT_FETCH_SUCCESSFUL,
+                    TOAST_CONFIG
+                );
+            } else if (getRecipientApi.error !== "") {
+                toast.error(getRecipientApi.error, TOAST_CONFIG);
+            }
         }
     }, [getRecipientApi.loading]);
 
     useEffect(() => {
-        if (postRecipientApi.loading) {
+        if (!postRecipientApi.loading) {
             if (postRecipientApi.data !== null)
+            {
                 toast.success(
                     SUCCESS_MESSAGES.RECIPIENTS_UPLOAD_SUCCESSFUL,
                     TOAST_CONFIG
                 );
+            }
             else if (postRecipientApi.error !== "")
                 toast.error(postRecipientApi.error, TOAST_CONFIG);
         }
@@ -61,7 +76,7 @@ function RecipientContainer() {
             setFile(event.target.files[0]);
         } else setFile(undefined);
     };
-    if (!loadingStatus && !loginStatus) navigate(ROUTES.LOGIN_ROUTE);
+    if (loadingStatus == false && loginStatus == false) navigate(ROUTES.LOGIN_ROUTE);
     return (
         <>
             <RecipientComponent
@@ -70,12 +85,21 @@ function RecipientContainer() {
             />
             {getRecipientApi.data && (
                 <TableComponent
-                    name="recipients"
-                    items={getRecipientApi.data}
+                    headingFields={[
+                        "id",
+                        "email",
+                        "application_name",
+                        "created_at",
+                    ]}
+                    dataFields={getRecipientApi.data["recipients"]}
                 />
             )}
-            {/* <button className="btn btn-dark mx-2">prev</button> */}
-            {/* <button className="btn btn-dark mx-2">next</button> */}
+            <button className={`btn btn-dark mx-2 my-2 ${currentPage == 1 ? "disabled":""}`} onClick={handlePrevClick}>
+                prev
+            </button>
+            <button className={`btn btn-dark mx-2 my-2 ${currentPage == totalPages ? "disabled":""}`} onClick={handleNextClick}>
+                next
+            </button>
         </>
     );
 }

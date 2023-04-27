@@ -5,6 +5,7 @@ import {
     ApplicationContainer,
     ChannelContainer,
     DashboardContainer,
+    EditAdminContainer,
     InviteFormContainer,
     LoginFormContainer,
     NotificationContainer,
@@ -48,13 +49,14 @@ function App() {
                 dispatch(setLoginStatus(true));
                 dispatch(setSystemAdminStatus(true));
             }
+            dispatch(setLoadingStatus(false))
         } else if (getValidatedUserApi.error !== "") {
             localStorage.clear();
             dispatch(setLoginStatus(false));
             dispatch(setSystemAdminStatus(false));
             navigate(ROUTES.LOGIN_ROUTE);
+            dispatch(setLoadingStatus(false))
         }
-        setLoadingStatus(false);
     }, [getValidatedUserApi.loading]);
 
     return (
@@ -97,6 +99,10 @@ function App() {
                 <Route
                     path={ROUTES.VERIFY_ROUTE}
                     element={<VerificationContainer />}
+                />
+                <Route
+                    path={ROUTES.EDIT_ADMIN_ROUTE}
+                    element={<EditAdminContainer />}
                 />
                 <Route
                     path={ROUTES.ERROR_ROUTE}

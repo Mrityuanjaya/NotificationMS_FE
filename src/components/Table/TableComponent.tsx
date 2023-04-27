@@ -1,26 +1,33 @@
-import { TableProps } from "components/Table/types";
-import TableRowComponent from "components/Table/TableRowComponent";
+import React from "react";
 
-function TableComponent(props: TableProps) {
+import { TableProps } from "components/Table/types";
+
+import TableRow from "components/Table/TableRowComponent";
+
+function Table(props: TableProps) {
     return (
-        <div>
-            <table className="table">
-                <caption>List of {props.name}</caption>
-                <thead>
-                    <tr>
-                        {Object.keys(props.items[0]).map((item) => (
-                            <th scope="col">{item}</th>
-                        ))}
-                    </tr>
-                </thead>
-                <tbody>
-                    {props.items.map((item) => (
-                        <TableRowComponent key={item.id} item={item}/>
+        <table className="table">
+            <thead>
+                <tr>
+                    {props.headingFields.map((key, index) => (
+                        <th key={index}>{key}</th>
                     ))}
-                </tbody>
-            </table>
-        </div>
+                    {props.deleteInvitation && <th>Delete</th>}
+                    {props.handleEdit && <th>Edit</th>}
+                </tr>
+            </thead>
+            <tbody>
+                {props.dataFields.map((data, index) => (
+                    <TableRow
+                        key={index}
+                        headingFields={props.headingFields}
+                        data={data}
+                        deleteInvitation={props.deleteInvitation}
+                        handleEdit={props.handleEdit}
+                    />
+                ))}
+            </tbody>
+        </table>
     );
 }
-
-export default TableComponent;
+export default Table;

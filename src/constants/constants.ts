@@ -33,3 +33,4 @@ export const SUCCESS_MESSAGES = {
 
 export const SYSTEM_ADMIN_ROLE = 1;
 export const ADMIN_ROLE = 2;
+export const RECIPIENTS_PER_PAGE = 15
