@@ -29,7 +29,6 @@ function AdminContainer() {
     ];
 
     const getAllAdmins = async () => {
-        console.log("hello");
         await getAllAdminsApi.request(localStorage.getItem("token"));
     };
 
@@ -61,7 +60,7 @@ function AdminContainer() {
 
     return (
         <>
-            <div className="d-flex justify-content-center">
+            <div className="d-flex justify-content-end">
                 <Link className="button" to={ROUTES.INVITE_ROUTE}>
                     Invite Admins
                 </Link>

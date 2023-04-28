@@ -33,7 +33,7 @@ function ApplicationTableContainer() {
 
     return (
         <>
-            <div className="d-flex justify-content-center">
+            <div className="d-flex justify-content-end">
                 <Link className="button" to={ROUTES.APPLICATIONS_ROUTE}>
                     Add Applications
                 </Link>
