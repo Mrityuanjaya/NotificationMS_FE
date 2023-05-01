@@ -4,7 +4,7 @@ import { useState } from "react";
 export default (
     apiFunc: (...args: any[]) => Promise<AxiosResponse<any, any>>
 ) => {
-    const [data, setData] = useState(null);
+    const [data, setData] = useState<null|any>(null);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const request = async (...args: any[]) => {

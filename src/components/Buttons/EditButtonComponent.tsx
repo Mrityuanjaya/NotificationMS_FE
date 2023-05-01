@@ -1,12 +1,13 @@
 import React from "react";
 
-type EditButtonProps = {
-    user_id: number;
-    handleEdit: (user_id: number) => Promise<void>;
-};
-function EditButton(props: EditButtonProps) {
+import { ButtonProps } from "components/Buttons/types";
+
+function EditButton(props: ButtonProps) {
     return (
-        <button className="btn" onClick={() => props.handleEdit(props.user_id)}>
+        <button
+            className="btn"
+            onClick={() => props.handleClick(...props.args)}
+        >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"

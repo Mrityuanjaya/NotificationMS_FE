@@ -1,3 +1,4 @@
+import { TableComponent } from "components";
 import ROUTES from "constants/routes";
 import useApi from "hooks/useApi";
 import { useEffect, useState } from "react";
@@ -5,8 +6,6 @@ import { Link, useNavigate } from "react-router-dom";
 import inviteApi from "services/admins";
 import { useAppSelector } from "store/hooks";
 import "styles/styles.css";
-
-import Table from "components/Table/TableComponent";
 
 function AdminContainer() {
     const navigate = useNavigate();
@@ -29,8 +28,13 @@ function AdminContainer() {
         "status",
         "is_active",
     ];
+
+    const getAllAdmins = async () => {
+        await getAllAdminsApi.request(localStorage.getItem("token"));
+    };
+
     useEffect(() => {
-        getAllAdminsApi.request(localStorage.getItem("token"));
+        getAllAdmins();
     }, []);
 
     useEffect(() => {
@@ -43,11 +47,12 @@ function AdminContainer() {
         user_id: number,
         application_id: number
     ) => {
-        deleteUserApi.request(
+        await deleteUserApi.request(
             user_id,
             application_id,
             localStorage.getItem("token")
         );
+        await getAllAdmins();
     };
 
     const redirectToEditPage = async (user_id: number) => {
@@ -56,13 +61,13 @@ function AdminContainer() {
 
     return (
         <>
-            <div className="d-flex justify-content-center">
+            <div className="d-flex justify-content-end">
                 <Link className="button" to={ROUTES.INVITE_ROUTE}>
                     Invite Admins
                 </Link>
             </div>
             <div>
-                <Table
+                <TableComponent
                     headingFields={headingFields}
                     dataFields={admins}
                     deleteInvitation={deleteInvitation}

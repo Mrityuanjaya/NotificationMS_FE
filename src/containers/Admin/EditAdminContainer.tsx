@@ -1,7 +1,15 @@
 import { EditAdminComponent } from "components";
+import {
+    EMAIL_REGEX,
+    ERROR_MESSAGES,
+    MAX_EMAIL_LENGTH,
+    MAX_NAME_LENGTH,
+    TOAST_CONFIG,
+} from "constants/constants";
 import useApi from "hooks/useApi";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import inviteApi from "services/admins";
 
 function EditAdminContainer() {
@@ -22,14 +30,27 @@ function EditAdminContainer() {
     }, [getUserApi.loading]);
 
     const editUser = async (name: string, email: string, role: number) => {
-        editUserApi.request(
-            user_id,
-            name,
-            email,
-            role,
-            localStorage.getItem("token")
-        );
+        if (name.length === 0)
+            toast.error(ERROR_MESSAGES.NAME_REQUIRED, TOAST_CONFIG);
+        else if (name.length > MAX_NAME_LENGTH)
+            toast.error(ERROR_MESSAGES.NAME_INVALID, TOAST_CONFIG);
+        else if (email.length === 0)
+            toast.error(ERROR_MESSAGES.EMAIL_REQUIRED, TOAST_CONFIG);
+        else if (email.length > MAX_EMAIL_LENGTH)
+            toast.error(ERROR_MESSAGES.EMAIL_INVALID, TOAST_CONFIG);
+        else if (!EMAIL_REGEX.test(email))
+            toast.error(ERROR_MESSAGES.EMAIL_INVALID, TOAST_CONFIG);
+        else {
+            editUserApi.request(
+                user_id,
+                name,
+                email,
+                role,
+                localStorage.getItem("token")
+            );
+        }
     };
+
     return (
         <div>
             {user && (

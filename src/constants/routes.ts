@@ -9,6 +9,7 @@ const routes = {
     RECIPIENTS_ROUTE : "/recipients",
     NOTIFICATIONS_ROUTE : "/notifications",
     APPLICATIONS_ROUTE : "/applications",
+    APPLICATIONSTABLE_ROUTE : "/applicationstable",
     USER_ROUTE:"/user/:user_id",
     EDIT_ADMIN_ROUTE:"/edit/:user_id",
     ERROR_ROUTE :"*"

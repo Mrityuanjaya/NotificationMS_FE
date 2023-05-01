@@ -1,17 +1,13 @@
 import React from "react";
 
-interface DeleteButtonProps {
-    user_id: number;
-    application_id: number;
-    handleDelete: (user_id: number, application_id: number) => Promise<void>;
-}
-function DeleteButton(props: DeleteButtonProps) {
+import { ButtonProps } from "components/Buttons/types";
+
+function DeleteButton(props: ButtonProps) {
     return (
         <button
             className="btn"
-            onClick={() =>
-                props.handleDelete(props.user_id, props.application_id)
-            }
+            onClick={() => props.handleClick(...props.args)}
+            disabled={props.disabled}
         >
             <svg
                 xmlns="http://www.w3.org/2000/svg"

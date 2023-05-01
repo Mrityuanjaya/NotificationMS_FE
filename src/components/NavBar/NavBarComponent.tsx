@@ -63,7 +63,7 @@ function NavBar() {
                                 activeLink === ROUTES.APPLICATIONS_ROUTE &&
                                 "active"
                             }`}
-                            to={ROUTES.APPLICATIONS_ROUTE}
+                            to={ROUTES.APPLICATIONSTABLE_ROUTE}
                         >
                             Applications
                         </Link>

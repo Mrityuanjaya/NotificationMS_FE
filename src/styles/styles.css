@@ -21,3 +21,19 @@
   background-color: var(--white);
   border-style: solid;
 }
+
+table{    
+  margin: 5rem auto;  
+}    
+
+.background{
+  border: 0.1rem solid;
+  box-shadow: 1rem 1rem 1rem var(--grey)
+}
+
+.styling{
+  border: 0.1rem solid;
+  box-shadow: 1rem 1rem 1rem var(--grey);
+  padding: 6rem;
+  margin: 6rem;
+}
