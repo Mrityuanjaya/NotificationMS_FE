@@ -10,14 +10,14 @@ import "styles/styles.css";
 function ApplicationTableContainer() {
     const navigate = useNavigate();
     const loginStatus = useAppSelector((state) => state.user.loginStatus);
+    const loadingStatus = useAppSelector((state) => state.user.loadingStatus);
     const getApplicationApi = useApi(applicationApi.getapplicationList);
     const [applications, setApplications] = useState([]);
     const systemAdminStatus = useAppSelector(
         (state) => state.user.systemAdminStatus
     );
 
-    if (!loginStatus) navigate(ROUTES.LOGIN_ROUTE);
-    else if (!systemAdminStatus) navigate(ROUTES.DASHBOARD_ROUTE);
+    if (!loginStatus && !loadingStatus) navigate(ROUTES.LOGIN_ROUTE);
 
     const headingFields = ["id", "name"];
 
@@ -33,10 +33,10 @@ function ApplicationTableContainer() {
 
     return (
         <>
-            <div className="d-flex justify-content-end">
-                <Link className="button" to={ROUTES.APPLICATIONS_ROUTE}>
+            <div className="d-flex justify-content-center">
+                {systemAdminStatus && <Link className="button" to={ROUTES.APPLICATIONS_ROUTE}>
                     Add Applications
-                </Link>
+                </Link>}
             </div>
             <div>
                 <TableComponent

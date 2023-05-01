@@ -18,7 +18,9 @@ const ApplicationContainer = () => {
     const navigate = useNavigate();
     const loginStatus = useAppSelector((state) => state.user.loginStatus);
     const loadingStatus = useAppSelector((state) => state.user.loadingStatus);
+    const systemAdminStatus = useAppSelector((state)=>state.user.systemAdminStatus)
     if (!loadingStatus && !loginStatus) navigate(ROUTES.LOGIN_ROUTE);
+    if (!loadingStatus && !systemAdminStatus) navigate(ROUTES.DASHBOARD_ROUTE)
     const postAplicationApi = useApi(applicationApi.postApplications);
 
     async function handleClick(name: string) {

@@ -41,7 +41,7 @@ function NavBar() {
                         {systemAdminStatus && (
                             <Link
                                 className={`nav-link ${
-                                    activeLink === ROUTES.ADMIN_ROUTE &&
+                                    (activeLink === ROUTES.ADMIN_ROUTE || activeLink === ROUTES.INVITE_ROUTE) &&
                                     "active"
                                 }`}
                                 to={ROUTES.ADMIN_ROUTE}
@@ -60,7 +60,7 @@ function NavBar() {
                         </Link>
                         <Link
                             className={`nav-link ${
-                                activeLink === ROUTES.APPLICATIONS_ROUTE &&
+                                (activeLink === ROUTES.APPLICATIONSTABLE_ROUTE || activeLink === ROUTES.APPLICATIONS_ROUTE) &&
                                 "active"
                             }`}
                             to={ROUTES.APPLICATIONSTABLE_ROUTE}

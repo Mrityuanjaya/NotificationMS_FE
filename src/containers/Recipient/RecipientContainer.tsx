@@ -1,4 +1,4 @@
-import { RecipientComponent } from "components";
+import { RecipientComponent, TableComponent } from "components";
 import {
     ERROR_MESSAGES,
     RECIPIENTS_PER_PAGE,
@@ -14,10 +14,15 @@ import "react-toastify/dist/ReactToastify.css";
 import useRecipientApi from "services/recipients";
 import { useAppSelector } from "store/hooks";
 
+import Table from "components/Table/TableComponent";
+
 function RecipientContainer() {
     const navigate = useNavigate();
     const loginStatus = useAppSelector((state) => state.user.loginStatus);
     const loadingStatus = useAppSelector((state) => state.user.loadingStatus);
+    const systemAdminStatus = useAppSelector(
+        (state) => state.user.systemAdminStatus
+    );
     const [file, setFile] = useState<File>();
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(Number);
@@ -38,13 +43,22 @@ function RecipientContainer() {
     };
 
     useEffect(() => {
-        getRecipientApi.request(localStorage.getItem("token"), currentPage, RECIPIENTS_PER_PAGE);
+        getRecipientApi.request(
+            localStorage.getItem("token"),
+            currentPage,
+            RECIPIENTS_PER_PAGE
+        );
     }, [currentPage]);
 
     useEffect(() => {
         if (!getRecipientApi.loading) {
             if (getRecipientApi.data !== null) {
-                setTotalPages(Math.ceil(getRecipientApi.data["total_recipients"]/RECIPIENTS_PER_PAGE));
+                setTotalPages(
+                    Math.ceil(
+                        getRecipientApi.data["total_recipients"] /
+                            RECIPIENTS_PER_PAGE
+                    )
+                );
                 toast.success(
                     SUCCESS_MESSAGES.RECIPIENT_FETCH_SUCCESSFUL,
                     TOAST_CONFIG
@@ -57,14 +71,12 @@ function RecipientContainer() {
 
     useEffect(() => {
         if (!postRecipientApi.loading) {
-            if (postRecipientApi.data !== null)
-            {
+            if (postRecipientApi.data !== null) {
                 toast.success(
                     SUCCESS_MESSAGES.RECIPIENTS_UPLOAD_SUCCESSFUL,
                     TOAST_CONFIG
                 );
-            }
-            else if (postRecipientApi.error !== "")
+            } else if (postRecipientApi.error !== "")
                 toast.error(postRecipientApi.error, TOAST_CONFIG);
         }
     }, [postRecipientApi.loading]);
@@ -74,32 +86,54 @@ function RecipientContainer() {
             setFile(event.target.files[0]);
         } else setFile(undefined);
     };
-    if (loadingStatus == false && loginStatus == false) navigate(ROUTES.LOGIN_ROUTE);
+    if (loadingStatus == false && loginStatus == false)
+        navigate(ROUTES.LOGIN_ROUTE);
     return (
-        <div className="mb-3 d-flex justify-content-center">
-            {systemAdminStatus && (
-                <div className="mx-3 py-3 btn-group">
-                    <label htmlFor="formFileLg">Upload Recipients</label>
-                    <input
-                        className="form-control form-control-lg"
-                        id="formFileLg"
-                        type="file"
-                        accept=".csv"
-                        onChange={handleUploadChange}
-                    />
-                    <button
-                        className="btn btn-dark btn-lg"
-                        onClick={upload_recipients}
-                    >
-                        {" "}
-                        Submit{" "}
-                    </button>
-                </div>
-            )}
-            <button className={`btn btn-dark mx-2 my-2 ${currentPage == 1 ? "disabled":""}`} onClick={handlePrevClick}>
+        <>
+            <div className="mb-3 d-flex justify-content-center">
+                {systemAdminStatus && (
+                    <div className="mx-3 py-3 btn-group">
+                        <label htmlFor="formFileLg">Upload Recipients</label>
+                        <input
+                            className="form-control form-control-lg"
+                            id="formFileLg"
+                            type="file"
+                            accept=".csv"
+                            onChange={handleUploadChange}
+                        />
+                        <button
+                            className="btn btn-dark btn-lg"
+                            onClick={uploadRecipients}
+                        >
+                            Submit
+                        </button>
+                    </div>
+                )}
+            </div>
+            {getRecipientApi.data && getRecipientApi.data.recipients && 
+            <TableComponent
+                headingFields={[
+                    "id",
+                    "email",
+                    "application_name",
+                    "created_at",
+                ]}
+                dataFields={getRecipientApi.data.recipients}
+            ></TableComponent>}
+            <button
+                className={`btn btn-dark mx-2 my-2 ${
+                    currentPage == 1 ? "disabled" : ""
+                }`}
+                onClick={handlePrevClick}
+            >
                 prev
             </button>
-            <button className={`btn btn-dark mx-2 my-2 ${currentPage == totalPages ? "disabled":""}`} onClick={handleNextClick}>
+            <button
+                className={`btn btn-dark mx-2 my-2 ${
+                    currentPage == totalPages ? "disabled" : ""
+                }`}
+                onClick={handleNextClick}
+            >
                 next
             </button>
         </>
