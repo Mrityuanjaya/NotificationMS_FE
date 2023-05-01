@@ -10,7 +10,7 @@ import "styles/styles.css";
 function ApplicationTableContainer() {
     const navigate = useNavigate();
     const loginStatus = useAppSelector((state) => state.user.loginStatus);
-    const getApplicationApi = useApi(applicationApi.getapplicationList);
+    const getApplicationApi = useApi(applicationApi.getApplicationList);
     const [applications, setApplications] = useState([]);
     const systemAdminStatus = useAppSelector(
         (state) => state.user.systemAdminStatus

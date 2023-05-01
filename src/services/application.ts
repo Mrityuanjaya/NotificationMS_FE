@@ -1,7 +1,7 @@
 import client from "services/client";
 import ROUTES from "constants/routes"
 
-const getapplicationList= async (token: string) => {
+const getApplicationList= async (token: string) => {
     const applicationList = client.get(ROUTES.APPLICATIONS_ROUTE, {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -23,4 +23,4 @@ const postApplications = async (username: string, token: string) => {
     return status;
 };
 
-export default { getapplicationList, postApplications };
+export default { getApplicationList, postApplications };
