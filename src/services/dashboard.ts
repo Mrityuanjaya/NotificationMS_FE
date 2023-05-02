@@ -1,7 +1,9 @@
 import client from "services/client";
 
 const getdashboard= async (applicationId:number,startDate: Date , endDate:Date,token: string) => {
-    const dashboard = client.get(`/dashboard/?application_id=${applicationId}&start_date=${startDate.toISOString()}&end_date=${endDate.toISOString()}`,{
+    let sDate=startDate?"&start_date="+startDate.toISOString():"";
+    let eDate=endDate?"&end_date="+endDate.toISOString():"";
+    const dashboard = client.get(`/dashboard/?application_id=${applicationId}${sDate}${eDate}`,{
         headers: {
             Authorization: `Bearer ${token}`,
         },
