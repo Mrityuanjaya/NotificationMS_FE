@@ -15,7 +15,7 @@ import inviteApi from "services/admins";
 import applicationApi from "services/application";
 
 const InviteFormContainer = () => {
-    const getApplicationApi = useApi(applicationApi.getapplicationList);
+    const getApplicationApi = useApi(applicationApi.getApplicationList);
     const postInviteApi = useApi(inviteApi.inviteUser);
 
     async function handleClick(

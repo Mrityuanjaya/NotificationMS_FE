@@ -20,7 +20,8 @@ export const ERROR_MESSAGES = {
     PASSWORD_REQUIRED: 'Password is required.',
     NETWORK_ERROR: 'Network Error',
     NAME_INVALID: 'Name is too long.',
-    NO_FILE_SELECTED: 'No File Selected'
+    NO_FILE_SELECTED: 'No File Selected',
+    START_DATE_GREATER_THAN_END_DATE:'Start Date must be less than End Date.' 
 }
 export const SUCCESS_MESSAGES = {
     LOGIN_SUCCESSFUL: 'Login Successful',

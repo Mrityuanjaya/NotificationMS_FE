@@ -11,7 +11,7 @@ function ApplicationTableContainer() {
     const navigate = useNavigate();
     const loginStatus = useAppSelector((state) => state.user.loginStatus);
     const loadingStatus = useAppSelector((state) => state.user.loadingStatus);
-    const getApplicationApi = useApi(applicationApi.getapplicationList);
+    const getApplicationApi = useApi(applicationApi.getApplicationList);
     const [applications, setApplications] = useState([]);
     const systemAdminStatus = useAppSelector(
         (state) => state.user.systemAdminStatus
