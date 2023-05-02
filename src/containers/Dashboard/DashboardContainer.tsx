@@ -26,7 +26,7 @@ function DashboardContainer() {
     const getApplicationListApi = useApi(applicationApi.getApplicationList);
 
     const now = new Date();
-    const [startDate, setStartDate] = useState(
+    const [startDate, setStartDate] = useState<Date | null>(
         new Date(
             now.getFullYear(),
             now.getMonth() - 2,
@@ -37,27 +37,31 @@ function DashboardContainer() {
             0
         )
     );
-    const [endDate, setEndDate] = useState(new Date());
+    const [endDate, setEndDate] = useState<Date | null>(new Date());
     const [applicationId, setApplicationId] = useState(0);
     const [applications, setApplications] = useState({});
     const [dataToShow, setData] = useState<{ [key: string]: any }>();
 
     const getNotifications = () => {
-        if (startDate > endDate)
+        if (startDate != null && endDate != null && startDate > endDate)
             toast.error(
                 ERROR_MESSAGES.START_DATE_GREATER_THAN_END_DATE,
                 TOAST_CONFIG
             );
-        getDashboardApi.request(
-            applicationId,
-            startDate,
-            endDate,
-            localStorage.getItem("token")
-        );
-        getTotalRecipientsApi.request(
-            applicationId,
-            localStorage.getItem("token")
-        );
+        else if (startDate == null && endDate != null) {
+            toast.error("please provide start Date", TOAST_CONFIG);
+        } else {
+            getDashboardApi.request(
+                applicationId,
+                startDate,
+                endDate,
+                localStorage.getItem("token")
+            );
+            getTotalRecipientsApi.request(
+                applicationId,
+                localStorage.getItem("token")
+            );
+        }
     };
 
     useEffect(() => {
@@ -149,7 +153,9 @@ function DashboardContainer() {
                     <div className="label">Start Date</div>
                     <DateTimePicker
                         className="filter-box"
-                        onChange={(date): void => setStartDate(date)}
+                        onChange={(date: Date | null): void =>
+                            setStartDate(date)
+                        }
                         value={startDate}
                         maxDate={new Date()}
                     />
@@ -158,7 +164,7 @@ function DashboardContainer() {
                     <div className="label">End Date</div>
                     <DateTimePicker
                         className="filter-box"
-                        onChange={(date): void => setEndDate(date)}
+                        onChange={(date: Date | null): void => setEndDate(date)}
                         value={endDate}
                         maxDate={new Date()}
                     />
