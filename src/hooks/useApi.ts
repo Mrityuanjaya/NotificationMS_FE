@@ -11,6 +11,7 @@ export default (
         setLoading(true);
         try {
             const result = await apiFunc(...args);
+            console.log(result.data)
             setData(result.data);
             setError("");
         } catch (err) {

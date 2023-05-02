@@ -1,7 +1,9 @@
 interface Table{
     headingFields:string[]
-    deleteInvitation?:(user_id: number, application_id: number) => Promise<void>,
-    handleEdit?:(user_id: number) => Promise<void>
+    deleteFunction?:(...args: any[]) => Promise<void>
+    editFunction?:(...args: any[]) => Promise<void>
+    deleteFunctionArgs?: string[]
+    editFunctionArgs?: string[]
 }
 
 export interface TableRowProps extends Table{

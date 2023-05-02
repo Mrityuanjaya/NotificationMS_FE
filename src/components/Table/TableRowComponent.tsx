@@ -3,27 +3,27 @@ import { DeleteButton, EditButton } from "components";
 import { TableRowProps } from "components/Table/types";
 
 function TableRow(props: TableRowProps) {
-    const { headingFields, data, deleteInvitation, handleEdit } = props;
+    const { headingFields, data, deleteFunction, editFunction, deleteFunctionArgs, editFunctionArgs } = props;
     return (
         <tr>
             {headingFields.map((field, index) => (
                 <td key={index}>{(data as any)[field]}</td>
             ))}
-            {deleteInvitation !== undefined && (
+            {deleteFunction !== undefined && (
                 <td>
                     <DeleteButton
-                        args={[data.user_id, data.application_id]}
-                        handleClick={deleteInvitation}
+                        args={deleteFunctionArgs?.map((arg)=>data[arg])}
+                        handleClick={deleteFunction}
                         disabled={data.is_active == "False"}
                     />
                 </td>
             )}
-            {handleEdit !== undefined && (
+            {editFunction !== undefined && (
                 <td>
                     <EditButton
-                        args={[data.user_id]}
-                        handleClick={handleEdit}
-                        disabled={false}
+                        args={editFunctionArgs?.map((arg)=>data[arg])}
+                        handleClick={editFunction}
+                        disabled={data.is_active == "False"}
                     />
                 </td>
             )}

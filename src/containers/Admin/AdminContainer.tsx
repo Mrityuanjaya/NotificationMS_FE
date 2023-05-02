@@ -70,8 +70,10 @@ function AdminContainer() {
                 <TableComponent
                     headingFields={headingFields}
                     dataFields={admins}
-                    deleteInvitation={deleteInvitation}
-                    handleEdit={redirectToEditPage}
+                    deleteFunction={deleteInvitation}
+                    editFunction={redirectToEditPage}
+                    deleteFunctionArgs={["user_id", "application_id"]}
+                    editFunctionArgs={["user_id"]}
                 />
             </div>
         </>

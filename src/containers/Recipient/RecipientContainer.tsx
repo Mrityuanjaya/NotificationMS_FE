@@ -32,6 +32,7 @@ function RecipientContainer() {
         if (file !== undefined)
             postRecipientApi.request(file, localStorage.getItem("token"));
         else toast.error(ERROR_MESSAGES.NO_FILE_SELECTED, TOAST_CONFIG);
+
     };
 
     const handleNextClick = () => {
@@ -75,6 +76,11 @@ function RecipientContainer() {
                 toast.success(
                     SUCCESS_MESSAGES.RECIPIENTS_UPLOAD_SUCCESSFUL,
                     TOAST_CONFIG
+                );
+                getRecipientApi.request(
+                    localStorage.getItem("token"),
+                    currentPage,
+                    RECIPIENTS_PER_PAGE
                 );
             } else if (postRecipientApi.error !== "")
                 toast.error(postRecipientApi.error, TOAST_CONFIG);

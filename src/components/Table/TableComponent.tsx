@@ -10,8 +10,8 @@ function TableComponent(props: TableProps) {
                     {props.headingFields.map((key, index) => (
                         <th key={index}>{key}</th>
                     ))}
-                    {props.deleteInvitation && <th>Delete</th>}
-                    {props.handleEdit && <th>Edit</th>}
+                    {props.deleteFunction != undefined && <th>Delete</th>}
+                    {props.editFunction  != undefined && <th>Edit</th>}
                 </tr>
             </thead>
             <tbody>
@@ -20,8 +20,10 @@ function TableComponent(props: TableProps) {
                         key={index}
                         headingFields={props.headingFields}
                         data={data}
-                        deleteInvitation={props.deleteInvitation}
-                        handleEdit={props.handleEdit}
+                        deleteFunction={props.deleteFunction}
+                        editFunction={props.editFunction}
+                        deleteFunctionArgs={props.deleteFunctionArgs}
+                        editFunctionArgs={props.editFunctionArgs}
                     />
                 ))}
             </tbody>

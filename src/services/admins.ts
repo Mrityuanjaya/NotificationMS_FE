@@ -8,7 +8,7 @@ const getAllAdmins = async (token:string) => client.get(ROUTES.ADMIN_ROUTE,{
 });
 
 const getUser=async(user_id:number,token:string)=>{
-    const URL=ROUTES.USER_ROUTE.replace(":user_id",user_id)
+    const URL=ROUTES.USER_ROUTE.replace(":user_id",user_id.toString())
     const status=client.get(URL,{
         headers: {
             Authorization: `Bearer ${token}`,
@@ -38,7 +38,7 @@ const verifyCode = async (token: string) => {
     return status;
 };
 const editUser=async(user_id:number,name:string,email:string,role:number,token:string)=>{
-    const URL=ROUTES.USER_ROUTE.replace(":user_id",user_id)
+    const URL=ROUTES.USER_ROUTE.replace(":user_id",(user_id).toString())
     const status=client.put(URL,{
         name: name,
         email: email,
@@ -52,7 +52,7 @@ const editUser=async(user_id:number,name:string,email:string,role:number,token:s
 }
 
 const deleteUser=async(user_id:number,application_id:number,token:string)=>{
-    const URL=ROUTES.USER_ROUTE.replace(":user_id",user_id)+`?application_id=${application_id}`;
+    const URL=ROUTES.USER_ROUTE.replace(":user_id",user_id.toString())+`?application_id=${application_id}`;
     const status=client.delete(URL,{
         headers: {
             Authorization: `Bearer ${token}`,
