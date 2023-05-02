@@ -12,6 +12,7 @@ function TableComponent(props: TableProps) {
                     ))}
                     {props.deleteFunction != undefined && <th>Delete</th>}
                     {props.editFunction  != undefined && <th>Edit</th>}
+                    {props.viewFunction != undefined && <th>View</th>}
                 </tr>
             </thead>
             <tbody>
@@ -22,8 +23,10 @@ function TableComponent(props: TableProps) {
                         data={data}
                         deleteFunction={props.deleteFunction}
                         editFunction={props.editFunction}
+                        viewFunction={props.viewFunction}
                         deleteFunctionArgs={props.deleteFunctionArgs}
                         editFunctionArgs={props.editFunctionArgs}
+                        viewFunctionArgs={props.viewFunctionArgs}
                     />
                 ))}
             </tbody>

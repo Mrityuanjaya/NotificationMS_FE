@@ -6,7 +6,7 @@ function EditButton(props: ButtonProps) {
     return (
         <button
             className="btn"
-            onClick={() => props.handleClick(props.args)}
+            onClick={() => props.handleClick(...props.args)}
             disabled={props.disabled}
         >
             <svg

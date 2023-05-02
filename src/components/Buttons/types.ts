@@ -1,5 +1,5 @@
 export interface ButtonProps {
-    args?: any[];
+    args: any[];
     handleClick: (...args: any) => Promise<void>;
     disabled:boolean
 }

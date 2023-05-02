@@ -41,8 +41,9 @@ function DashboardContainer() {
     const [applicationId, setApplicationId] = useState(0);
     const [applications, setApplications] = useState({});
     const [dataToShow, setData] = useState<{ [key: string]: any }>();
+    const [totalRecipient, setTotalRecipient] = useState(0);
 
-    const getNotifications = () => {
+    const getNotifications = (id:number) => {
         if (startDate != null && endDate != null && startDate > endDate)
             toast.error(
                 ERROR_MESSAGES.START_DATE_GREATER_THAN_END_DATE,
@@ -52,13 +53,13 @@ function DashboardContainer() {
             toast.error("please provide start Date", TOAST_CONFIG);
         } else {
             getDashboardApi.request(
-                applicationId,
+                id,
                 startDate,
                 endDate,
                 localStorage.getItem("token")
             );
             getTotalRecipientsApi.request(
-                applicationId,
+                id,
                 localStorage.getItem("token")
             );
         }
@@ -80,13 +81,7 @@ function DashboardContainer() {
             let id = Object.keys(options)[0];
             setApplicationId(Number(id));
             setApplications(options);
-
-            getDashboardApi.request(
-                Number(id),
-                startDate,
-                endDate,
-                localStorage.getItem("token")
-            );
+            getNotifications(Number(id));
         }
     }, [getApplicationListApi.loading]);
 
@@ -96,7 +91,7 @@ function DashboardContainer() {
         }
     }, [getDashboardApi.loading]);
 
-    let total_recipient = 0;
+    
     const data = [];
     let total_notification = 0;
     let total_failure_notification = 0;
@@ -129,10 +124,11 @@ function DashboardContainer() {
         total_notification =
             total_success_notification + total_failure_notification;
     }
-
-    if (getTotalRecipientsApi.data != null) {
-        total_recipient = getTotalRecipientsApi.data;
-    }
+    useEffect(()=>{
+        if (getTotalRecipientsApi.data != null) {
+            setTotalRecipient(getTotalRecipientsApi.data);
+        }
+    }, [getTotalRecipientsApi.loading])
 
     return (
         <div>
@@ -169,7 +165,7 @@ function DashboardContainer() {
                         maxDate={new Date()}
                     />
                 </div>
-                <button className="button" onClick={getNotifications}>
+                <button className="button" onClick={()=>getNotifications(applicationId)}>
                     APPLY
                 </button>
             </div>
@@ -203,7 +199,7 @@ function DashboardContainer() {
                     </div>
                 )}
                 <div className="styling m-5 text-center">
-                    <h2 className="m-5 display-1">{total_recipient}</h2>
+                    <h2 className="m-5 display-1">{totalRecipient}</h2>
                     <p>Total Recipients</p>
                 </div>
             </div>
