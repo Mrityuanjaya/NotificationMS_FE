@@ -3,6 +3,7 @@ export {default as ApplicationContainer} from "containers/Applications/Applicati
 export {default as ApplicationTableContainer} from "containers/Applications/ApplicationTableContainer";
 export {default as ChannelContainer} from 'containers/Channel/ChannelContainer'
 export {default as LoginFormContainer } from 'containers/LoginForm/LoginFormContainer'
+export {default as RequestContainer} from 'containers/Requests/RequestContainer'
 export {default as NotificationContainer} from 'containers/Notifications/NotificationContainer'
 export {default as RecipientContainer} from 'containers/Recipient/RecipientContainer'
 export {default as InviteFormContainer} from 'containers/Admin/InviteFormContainer'

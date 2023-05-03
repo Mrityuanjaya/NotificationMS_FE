@@ -1,5 +1,3 @@
-import React from "react";
-
 import { ButtonProps } from "components/Buttons/types";
 
 function ViewButton(props: ButtonProps) {
