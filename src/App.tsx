@@ -11,6 +11,7 @@ import {
     LoginFormContainer,
     NotificationContainer,
     RecipientContainer,
+    RequestContainer,
     VerificationContainer,
 } from "containers";
 import useApi from "hooks/useApi";
@@ -50,13 +51,13 @@ function App() {
                 dispatch(setLoginStatus(true));
                 dispatch(setSystemAdminStatus(true));
             }
-            dispatch(setLoadingStatus(false))
+            dispatch(setLoadingStatus(false));
         } else if (getValidatedUserApi.error !== "") {
             localStorage.clear();
             dispatch(setLoginStatus(false));
             dispatch(setSystemAdminStatus(false));
             navigate(ROUTES.LOGIN_ROUTE);
-            dispatch(setLoadingStatus(false))
+            dispatch(setLoadingStatus(false));
         }
     }, [getValidatedUserApi.loading]);
 
@@ -83,8 +84,8 @@ function App() {
                     element={<ChannelContainer />}
                 />
                 <Route
-                    path={ROUTES.NOTIFICATIONS_ROUTE}
-                    element={<NotificationContainer />}
+                    path={ROUTES.REQUESTS_ROUTE}
+                    element={<RequestContainer />}
                 />
                 <Route
                     path={ROUTES.RECIPIENTS_ROUTE}
@@ -109,6 +110,10 @@ function App() {
                 <Route
                     path={ROUTES.EDIT_ADMIN_ROUTE}
                     element={<EditAdminContainer />}
+                />
+                <Route
+                    path={ROUTES.NOTIFICATIONS_ROUTE}
+                    element={<NotificationContainer />}
                 />
                 <Route
                     path={ROUTES.ERROR_ROUTE}

@@ -7,6 +7,7 @@ const routes = {
     VERIFY_ROUTE : "/verify",
     CHANNELS_ROUTE : "/channels",
     RECIPIENTS_ROUTE : "/recipients",
+    REQUESTS_ROUTE : "/requests",
     NOTIFICATIONS_ROUTE : "/notifications",
     APPLICATIONS_ROUTE : "/applications",
     APPLICATIONSTABLE_ROUTE : "/applicationstable",
