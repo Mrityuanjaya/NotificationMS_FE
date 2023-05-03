@@ -5,16 +5,14 @@ import {
     SUCCESS_MESSAGES,
     TOAST_CONFIG,
 } from "constants/constants";
-import ROUTES from "constants/routes";
+import routes from "constants/routes";
 import useApi from "hooks/useApi";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useRecipientApi from "services/recipients";
 import { useAppSelector } from "store/hooks";
-
-import Table from "components/Table/TableComponent";
 
 function RecipientContainer() {
     const navigate = useNavigate();
@@ -23,24 +21,28 @@ function RecipientContainer() {
     const systemAdminStatus = useAppSelector(
         (state) => state.user.systemAdminStatus
     );
+    const [searchParams] = useSearchParams();
     const [file, setFile] = useState<File>();
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(Number);
+    const [currentPage, setCurrentPage] = useState(
+        searchParams.get("page_no") == null
+            ? 1
+            : Number(searchParams.get("page_no"))
+    );
+    const [totalPages, setTotalPages] = useState(1);
     const postRecipientApi = useApi(useRecipientApi.postRecipients);
     const getRecipientApi = useApi(useRecipientApi.getRecipients);
     const uploadRecipients = () => {
         if (file !== undefined)
             postRecipientApi.request(file, localStorage.getItem("token"));
         else toast.error(ERROR_MESSAGES.NO_FILE_SELECTED, TOAST_CONFIG);
-
     };
 
     const handleNextClick = () => {
-        setCurrentPage((pageNo) => pageNo + 1);
+        setCurrentPage((currentPage) => currentPage + 1);
     };
 
     const handlePrevClick = () => {
-        setCurrentPage((pageNo) => pageNo - 1);
+        setCurrentPage((currentPage) => currentPage - 1);
     };
 
     useEffect(() => {
@@ -54,9 +56,10 @@ function RecipientContainer() {
     useEffect(() => {
         if (!getRecipientApi.loading) {
             if (getRecipientApi.data !== null) {
+                navigate(`${routes.RECIPIENTS_ROUTE}?page_no=${currentPage}`);
                 setTotalPages(
                     Math.ceil(
-                        getRecipientApi.data["total_recipients"] /
+                        getRecipientApi.data.total_recipients /
                             RECIPIENTS_PER_PAGE
                     )
                 );
@@ -77,11 +80,6 @@ function RecipientContainer() {
                     SUCCESS_MESSAGES.RECIPIENTS_UPLOAD_SUCCESSFUL,
                     TOAST_CONFIG
                 );
-                getRecipientApi.request(
-                    localStorage.getItem("token"),
-                    currentPage,
-                    RECIPIENTS_PER_PAGE
-                );
             } else if (postRecipientApi.error !== "")
                 toast.error(postRecipientApi.error, TOAST_CONFIG);
         }
@@ -93,55 +91,32 @@ function RecipientContainer() {
         } else setFile(undefined);
     };
     if (loadingStatus == false && loginStatus == false)
-        navigate(ROUTES.LOGIN_ROUTE);
+        navigate(routes.LOGIN_ROUTE);
     return (
         <>
             <div className="mb-3 d-flex justify-content-center">
                 {systemAdminStatus && (
-                    <div className="mx-3 py-3 btn-group">
-                        <label htmlFor="formFileLg">Upload Recipients</label>
-                        <input
-                            className="form-control form-control-lg"
-                            id="formFileLg"
-                            type="file"
-                            accept=".csv"
-                            onChange={handleUploadChange}
-                        />
-                        <button
-                            className="btn btn-dark btn-lg"
-                            onClick={uploadRecipients}
-                        >
-                            Submit
-                        </button>
-                    </div>
+                    <RecipientComponent
+                        handleUploadChange={handleUploadChange}
+                        uploadRecipients={uploadRecipients}
+                    />
                 )}
             </div>
-            {getRecipientApi.data && getRecipientApi.data.recipients && 
-            <TableComponent
-                headingFields={[
-                    "id",
-                    "email",
-                    "application_name",
-                    "created_at",
-                ]}
-                dataFields={getRecipientApi.data.recipients}
-            ></TableComponent>}
-            <button
-                className={`btn btn-dark mx-2 my-2 ${
-                    currentPage == 1 ? "disabled" : ""
-                }`}
-                onClick={handlePrevClick}
-            >
-                prev
-            </button>
-            <button
-                className={`btn btn-dark mx-2 my-2 ${
-                    currentPage == totalPages ? "disabled" : ""
-                }`}
-                onClick={handleNextClick}
-            >
-                next
-            </button>
+            {getRecipientApi.data && getRecipientApi.data.recipients && (
+                <TableComponent
+                    headingFields={[
+                        "id",
+                        "email",
+                        "application_name",
+                        "created_at",
+                    ]}
+                    dataFields={getRecipientApi.data.recipients}
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    nextFunction={handleNextClick}
+                    prevFunction={handlePrevClick}
+                ></TableComponent>
+            )}
         </>
     );
 }

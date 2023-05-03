@@ -19,7 +19,9 @@ import Dropdown from "components/Dropdown/DropdownComponent";
 function DashboardContainer() {
     const navigate = useNavigate();
     const loginStatus = useAppSelector((state) => state.user.loginStatus);
-    if (!loginStatus) navigate(ROUTES.LOGIN_ROUTE);
+    const loadingStatus = useAppSelector((state) => state.user.loadingStatus);
+    if (!loginStatus && !loadingStatus)
+        navigate(ROUTES.LOGIN_ROUTE);
 
     const getDashboardApi = useApi(dashboardApi.getdashboard);
     const getTotalRecipientsApi = useApi(dashboardApi.getTotalRecipient);
@@ -64,18 +66,17 @@ function DashboardContainer() {
             );
         }
     };
-
     useEffect(() => {
         getApplicationListApi.request(localStorage.getItem("token"));
     }, []);
 
     useEffect(() => {
-        if (getApplicationListApi.data != null) {
-            const applications = getApplicationListApi.data;
+        if (getApplicationListApi.data) {
+            const applications = getApplicationListApi.data.applications;
             let options: { [x: number]: string } = {};
             if (localStorage.getItem("systemAdminStatus") == "true")
                 options[0] = "All";
-            applications.map((application: { [x: string]: any }) => {
+                applications.map((application: { [x: string]: any }) => {
                 options[application["id"]] = application["name"];
             });
             let id = Object.keys(options)[0];
@@ -83,14 +84,13 @@ function DashboardContainer() {
             setApplications(options);
             getNotifications(Number(id));
         }
-    }, [getApplicationListApi.loading]);
+    }, [getApplicationListApi.data]);
 
     useEffect(() => {
         if (getDashboardApi.data != null) {
             setData(getDashboardApi.data);
         }
     }, [getDashboardApi.loading]);
-
     
     const data = [];
     let total_notification = 0;
@@ -103,7 +103,7 @@ function DashboardContainer() {
             let dateToShow = (new Date(dateTime)).toLocaleDateString()
             let timeToShow = (new Date(dateTime)).toLocaleTimeString()
             dataNew.push({
-                total: dataToShow["response"][idx]["total_request"],
+                total: dataToShow["response"][idx]["total_recipients"],
                 failure: dataToShow["response"][idx]["response"]["failure"],
                 success: dataToShow["response"][idx]["response"]["success"],
                 time: dateToShow + " " + timeToShow,
@@ -129,7 +129,6 @@ function DashboardContainer() {
             setTotalRecipient(getTotalRecipientsApi.data);
         }
     }, [getTotalRecipientsApi.loading])
-
     return (
         <div>
             <div className="m-3 p-3 d-flex justify-content-center">

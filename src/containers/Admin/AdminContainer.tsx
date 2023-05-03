@@ -1,25 +1,26 @@
 import { TableComponent } from "components";
+import { ADMINS_PER_PAGE } from "constants/constants";
 import ROUTES from "constants/routes";
 import useApi from "hooks/useApi";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import routes from "constants/routes";
 import inviteApi from "services/admins";
 import { useAppSelector } from "store/hooks";
 import "styles/styles.css";
 
 function AdminContainer() {
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
     const loginStatus = useAppSelector((state) => state.user.loginStatus);
     const loadingStatus = useAppSelector((state) => state.user.loadingStatus);
     const getAllAdminsApi = useApi(inviteApi.getAllAdmins);
     const deleteUserApi = useApi(inviteApi.deleteUser);
-    const [admins, setAdmins] = useState([]);
+    const [currentPage, setCurrentPage] = useState(searchParams.get("page_no") == null ? 1 : Number(searchParams.get("page_no")));
+    const [totalPages, setTotalPages] = useState(1);
     const systemAdminStatus = useAppSelector(
         (state) => state.user.systemAdminStatus
     );
-    if (!loadingStatus && !loginStatus) navigate(ROUTES.LOGIN_ROUTE);
-    else if (!loadingStatus && !systemAdminStatus)
-        navigate(ROUTES.DASHBOARD_ROUTE);
 
     const headingFields = [
         "name",
@@ -30,16 +31,32 @@ function AdminContainer() {
     ];
 
     const getAllAdmins = async () => {
-        await getAllAdminsApi.request(localStorage.getItem("token"));
+        await getAllAdminsApi.request(localStorage.getItem("token"), currentPage, ADMINS_PER_PAGE);
+    };
+
+    const handleNextClick = () => {
+        setCurrentPage((currentPage) => currentPage + 1);
+    };
+
+    const handlePrevClick = () => {
+        setCurrentPage((currentPage) => currentPage - 1);
     };
 
     useEffect(() => {
-        getAllAdmins();
-    }, []);
+        getAllAdminsApi.request(
+            localStorage.getItem("token"),
+            currentPage,
+            ADMINS_PER_PAGE
+        );
+    }, [currentPage]);
+
 
     useEffect(() => {
         if (getAllAdminsApi.data !== null) {
-            setAdmins(getAllAdminsApi.data);
+            navigate(`${routes.ADMIN_ROUTE}?page_no=${currentPage}`)
+            setTotalPages(
+                Math.ceil(getAllAdminsApi.data.total_admins / ADMINS_PER_PAGE)
+            );
         }
     }, [getAllAdminsApi.loading]);
 
@@ -59,6 +76,10 @@ function AdminContainer() {
         navigate(ROUTES.EDIT_ADMIN_ROUTE.replace(":user_id", String(user_id)));
     };
 
+    if (!loadingStatus && !loginStatus) navigate(ROUTES.LOGIN_ROUTE);
+    else if (!loadingStatus && !systemAdminStatus)
+        navigate(ROUTES.DASHBOARD_ROUTE);
+
     return (
         <>
             <div className="d-flex justify-content-end">
@@ -66,16 +87,20 @@ function AdminContainer() {
                     Invite Admins
                 </Link>
             </div>
-            <div>
+            {getAllAdminsApi.data && getAllAdminsApi.data.admins && (
                 <TableComponent
                     headingFields={headingFields}
-                    dataFields={admins}
+                    dataFields={getAllAdminsApi.data.admins}
                     deleteFunction={deleteInvitation}
                     editFunction={redirectToEditPage}
                     deleteFunctionArgs={["user_id", "application_id"]}
                     editFunctionArgs={["user_id"]}
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    nextFunction={handleNextClick}
+                    prevFunction={handlePrevClick}
                 />
-            </div>
+            )}
         </>
     );
 }

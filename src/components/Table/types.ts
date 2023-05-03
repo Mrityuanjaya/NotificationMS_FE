@@ -15,6 +15,10 @@ export interface TableRowProps extends Table{
 }
 
 export interface TableProps extends Table{
+    nextFunction?:() => void
+    prevFunction?:() => void
+    currentPage: number
+    totalPages: number
     dataFields:{
         [key:string]:any
     }[]

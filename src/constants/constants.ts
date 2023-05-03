@@ -29,9 +29,12 @@ export const SUCCESS_MESSAGES = {
     INVITE_SUCCESSFUL: 'Invite Sent Successfully',
     RECIPIENTS_UPLOAD_SUCCESSFUL: 'Recipients uploaded Successfully',
     RECIPIENT_FETCH_SUCCESSFUL: 'Recipients fetched successfully',
+    APPLICATION_FETCH_SUCCESSFUL: 'Applications fetched successfully',
     CREATE_APPLICATION_SUCCESSFUL: 'Application Created SuccessFully'
 }
 
 export const SYSTEM_ADMIN_ROLE = 1;
 export const ADMIN_ROLE = 2;
-export const RECIPIENTS_PER_PAGE = 15
+export const RECIPIENTS_PER_PAGE = 15;
+export const ADMINS_PER_PAGE = 15;
+export const APPLICATIONS_PER_PAGE = 15;

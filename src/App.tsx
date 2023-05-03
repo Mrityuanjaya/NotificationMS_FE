@@ -63,6 +63,7 @@ function App() {
     return (
         <>
             {loginStatus && <NavBarComponent />}
+            {}
             <Routes>
                 <Route
                     path={ROUTES.HOME_ROUTE}

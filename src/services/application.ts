@@ -1,8 +1,8 @@
 import ROUTES from "constants/routes";
 import client from "services/client";
 
-const getApplicationList= async (token: string) => {
-    const applicationList = client.get(ROUTES.APPLICATIONS_ROUTE, {
+const getApplicationList= async (token: string, page_no: number , records_per_page: number) => {
+    const applicationList = client.get(`${ROUTES.APPLICATIONS_ROUTE}?page_no=${page_no}&records_per_page=${records_per_page}`, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
