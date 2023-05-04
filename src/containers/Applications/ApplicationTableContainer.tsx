@@ -1,5 +1,9 @@
 import { TableComponent } from "components";
-import { APPLICATIONS_PER_PAGE, SUCCESS_MESSAGES, TOAST_CONFIG } from "constants/constants";
+import {
+    APPLICATIONS_PER_PAGE,
+    SUCCESS_MESSAGES,
+    TOAST_CONFIG,
+} from "constants/constants";
 import routes from "constants/routes";
 import useApi from "hooks/useApi";
 import { useEffect, useState } from "react";
@@ -35,19 +39,23 @@ function ApplicationTableContainer() {
         setCurrentPage((currentPage) => currentPage - 1);
     };
 
-    const headingFields = ["id", "name"];
+    const headingFields = { id: "ID", name: "Name" };
 
     useEffect(() => {
-        getApplicationApi.request(localStorage.getItem("token"), currentPage,
-        APPLICATIONS_PER_PAGE);
+        getApplicationApi.request(
+            localStorage.getItem("token"),
+            currentPage,
+            APPLICATIONS_PER_PAGE
+        );
     }, [currentPage]);
 
     useEffect(() => {
-        if(!getApplicationApi.loading)
-        {
+        if (!getApplicationApi.loading) {
             if (getApplicationApi.data !== null) {
                 setApplications(getApplicationApi.data.applications);
-                navigate(`${routes.APPLICATIONSTABLE_ROUTE}?page_no=${currentPage}`);
+                navigate(
+                    `${routes.APPLICATIONSTABLE_ROUTE}?page_no=${currentPage}`
+                );
                 setTotalPages(
                     Math.ceil(
                         getApplicationApi.data.total_applications /
@@ -65,9 +73,11 @@ function ApplicationTableContainer() {
     return (
         <>
             <div className="d-flex justify-content-end">
-                {systemAdminStatus && <Link className="button" to={routes.APPLICATIONS_ROUTE}>
-                    Add Applications
-                </Link>}
+                {systemAdminStatus && (
+                    <Link className="button" to={routes.APPLICATIONS_ROUTE}>
+                        Add Applications
+                    </Link>
+                )}
             </div>
             <div>
                 <TableComponent

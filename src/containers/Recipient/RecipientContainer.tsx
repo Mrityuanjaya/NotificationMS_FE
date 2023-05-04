@@ -56,11 +56,18 @@ function RecipientContainer() {
 
     useEffect(() => {
         if (!getRecipientApi.loading) {
-            if (getRecipientApi.data !== null && getRecipientApi.data.recipients) {
-                for(let recipient of getRecipientApi.data.recipients){
-                    const date = (new Date(recipient["created_at"])).toLocaleDateString()
-                    const time = (new Date(recipient["created_at"])).toLocaleTimeString()
-                    recipient["created_at"] = date + " "+  time
+            if (
+                getRecipientApi.data !== null &&
+                getRecipientApi.data.recipients
+            ) {
+                for (let recipient of getRecipientApi.data.recipients) {
+                    const date = new Date(
+                        recipient["created_at"]
+                    ).toLocaleDateString();
+                    const time = new Date(
+                        recipient["created_at"]
+                    ).toLocaleTimeString();
+                    recipient["created_at"] = date + " " + time;
                 }
                 setData(getRecipientApi.data);
                 navigate(`${routes.RECIPIENTS_ROUTE}?page_no=${currentPage}`);
@@ -111,12 +118,12 @@ function RecipientContainer() {
             </div>
             {data && data.recipients && (
                 <TableComponent
-                    headingFields={[
-                        "id",
-                        "email",
-                        "application_name",
-                        "created_at",
-                    ]}
+                    headingFields={{
+                        id: "ID",
+                        email: "Email",
+                        application_name: "Application Name",
+                        created_at: "Registration Time",
+                    }}
                     dataFields={data.recipients}
                     currentPage={currentPage}
                     totalPages={totalPages}

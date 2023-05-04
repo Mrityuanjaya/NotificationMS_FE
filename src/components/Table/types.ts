@@ -1,5 +1,5 @@
 interface Table{
-    headingFields:string[]
+    headingFields:{[key:string]:string}
     deleteFunction?:(...args: any[]) => Promise<void>
     editFunction?:(...args: any[]) => Promise<void>
     viewFunction?:(...args:any[]) => Promise<void>

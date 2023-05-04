@@ -3,13 +3,14 @@ import { TableRowComponent } from "components";
 import { TableProps } from "components/Table/types";
 
 function TableComponent(props: TableProps) {
+    const tableKeys = Object.keys(props.headingFields);
     return (
         <>
             <table className="table table-striped table-bordered vertical-align: middle text-center">
                 <thead>
                     <tr>
-                        {props.headingFields.map((key, index) => (
-                            <th key={index}>{key}</th>
+                        {tableKeys.map((key, index) => (
+                            <th key={index}>{props.headingFields[key]}</th>
                         ))}
                         {props.deleteFunction != undefined && <th>Delete</th>}
                         {props.editFunction != undefined && <th>Edit</th>}
@@ -45,9 +46,7 @@ function TableComponent(props: TableProps) {
                         </button>
                     </li>
                     <li className="page-item">
-                        <a className="page-link">
-                            {props.currentPage}
-                        </a>
+                        <a className="page-link">{props.currentPage}</a>
                     </li>
                     <li className="page-item">
                         <button

@@ -1,10 +1,10 @@
 import { TableComponent } from "components";
 import { ADMINS_PER_PAGE } from "constants/constants";
 import ROUTES from "constants/routes";
+import routes from "constants/routes";
 import useApi from "hooks/useApi";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import routes from "constants/routes";
 import inviteApi from "services/admins";
 import { useAppSelector } from "store/hooks";
 import "styles/styles.css";
@@ -16,22 +16,30 @@ function AdminContainer() {
     const loadingStatus = useAppSelector((state) => state.user.loadingStatus);
     const getAllAdminsApi = useApi(inviteApi.getAllAdmins);
     const deleteUserApi = useApi(inviteApi.deleteUser);
-    const [currentPage, setCurrentPage] = useState(searchParams.get("page_no") == null ? 1 : Number(searchParams.get("page_no")));
+    const [currentPage, setCurrentPage] = useState(
+        searchParams.get("page_no") == null
+            ? 1
+            : Number(searchParams.get("page_no"))
+    );
     const [totalPages, setTotalPages] = useState(1);
     const systemAdminStatus = useAppSelector(
         (state) => state.user.systemAdminStatus
     );
 
-    const headingFields = [
-        "name",
-        "email",
-        "application_name",
-        "status",
-        "is_active",
-    ];
+    const headingFields = {
+        name: "Name",
+        email: "Email",
+        application_name: "Application Name",
+        status: "Status",
+        is_active: "Is Active",
+    };
 
     const getAllAdmins = async () => {
-        await getAllAdminsApi.request(localStorage.getItem("token"), currentPage, ADMINS_PER_PAGE);
+        await getAllAdminsApi.request(
+            localStorage.getItem("token"),
+            currentPage,
+            ADMINS_PER_PAGE
+        );
     };
 
     const handleNextClick = () => {
@@ -50,10 +58,9 @@ function AdminContainer() {
         );
     }, [currentPage]);
 
-
     useEffect(() => {
         if (getAllAdminsApi.data !== null) {
-            navigate(`${routes.ADMIN_ROUTE}?page_no=${currentPage}`)
+            navigate(`${routes.ADMIN_ROUTE}?page_no=${currentPage}`);
             setTotalPages(
                 Math.ceil(getAllAdminsApi.data.total_admins / ADMINS_PER_PAGE)
             );
