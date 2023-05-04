@@ -18,6 +18,9 @@ function ChannelContainer() {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const loginStatus = useAppSelector((state) => state.user.loginStatus);
+    const systemAdminStatus = useAppSelector(
+        (state) => state.user.systemAdminStatus
+    );
     const loadingStatus = useAppSelector((state) => state.user.loadingStatus);
     const getChannelsApi = useApi(channelsApi.getChannels);
     const deleteChannelApi = useApi(channelsApi.deleteChannel);
@@ -51,7 +54,7 @@ function ChannelContainer() {
                 TOAST_CONFIG
             );
         } else if (!getChannelsApi.loading && getChannelsApi.error != "") {
-            toast.error(getChannelsApi.error);
+            toast.error(getChannelsApi.error, TOAST_CONFIG);
         }
     }, [getChannelsApi.loading]);
 
@@ -62,13 +65,13 @@ function ChannelContainer() {
     const handlePrevClick = () => {
         setCurrentPage((currentPage) => currentPage - 1);
     };
-    const headingFields = [
-        "alias",
-        "application_name",
-        "description",
-        "type",
-        "created_at",
-    ];
+    const headingFields = {
+        alias: "Alias",
+        application_name: "Application Name",
+        description: "Description",
+        type: "Channel Type",
+        created_at: "Creation Time",
+    };
 
     const handleEdit = async (alias: string) => {
         navigate(ROUTES.EDIT_CHANNEL_ROUTE.replace(":alias", alias));
@@ -88,25 +91,37 @@ function ChannelContainer() {
     }, [deleteChannelApi.loading]);
     return (
         <div>
-            <div className="d-flex justify-content-end">
-                <Link className="button" to={ROUTES.CREATE_CHANNEL_ROUTE}>
-                    CREATE CHANNEL
-                </Link>
-            </div>
-            {getChannelsApi.data && (
-                <TableComponent
-                    headingFields={headingFields}
-                    dataFields={getChannelsApi.data.channels}
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    nextFunction={handleNextClick}
-                    prevFunction={handlePrevClick}
-                    editFunction={handleEdit}
-                    editFunctionArgs={["alias"]}
-                    deleteFunction={deleteChannel}
-                    deleteFunctionArgs={["alias"]}
-                />
+            {systemAdminStatus && (
+                <div className="d-flex justify-content-end">
+                    <Link className="button" to={ROUTES.CREATE_CHANNEL_ROUTE}>
+                        CREATE CHANNEL
+                    </Link>
+                </div>
             )}
+            {getChannelsApi.data &&
+                (systemAdminStatus ? (
+                    <TableComponent
+                        headingFields={headingFields}
+                        dataFields={getChannelsApi.data.channels}
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        nextFunction={handleNextClick}
+                        prevFunction={handlePrevClick}
+                        editFunction={handleEdit}
+                        editFunctionArgs={["alias"]}
+                        deleteFunction={deleteChannel}
+                        deleteFunctionArgs={["alias"]}
+                    />
+                ) : (
+                    <TableComponent
+                        headingFields={headingFields}
+                        dataFields={getChannelsApi.data.channels}
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        nextFunction={handleNextClick}
+                        prevFunction={handlePrevClick}
+                    />
+                ))}
         </div>
     );
 }

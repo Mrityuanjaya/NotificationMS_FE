@@ -1,22 +1,33 @@
-import { InviteFormComponent } from "components";
 import {
     EMAIL_REGEX,
     ERROR_MESSAGES,
     MAX_EMAIL_LENGTH,
     MAX_NAME_LENGTH,
-    SUCCESS_MESSAGES,
     TOAST_CONFIG,
 } from "constants/constants";
+import ROUTES from "constants/routes";
 import useApi from "hooks/useApi";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import channelsApi from "services/channel";
+import { useAppSelector } from "store/hooks";
 
 import ChannelFormComponent from "components/ChannelForm/ChannelFormComponent";
 
 const EditChannelContainer = () => {
+    const navigate = useNavigate();
+    const loginStatus = useAppSelector((state) => state.user.loginStatus);
+    const systemAdminStatus = useAppSelector(
+        (state) => state.user.systemAdminStatus
+    );
+    const loadingStatus = useAppSelector((state) => state.user.loadingStatus);
+
+    if (!loadingStatus && !loginStatus) navigate(ROUTES.LOGIN_ROUTE);
+    else if (!loadingStatus && !systemAdminStatus)
+        navigate(ROUTES.DASHBOARD_ROUTE);
+
     const { alias } = useParams();
     const getChannelApi = useApi(channelsApi.getChannel);
     const updateChannelApi = useApi(channelsApi.updateChannel);

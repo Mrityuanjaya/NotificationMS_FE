@@ -1,5 +1,7 @@
 import { TableComponent } from "components";
+import { REQUESTS_PER_PAGE } from "constants/constants";
 import ROUTES from "constants/routes";
+import routes from "constants/routes";
 import useApi from "hooks/useApi";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -9,36 +11,43 @@ import { useAppSelector } from "store/hooks";
 import "styles/styles.css";
 
 import Dropdown from "components/Dropdown/DropdownComponent";
-import { REQUESTS_PER_PAGE } from "constants/constants";
-import routes from "constants/routes";
 
 function RequestContainer() {
     const [searchParams] = useSearchParams();
-    const [currentPage, setCurrentPage] = useState(searchParams.get("page_no") == null ? 1 : Number(searchParams.get("page_no")));
+    const [currentPage, setCurrentPage] = useState(
+        searchParams.get("page_no") == null
+            ? 1
+            : Number(searchParams.get("page_no"))
+    );
     const [totalPages, setTotalPages] = useState(1);
     const navigate = useNavigate();
     const loginStatus = useAppSelector((state) => state.user.loginStatus);
     const loadingStatus = useAppSelector((state) => state.user.loadingStatus);
     const getRequestsApi = useApi(requestApi.getRequests);
     const getApplicationListApi = useApi(applicationApi.getApplicationList);
-    
+
     if (!loadingStatus && !loginStatus) navigate(ROUTES.LOGIN_ROUTE);
 
     const [applicationId, setApplicationId] = useState(0);
     const [applications, setApplications] = useState({});
     const [data, setData] = useState<{ [key: string]: any }>({});
 
-    const headingFields = [
-        "subject",
-        "priority",
-        "total_recipients",
-        "success",
-        "failure",
-        "created_at",
-    ];
+    const headingFields = {
+        subject: "Subject",
+        priority: "Priority",
+        total_recipients: "Total Recipients",
+        success: "Success Count",
+        failure: "Failure Count",
+        created_at: "Recieving Time",
+    };
 
     const getRequests = (id: number) => {
-        getRequestsApi.request(id, localStorage.getItem("token"), currentPage, REQUESTS_PER_PAGE);
+        getRequestsApi.request(
+            id,
+            localStorage.getItem("token"),
+            currentPage,
+            REQUESTS_PER_PAGE
+        );
         setApplicationId(id);
     };
 
@@ -68,15 +77,21 @@ function RequestContainer() {
 
     useEffect(() => {
         if (getRequestsApi.data != null) {
-            for(let request of getRequestsApi.data.requests){
-                const date = (new Date(request["created_at"])).toLocaleDateString()
-                const time = (new Date(request["created_at"])).toLocaleTimeString()
-                request["created_at"] = date + " "+ time
+            for (let request of getRequestsApi.data.requests) {
+                const date = new Date(
+                    request["created_at"]
+                ).toLocaleDateString();
+                const time = new Date(
+                    request["created_at"]
+                ).toLocaleTimeString();
+                request["created_at"] = date + " " + time;
             }
             setData(getRequestsApi.data);
-            navigate(`${routes.REQUESTS_ROUTE}?page_no=${currentPage}`)
+            navigate(`${routes.REQUESTS_ROUTE}?page_no=${currentPage}`);
             setTotalPages(
-                Math.ceil(getRequestsApi.data.total_requests / REQUESTS_PER_PAGE)
+                Math.ceil(
+                    getRequestsApi.data.total_requests / REQUESTS_PER_PAGE
+                )
             );
         }
     }, [getRequestsApi.loading]);
