@@ -18,7 +18,7 @@ function ApplicationTableContainer() {
     const loginStatus = useAppSelector((state) => state.user.loginStatus);
     const loadingStatus = useAppSelector((state) => state.user.loadingStatus);
     const getApplicationApi = useApi(applicationApi.getApplicationList);
-    const [applications, setApplications] = useState([]);
+    const [data, setData] = useState<{ [key: string]: any }>({});
     const systemAdminStatus = useAppSelector(
         (state) => state.user.systemAdminStatus
     );
@@ -39,7 +39,7 @@ function ApplicationTableContainer() {
         setCurrentPage((currentPage) => currentPage - 1);
     };
 
-    const headingFields = { id: "ID", name: "Name" };
+    const headingFields = { name: "Name"};
 
     useEffect(() => {
         getApplicationApi.request(
@@ -52,7 +52,7 @@ function ApplicationTableContainer() {
     useEffect(() => {
         if (!getApplicationApi.loading) {
             if (getApplicationApi.data !== null) {
-                setApplications(getApplicationApi.data.applications);
+                setData(getApplicationApi.data);
                 navigate(
                     `${routes.APPLICATIONSTABLE_ROUTE}?page_no=${currentPage}`
                 );
@@ -61,10 +61,6 @@ function ApplicationTableContainer() {
                         getApplicationApi.data.total_applications /
                             APPLICATIONS_PER_PAGE
                     )
-                );
-                toast.success(
-                    SUCCESS_MESSAGES.APPLICATION_FETCH_SUCCESSFUL,
-                    TOAST_CONFIG
                 );
             }
         }
@@ -80,14 +76,14 @@ function ApplicationTableContainer() {
                 )}
             </div>
             <div>
-                <TableComponent
+                {data.applications && <TableComponent
                     headingFields={headingFields}
-                    dataFields={applications}
+                    dataFields={data.applications}
                     nextFunction={handleNextClick}
                     prevFunction={handlePrevClick}
                     currentPage={currentPage}
                     totalPages={totalPages}
-                />
+                />}
             </div>
         </>
     );

@@ -26,7 +26,6 @@ function NotificationContainer() {
     const getNotificationsApi = useApi(notificationsApi.getNotificationsList);
 
     const headingFields = {
-        id: "ID",
         recipient_email: "Recipient's Email",
         status: "Status",
         type: "Channel Type",

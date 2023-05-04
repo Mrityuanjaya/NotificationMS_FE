@@ -38,6 +38,7 @@ const ApplicationContainer = () => {
     useEffect(() => {
         if (!postAplicationApi.loading) {
             if (postAplicationApi.data !== null) {
+                navigate(ROUTES.APPLICATIONSTABLE_ROUTE)
                 toast.success(
                     SUCCESS_MESSAGES.CREATE_APPLICATION_SUCCESSFUL,
                     TOAST_CONFIG

@@ -39,22 +39,20 @@ function ChannelContainer() {
             currentPage,
             CHANNELS_PER_PAGE
         );
-    }, []);
+    }, [currentPage]);
 
     useEffect(() => {
-        if (getChannelsApi.data != null) {
-            navigate(`${ROUTES.CHANNELS_ROUTE}?page_no=${currentPage}`);
-            setTotalPages(
-                Math.ceil(
-                    getChannelsApi.data.total_channels / CHANNELS_PER_PAGE
-                )
-            );
-            toast.success(
-                SUCCESS_MESSAGES.CHANNELS_FETCHED_SUCCESSFUL,
-                TOAST_CONFIG
-            );
-        } else if (!getChannelsApi.loading && getChannelsApi.error != "") {
-            toast.error(getChannelsApi.error, TOAST_CONFIG);
+        if (!getChannelsApi.loading) {
+            if (getChannelsApi.data != null) {
+                navigate(`${ROUTES.CHANNELS_ROUTE}?page_no=${currentPage}`);
+                setTotalPages(
+                    Math.ceil(
+                        getChannelsApi.data.total_channels / CHANNELS_PER_PAGE
+                    )
+                );
+            } else if (!getChannelsApi.loading && getChannelsApi.error != "") {
+                toast.error(getChannelsApi.error, TOAST_CONFIG);
+            }
         }
     }, [getChannelsApi.loading]);
 

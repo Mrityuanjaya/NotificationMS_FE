@@ -77,10 +77,6 @@ function RecipientContainer() {
                             RECIPIENTS_PER_PAGE
                     )
                 );
-                toast.success(
-                    SUCCESS_MESSAGES.RECIPIENT_FETCH_SUCCESSFUL,
-                    TOAST_CONFIG
-                );
             } else if (getRecipientApi.error !== "") {
                 toast.error(getRecipientApi.error, TOAST_CONFIG);
             }
@@ -93,6 +89,11 @@ function RecipientContainer() {
                 toast.success(
                     SUCCESS_MESSAGES.RECIPIENTS_UPLOAD_SUCCESSFUL,
                     TOAST_CONFIG
+                );
+                getRecipientApi.request(
+                    localStorage.getItem("token"),
+                    currentPage,
+                    RECIPIENTS_PER_PAGE
                 );
             } else if (postRecipientApi.error !== "")
                 toast.error(postRecipientApi.error, TOAST_CONFIG);
@@ -119,7 +120,6 @@ function RecipientContainer() {
             {data && data.recipients && (
                 <TableComponent
                     headingFields={{
-                        id: "ID",
                         email: "Email",
                         application_name: "Application Name",
                         created_at: "Registration Time",

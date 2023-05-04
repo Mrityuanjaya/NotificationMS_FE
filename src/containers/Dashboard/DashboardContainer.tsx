@@ -173,13 +173,13 @@ function DashboardContainer() {
                     <h2 className="mb-5 display-1">{total_notification}</h2>
                     <p>Total Notification</p>
                 </div>
-                <div className="styling text-center">
+                <div className="styling text-center text-success">
                     <h2 className="mb-5 display-1">
                         {total_success_notification}
                     </h2>
                     <p>Success Notification</p>
                 </div>
-                <div className="styling text-center">
+                <div className="styling text-center text-danger">
                     <h2 className="mb-5 display-1">
                         {total_failure_notification}
                     </h2>

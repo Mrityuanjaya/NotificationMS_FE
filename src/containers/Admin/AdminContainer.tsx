@@ -61,17 +61,18 @@ function AdminContainer() {
     }, [currentPage]);
 
     useEffect(() => {
-        if (getAllAdminsApi.data !== null) {
-            navigate(`${routes.ADMIN_ROUTE}?page_no=${currentPage}`);
-            setTotalPages(
-                Math.ceil(getAllAdminsApi.data.total_admins / ADMINS_PER_PAGE)
-            );
-            toast.success(
-                SUCCESS_MESSAGES.ADMIN_FETCHED_SUCCESSFUL,
-                TOAST_CONFIG
-            );
-        } else if (!getAllAdminsApi.loading && getAllAdminsApi.error != "")
-            toast.error(getAllAdminsApi.error, TOAST_CONFIG);
+        if (!getAllAdminsApi.loading) {
+            if (getAllAdminsApi.data !== null) {
+                navigate(`${routes.ADMIN_ROUTE}?page_no=${currentPage}`);
+                setTotalPages(
+                    Math.ceil(
+                        getAllAdminsApi.data.total_admins / ADMINS_PER_PAGE
+                    )
+                );
+
+            } else if (!getAllAdminsApi.loading && getAllAdminsApi.error != "")
+                toast.error(getAllAdminsApi.error, TOAST_CONFIG);
+        }
     }, [getAllAdminsApi.loading]);
 
     const deleteInvitation = async (

@@ -10,6 +10,8 @@ function NavBar() {
     );
     const navigate = useNavigate();
     const activeLink = useLocation().pathname;
+    const edit_admin_pattern=/edit\/(\d+)/
+    const edit_channel_pattern=/\/channel\/.*/;
     const logoutUser = () => {
         localStorage.clear();
         dispatch(setLoginStatus(false));
@@ -42,7 +44,7 @@ function NavBar() {
                             <Link
                                 className={`nav-link ${
                                     (activeLink === ROUTES.ADMIN_ROUTE ||
-                                        activeLink === ROUTES.INVITE_ROUTE) &&
+                                        activeLink === ROUTES.INVITE_ROUTE || edit_admin_pattern.test(activeLink)) &&
                                     "active"
                                 }`}
                                 to={ROUTES.ADMIN_ROUTE}
@@ -72,7 +74,7 @@ function NavBar() {
                         </Link>
                         <Link
                             className={`nav-link ${
-                                activeLink === ROUTES.CHANNELS_ROUTE && "active"
+                                (activeLink === ROUTES.CHANNELS_ROUTE || activeLink ===ROUTES.CREATE_CHANNEL_ROUTE || edit_channel_pattern.test(activeLink)) && "active"
                             }`}
                             to={ROUTES.CHANNELS_ROUTE}
                         >
