@@ -51,6 +51,15 @@ function EditAdminContainer() {
         }
     };
 
+    useEffect(() => {
+        if (!editUserApi.loading) {
+            if (editUserApi.data !== null) {
+                toast.success(`${editUserApi.data}`, TOAST_CONFIG);
+            } else if (editUserApi.error !== "") {
+                toast.error(`${editUserApi.error}`, TOAST_CONFIG);
+            }
+        }
+    }, [editUserApi.loading]);
     return (
         <div>
             {user && (

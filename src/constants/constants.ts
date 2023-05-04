@@ -18,6 +18,7 @@ export const ERROR_MESSAGES = {
     EMAIL_REQUIRED: 'Email is required.',
     EMAIL_INVALID: 'Email is invalid.',
     PASSWORD_REQUIRED: 'Password is required.',
+    MIN_PASSWORD_LENGTH:"Password length must be atleast 8 characters",
     NETWORK_ERROR: 'Network Error',
     NAME_INVALID: 'Name is too long.',
     NO_FILE_SELECTED: 'No File Selected',
@@ -30,7 +31,9 @@ export const SUCCESS_MESSAGES = {
     RECIPIENTS_UPLOAD_SUCCESSFUL: 'Recipients uploaded Successfully',
     RECIPIENT_FETCH_SUCCESSFUL: 'Recipients fetched successfully',
     APPLICATION_FETCH_SUCCESSFUL: 'Applications fetched successfully',
-    CREATE_APPLICATION_SUCCESSFUL: 'Application Created SuccessFully'
+    CREATE_APPLICATION_SUCCESSFUL: 'Application Created SuccessFully',
+    CHANNELS_FETCHED_SUCCESSFUL: 'Channels Fetched SuccessFully',
+    ADMIN_FETCHED_SUCCESSFUL:"Admins Fetched SuccessFully"
 }
 
 export const SYSTEM_ADMIN_ROLE = 1;
@@ -38,3 +41,4 @@ export const ADMIN_ROLE = 2;
 export const RECIPIENTS_PER_PAGE = 15;
 export const ADMINS_PER_PAGE = 15;
 export const APPLICATIONS_PER_PAGE = 15;
+export const CHANNELS_PER_PAGE = 15;

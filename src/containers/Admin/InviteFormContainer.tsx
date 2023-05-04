@@ -61,7 +61,7 @@ const InviteFormContainer = () => {
             {getApplicationApi.data !== null && (
                 <InviteFormComponent
                     onClickFunction={handleClick}
-                    options={getApplicationApi.data}
+                    options={getApplicationApi.data.applications}
                 />
             )}
         </div>

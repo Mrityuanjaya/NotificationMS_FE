@@ -13,6 +13,8 @@ import {
     RecipientContainer,
     VerificationContainer,
 } from "containers";
+import CreateChannelContainer from "containers/Channel/CreateChannelContainer";
+import EditChannelContainer from "containers/Channel/EditChannelContainer";
 import useApi from "hooks/useApi";
 import { useEffect } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
@@ -50,13 +52,13 @@ function App() {
                 dispatch(setLoginStatus(true));
                 dispatch(setSystemAdminStatus(true));
             }
-            dispatch(setLoadingStatus(false))
+            dispatch(setLoadingStatus(false));
         } else if (getValidatedUserApi.error !== "") {
             localStorage.clear();
             dispatch(setLoginStatus(false));
             dispatch(setSystemAdminStatus(false));
             navigate(ROUTES.LOGIN_ROUTE);
-            dispatch(setLoadingStatus(false))
+            dispatch(setLoadingStatus(false));
         }
     }, [getValidatedUserApi.loading]);
 
@@ -81,6 +83,10 @@ function App() {
                 <Route
                     path={ROUTES.CHANNELS_ROUTE}
                     element={<ChannelContainer />}
+                />
+                <Route
+                    path={ROUTES.CREATE_CHANNEL_ROUTE}
+                    element={<CreateChannelContainer />}
                 />
                 <Route
                     path={ROUTES.NOTIFICATIONS_ROUTE}
@@ -109,6 +115,10 @@ function App() {
                 <Route
                     path={ROUTES.EDIT_ADMIN_ROUTE}
                     element={<EditAdminContainer />}
+                />
+                <Route
+                    path={ROUTES.EDIT_CHANNEL_ROUTE}
+                    element={<EditChannelContainer />}
                 />
                 <Route
                     path={ROUTES.ERROR_ROUTE}

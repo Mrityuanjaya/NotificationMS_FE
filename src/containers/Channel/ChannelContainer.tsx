@@ -1,13 +1,114 @@
+import { TableComponent } from "components";
+import { CHANNELS_PER_PAGE } from "constants/constants";
+import {
+    ERROR_MESSAGES,
+    SUCCESS_MESSAGES,
+    TOAST_CONFIG,
+} from "constants/constants";
 import ROUTES from "constants/routes";
-import { useNavigate } from "react-router-dom";
+import useApi from "hooks/useApi";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import channelsApi from "services/channel";
 import { useAppSelector } from "store/hooks";
 
 function ChannelContainer() {
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
     const loginStatus = useAppSelector((state) => state.user.loginStatus);
     const loadingStatus = useAppSelector((state) => state.user.loadingStatus);
+    const getChannelsApi = useApi(channelsApi.getChannels);
+    const deleteChannelApi = useApi(channelsApi.deleteChannel);
+    const [currentPage, setCurrentPage] = useState(
+        searchParams.get("page_no") == null
+            ? 1
+            : Number(searchParams.get("page_no"))
+    );
+    const [totalPages, setTotalPages] = useState(1);
+
     if (!loadingStatus && !loginStatus) navigate(ROUTES.LOGIN_ROUTE);
-    return <div>ChannelContainer</div>;
+
+    useEffect(() => {
+        getChannelsApi.request(
+            localStorage.getItem("token"),
+            currentPage,
+            CHANNELS_PER_PAGE
+        );
+    }, []);
+
+    useEffect(() => {
+        if (getChannelsApi.data != null) {
+            navigate(`${ROUTES.CHANNELS_ROUTE}?page_no=${currentPage}`);
+            setTotalPages(
+                Math.ceil(
+                    getChannelsApi.data.total_channels / CHANNELS_PER_PAGE
+                )
+            );
+            toast.success(
+                SUCCESS_MESSAGES.CHANNELS_FETCHED_SUCCESSFUL,
+                TOAST_CONFIG
+            );
+        } else if (!getChannelsApi.loading && getChannelsApi.error != "") {
+            toast.error(getChannelsApi.error);
+        }
+    }, [getChannelsApi.loading]);
+
+    const handleNextClick = () => {
+        setCurrentPage((currentPage) => currentPage + 1);
+    };
+
+    const handlePrevClick = () => {
+        setCurrentPage((currentPage) => currentPage - 1);
+    };
+    const headingFields = [
+        "alias",
+        "application_name",
+        "description",
+        "type",
+        "created_at",
+    ];
+
+    const handleEdit = async (alias: string) => {
+        navigate(ROUTES.EDIT_CHANNEL_ROUTE.replace(":alias", alias));
+    };
+
+    const deleteChannel = async (alias: string) => {
+        deleteChannelApi.request(alias, localStorage.getItem("token"));
+    };
+    useEffect(() => {
+        if (!deleteChannelApi.loading) {
+            if (deleteChannelApi.data !== null) {
+                toast.success(`${deleteChannelApi.data}`, TOAST_CONFIG);
+            } else if (deleteChannelApi.error !== "") {
+                toast.error(`${deleteChannelApi.error}`, TOAST_CONFIG);
+            }
+        }
+    }, [deleteChannelApi.loading]);
+    return (
+        <div>
+            <div className="d-flex justify-content-end">
+                <Link className="button" to={ROUTES.CREATE_CHANNEL_ROUTE}>
+                    CREATE CHANNEL
+                </Link>
+            </div>
+            {getChannelsApi.data && (
+                <TableComponent
+                    headingFields={headingFields}
+                    dataFields={getChannelsApi.data.channels}
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    nextFunction={handleNextClick}
+                    prevFunction={handlePrevClick}
+                    editFunction={handleEdit}
+                    editFunctionArgs={["alias"]}
+                    deleteFunction={deleteChannel}
+                    deleteFunctionArgs={["alias"]}
+                />
+            )}
+        </div>
+    );
 }
 
 export default ChannelContainer;
