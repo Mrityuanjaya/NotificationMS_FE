@@ -14,6 +14,8 @@ import {
     RequestContainer,
     VerificationContainer,
 } from "containers";
+import CreateChannelContainer from "containers/Channel/CreateChannelContainer";
+import EditChannelContainer from "containers/Channel/EditChannelContainer";
 import useApi from "hooks/useApi";
 import { useEffect } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
@@ -84,8 +86,17 @@ function App() {
                     element={<ChannelContainer />}
                 />
                 <Route
+                    path={ROUTES.CREATE_CHANNEL_ROUTE}
+                    element={<CreateChannelContainer />}
+                />
+                <Route
+                    path={ROUTES.CREATE_CHANNEL_ROUTE}
+                    element={<CreateChannelContainer />}
+                />
+                <Route
                     path={ROUTES.REQUESTS_ROUTE}
                     element={<RequestContainer />}
+                    
                 />
                 <Route
                     path={ROUTES.RECIPIENTS_ROUTE}
@@ -110,6 +121,10 @@ function App() {
                 <Route
                     path={ROUTES.EDIT_ADMIN_ROUTE}
                     element={<EditAdminContainer />}
+                />
+                <Route
+                    path={ROUTES.EDIT_CHANNEL_ROUTE}
+                    element={<EditChannelContainer />}
                 />
                 <Route
                     path={ROUTES.NOTIFICATIONS_ROUTE}

@@ -32,10 +32,11 @@ table{
 }
 
 .styling{
-  border: 0.1rem solid;
+  border: 0.1rem solid grey;
   box-shadow: 1rem 1rem 1rem var(--grey);
-  padding: 6rem;
+  padding: 2rem 6rem;
   margin: 6rem;
+  color:var(--lightpurple)
 }
 
 .filter-box {
@@ -57,4 +58,13 @@ table{
   color: var(--lightpurple);
   font-size: 1.1rem;
   left: 1rem;
+}
+
+.label-input {
+  position: relative;
+  top: 0.7rem;
+  z-index: 2;
+  background: white;
+  width: auto !important;
+  color: var(--lightpurple)
 }

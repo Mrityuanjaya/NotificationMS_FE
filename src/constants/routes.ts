@@ -6,6 +6,7 @@ const routes = {
     DASHBOARD_ROUTE: "/dashboard",
     VERIFY_ROUTE : "/verify",
     CHANNELS_ROUTE : "/channels",
+    CREATE_CHANNEL_ROUTE: "/create_channel",
     RECIPIENTS_ROUTE : "/recipients",
     REQUESTS_ROUTE : "/requests",
     NOTIFICATIONS_ROUTE : "/notifications",
@@ -13,6 +14,7 @@ const routes = {
     APPLICATIONSTABLE_ROUTE : "/applicationstable",
     USER_ROUTE:"/user/:user_id",
     EDIT_ADMIN_ROUTE:"/edit/:user_id",
+    EDIT_CHANNEL_ROUTE:"/channel/:alias",
     ERROR_ROUTE :"*"
   };
   

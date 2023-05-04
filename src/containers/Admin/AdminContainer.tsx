@@ -1,10 +1,12 @@
 import { TableComponent } from "components";
-import { ADMINS_PER_PAGE } from "constants/constants";
+import { ADMINS_PER_PAGE, SUCCESS_MESSAGES } from "constants/constants";
+import { TOAST_CONFIG } from "constants/constants";
 import ROUTES from "constants/routes";
 import routes from "constants/routes";
 import useApi from "hooks/useApi";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import inviteApi from "services/admins";
 import { useAppSelector } from "store/hooks";
 import "styles/styles.css";
@@ -64,7 +66,12 @@ function AdminContainer() {
             setTotalPages(
                 Math.ceil(getAllAdminsApi.data.total_admins / ADMINS_PER_PAGE)
             );
-        }
+            toast.success(
+                SUCCESS_MESSAGES.ADMIN_FETCHED_SUCCESSFUL,
+                TOAST_CONFIG
+            );
+        } else if (!getAllAdminsApi.loading && getAllAdminsApi.error != "")
+            toast.error(getAllAdminsApi.error, TOAST_CONFIG);
     }, [getAllAdminsApi.loading]);
 
     const deleteInvitation = async (
@@ -78,6 +85,16 @@ function AdminContainer() {
         );
         await getAllAdmins();
     };
+
+    useEffect(() => {
+        if (!deleteUserApi.loading) {
+            if (deleteUserApi.data !== null) {
+                toast.success(`${deleteUserApi.data}`, TOAST_CONFIG);
+            } else if (deleteUserApi.error !== "") {
+                toast.error(`${deleteUserApi.error}`, TOAST_CONFIG);
+            }
+        }
+    }, [deleteUserApi.loading]);
 
     const redirectToEditPage = async (user_id: number) => {
         navigate(ROUTES.EDIT_ADMIN_ROUTE.replace(":user_id", String(user_id)));
