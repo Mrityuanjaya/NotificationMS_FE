@@ -20,4 +20,6 @@ const getTotalRecipient = async(applicationId: number, token: string) => {
     return totalRecipient;
 }
 
+
+
 export default {getdashboard,getTotalRecipient} ;

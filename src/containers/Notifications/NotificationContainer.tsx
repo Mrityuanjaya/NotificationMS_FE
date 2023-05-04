@@ -1,53 +1,72 @@
 import { TableComponent } from "components";
+import { NOTIFICATIONS_PER_PAGE } from "constants/constants";
 import ROUTES from "constants/routes";
 import useApi from "hooks/useApi";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import notifcationsApi from "services/request";
+import notificationsApi from "services/request";
 import { useAppSelector } from "store/hooks";
 
-function NotificationConainer() {
+function NotificationContainer() {
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
     const loginStatus = useAppSelector((state) => state.user.loginStatus);
     const loadingStatus = useAppSelector((state) => state.user.loadingStatus);
+    const [currentPage, setCurrentPage] = useState(searchParams.get("page_no") == null ? 1 : Number(searchParams.get("page_no")));
+    const [totalPages, setTotalPages] = useState(1);
     const systemAdminStatus = useAppSelector(
         (state) => state.user.systemAdminStatus
     );
     if (!loadingStatus && !loginStatus) navigate(ROUTES.LOGIN_ROUTE);
-    else if (!loadingStatus && !systemAdminStatus)
-        navigate(ROUTES.DASHBOARD_ROUTE);
 
-    const getNotificationsApi = useApi(notifcationsApi.getNotificationsList);
-
-    const [searchParams] = useSearchParams();
-    const request_id = searchParams.get("request_id");
+    const getNotificationsApi = useApi(notificationsApi.getNotificationsList);
 
     const headingFields = [
         "id",
-        "recipient_id",
+        "recipient_email",
         "status",
         "type",
         "created_at",
     ];
     const [data, setData] = useState<{ [key: string]: any }>({});
 
-    useEffect(() => {
-        getNotificationsApi.request(request_id, localStorage.getItem("token"));
-    }, []);
+    const handleNextClick = () => {
+        setCurrentPage((currentPage) => currentPage + 1);
+    };
+
+    const handlePrevClick = () => {
+        setCurrentPage((currentPage) => currentPage - 1);
+    };
 
     useEffect(() => {
-        if (getNotificationsApi.data !== null) {
+        getNotificationsApi.request(searchParams.get("request_id"), localStorage.getItem("token"), currentPage, NOTIFICATIONS_PER_PAGE);
+    }, [currentPage]);
+
+    useEffect(() => {
+        if (getNotificationsApi.data != null) {
+            for(let notification of getNotificationsApi.data.notifications){
+                const date = (new Date(notification["created_at"])).toLocaleDateString()
+                const time = (new Date(notification["created_at"])).toLocaleTimeString()
+                notification["created_at"] = date + " "+  time
+            }
             setData(getNotificationsApi.data);
+            navigate(`${ROUTES.NOTIFICATIONS_ROUTE}?request_id=${searchParams.get("request_id")}&page_no=${currentPage}`)
+            setTotalPages(Math.ceil(getNotificationsApi.data.total_notifications/NOTIFICATIONS_PER_PAGE))
+
         }
     }, [getNotificationsApi.loading]);
 
     return (
         <>
             <div>
-                {getNotificationsApi.data != null && (
+                {data != null && data.notifications != null && (
                     <TableComponent
                         headingFields={headingFields}
-                        dataFields={getNotificationsApi.data}
+                        dataFields={data.notifications}
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        nextFunction={handleNextClick}
+                        prevFunction={handlePrevClick}
                     />
                 )}
             </div>
@@ -55,4 +74,4 @@ function NotificationConainer() {
     );
 }
 
-export default NotificationConainer;
+export default NotificationContainer;

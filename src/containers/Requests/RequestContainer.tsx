@@ -2,41 +2,43 @@ import { TableComponent } from "components";
 import ROUTES from "constants/routes";
 import useApi from "hooks/useApi";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import applicationApi from "services/application";
-import dashboardApi from "services/dashboard";
+import requestApi from "services/request";
 import { useAppSelector } from "store/hooks";
 import "styles/styles.css";
 
 import Dropdown from "components/Dropdown/DropdownComponent";
+import { REQUESTS_PER_PAGE } from "constants/constants";
+import routes from "constants/routes";
 
 function RequestContainer() {
+    const [searchParams] = useSearchParams();
+    const [currentPage, setCurrentPage] = useState(searchParams.get("page_no") == null ? 1 : Number(searchParams.get("page_no")));
+    const [totalPages, setTotalPages] = useState(1);
     const navigate = useNavigate();
     const loginStatus = useAppSelector((state) => state.user.loginStatus);
     const loadingStatus = useAppSelector((state) => state.user.loadingStatus);
-    const getRequestsApi = useApi(dashboardApi.getdashboard);
+    const getRequestsApi = useApi(requestApi.getRequests);
     const getApplicationListApi = useApi(applicationApi.getApplicationList);
-    const systemAdminStatus = useAppSelector(
-        (state) => state.user.systemAdminStatus
-    );
+    
     if (!loadingStatus && !loginStatus) navigate(ROUTES.LOGIN_ROUTE);
-    else if (!loadingStatus && !systemAdminStatus)
-        navigate(ROUTES.DASHBOARD_ROUTE);
 
     const [applicationId, setApplicationId] = useState(0);
     const [applications, setApplications] = useState({});
     const [data, setData] = useState<{ [key: string]: any }>({});
 
     const headingFields = [
-        "application_id",
-        "id",
-        "total_request",
+        "subject",
         "priority",
+        "total_recipients",
+        "success",
+        "failure",
         "created_at",
     ];
 
     const getRequests = (id: number) => {
-        getRequestsApi.request(id, null, null, localStorage.getItem("token"));
+        getRequestsApi.request(id, localStorage.getItem("token"), currentPage, REQUESTS_PER_PAGE);
         setApplicationId(id);
     };
 
@@ -46,7 +48,7 @@ function RequestContainer() {
 
     useEffect(() => {
         if (getApplicationListApi.data != null) {
-            const applications = getApplicationListApi.data;
+            const applications = getApplicationListApi.data.applications;
             let options: { [x: number]: string } = {};
             if (localStorage.getItem("systemAdminStatus") == "true")
                 options[0] = "All";
@@ -61,10 +63,31 @@ function RequestContainer() {
     }, [getApplicationListApi.loading]);
 
     useEffect(() => {
+        getRequests(applicationId);
+    }, [currentPage]);
+
+    useEffect(() => {
         if (getRequestsApi.data != null) {
+            for(let request of getRequestsApi.data.requests){
+                const date = (new Date(request["created_at"])).toLocaleDateString()
+                const time = (new Date(request["created_at"])).toLocaleTimeString()
+                request["created_at"] = date + " "+ time
+            }
             setData(getRequestsApi.data);
+            navigate(`${routes.REQUESTS_ROUTE}?page_no=${currentPage}`)
+            setTotalPages(
+                Math.ceil(getRequestsApi.data.total_requests / REQUESTS_PER_PAGE)
+            );
         }
     }, [getRequestsApi.loading]);
+
+    const handleNextClick = () => {
+        setCurrentPage((currentPage) => currentPage + 1);
+    };
+
+    const handlePrevClick = () => {
+        setCurrentPage((currentPage) => currentPage - 1);
+    };
 
     const redirectToNotificationsPage = async (request_id: string) => {
         navigate(`/notifications?request_id=${request_id}`);
@@ -82,12 +105,16 @@ function RequestContainer() {
                 </div>
             </div>
             <div>
-                {data.response != null && (
+                {data != null && data.requests != null && (
                     <TableComponent
                         headingFields={headingFields}
-                        dataFields={data.response}
+                        dataFields={data.requests}
                         viewFunction={redirectToNotificationsPage}
                         viewFunctionArgs={["id"]}
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        nextFunction={handleNextClick}
+                        prevFunction={handlePrevClick}
                     />
                 )}
             </div>

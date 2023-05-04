@@ -21,6 +21,7 @@ function RecipientContainer() {
     const systemAdminStatus = useAppSelector(
         (state) => state.user.systemAdminStatus
     );
+    const [data, setData] = useState<{ [key: string]: any }>({});
     const [searchParams] = useSearchParams();
     const [file, setFile] = useState<File>();
     const [currentPage, setCurrentPage] = useState(
@@ -55,7 +56,13 @@ function RecipientContainer() {
 
     useEffect(() => {
         if (!getRecipientApi.loading) {
-            if (getRecipientApi.data !== null) {
+            if (getRecipientApi.data !== null && getRecipientApi.data.recipients) {
+                for(let recipient of getRecipientApi.data.recipients){
+                    const date = (new Date(recipient["created_at"])).toLocaleDateString()
+                    const time = (new Date(recipient["created_at"])).toLocaleTimeString()
+                    recipient["created_at"] = date + " "+  time
+                }
+                setData(getRecipientApi.data);
                 navigate(`${routes.RECIPIENTS_ROUTE}?page_no=${currentPage}`);
                 setTotalPages(
                     Math.ceil(
@@ -102,7 +109,7 @@ function RecipientContainer() {
                     />
                 )}
             </div>
-            {getRecipientApi.data && getRecipientApi.data.recipients && (
+            {data && data.recipients && (
                 <TableComponent
                     headingFields={[
                         "id",
@@ -110,7 +117,7 @@ function RecipientContainer() {
                         "application_name",
                         "created_at",
                     ]}
-                    dataFields={getRecipientApi.data.recipients}
+                    dataFields={data.recipients}
                     currentPage={currentPage}
                     totalPages={totalPages}
                     nextFunction={handleNextClick}

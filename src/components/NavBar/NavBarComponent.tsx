@@ -80,7 +80,7 @@ function NavBar() {
                         </Link>
                         <Link
                             className={`nav-link ${
-                                activeLink === ROUTES.REQUESTS_ROUTE && "active"
+                                (activeLink === ROUTES.REQUESTS_ROUTE || activeLink === ROUTES.NOTIFICATIONS_ROUTE) && "active"
                             }`}
                             to={ROUTES.REQUESTS_ROUTE}
                         >

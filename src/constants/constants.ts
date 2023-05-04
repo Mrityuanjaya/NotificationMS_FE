@@ -38,3 +38,5 @@ export const ADMIN_ROLE = 2;
 export const RECIPIENTS_PER_PAGE = 15;
 export const ADMINS_PER_PAGE = 15;
 export const APPLICATIONS_PER_PAGE = 15;
+export const REQUESTS_PER_PAGE = 15
+export const NOTIFICATIONS_PER_PAGE = 15
