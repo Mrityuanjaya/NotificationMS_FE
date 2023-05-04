@@ -39,7 +39,7 @@ function ApplicationTableContainer() {
         setCurrentPage((currentPage) => currentPage - 1);
     };
 
-    const headingFields = { name: "Name"};
+    const headingFields = { name: "Name" };
 
     useEffect(() => {
         getApplicationApi.request(
@@ -68,22 +68,29 @@ function ApplicationTableContainer() {
 
     return (
         <>
-            <div className="d-flex justify-content-end">
-                {systemAdminStatus && (
-                    <Link className="button" to={routes.APPLICATIONS_ROUTE}>
-                        Add Applications
-                    </Link>
-                )}
+            <div className="d-flex justify-content-around m-3">
+                <div>
+                    <h1>List of Applications</h1>
+                </div>
+                <div className="m-2">
+                    {systemAdminStatus && (
+                        <Link className="button" to={routes.APPLICATIONS_ROUTE}>
+                            Add Applications
+                        </Link>
+                    )}
+                </div>
             </div>
             <div>
-                {data.applications && <TableComponent
-                    headingFields={headingFields}
-                    dataFields={data.applications}
-                    nextFunction={handleNextClick}
-                    prevFunction={handlePrevClick}
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                />}
+                {data.applications && (
+                    <TableComponent
+                        headingFields={headingFields}
+                        dataFields={data.applications}
+                        nextFunction={handleNextClick}
+                        prevFunction={handlePrevClick}
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                    />
+                )}
             </div>
         </>
     );

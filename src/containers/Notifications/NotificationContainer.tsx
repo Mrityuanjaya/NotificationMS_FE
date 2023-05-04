@@ -78,6 +78,11 @@ function NotificationContainer() {
 
     return (
         <>
+            <div className="d-flex justify-content-start m-3">
+                <div>
+                    <h1>List of Notifications</h1>
+                </div>
+            </div>
             <div>
                 {data != null && data.notifications != null && (
                     <TableComponent

@@ -2,6 +2,7 @@ import { ApplicationComponent } from "components";
 import {
     ERROR_MESSAGES,
     MAX_NAME_LENGTH,
+    MIN_NAME_LENGTH,
     SUCCESS_MESSAGES,
     TOAST_CONFIG,
 } from "constants/constants";
@@ -18,9 +19,11 @@ const ApplicationContainer = () => {
     const navigate = useNavigate();
     const loginStatus = useAppSelector((state) => state.user.loginStatus);
     const loadingStatus = useAppSelector((state) => state.user.loadingStatus);
-    const systemAdminStatus = useAppSelector((state)=>state.user.systemAdminStatus)
+    const systemAdminStatus = useAppSelector(
+        (state) => state.user.systemAdminStatus
+    );
     if (!loadingStatus && !loginStatus) navigate(ROUTES.LOGIN_ROUTE);
-    if (!loadingStatus && !systemAdminStatus) navigate(ROUTES.DASHBOARD_ROUTE)
+    if (!loadingStatus && !systemAdminStatus) navigate(ROUTES.DASHBOARD_ROUTE);
     const postAplicationApi = useApi(applicationApi.postApplications);
 
     async function handleClick(name: string) {
@@ -28,6 +31,8 @@ const ApplicationContainer = () => {
             toast.error(ERROR_MESSAGES.NAME_REQUIRED, TOAST_CONFIG);
         else if (name.length > MAX_NAME_LENGTH)
             toast.error(ERROR_MESSAGES.NAME_INVALID, TOAST_CONFIG);
+        else if (name.length < MIN_NAME_LENGTH)
+            toast.error(ERROR_MESSAGES.NAME_TOO_SHORT, TOAST_CONFIG);
         else
             await postAplicationApi.request(
                 name,
@@ -38,7 +43,7 @@ const ApplicationContainer = () => {
     useEffect(() => {
         if (!postAplicationApi.loading) {
             if (postAplicationApi.data !== null) {
-                navigate(ROUTES.APPLICATIONSTABLE_ROUTE)
+                navigate(ROUTES.APPLICATIONSTABLE_ROUTE);
                 toast.success(
                     SUCCESS_MESSAGES.CREATE_APPLICATION_SUCCESSFUL,
                     TOAST_CONFIG
