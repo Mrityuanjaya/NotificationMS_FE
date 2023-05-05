@@ -69,7 +69,6 @@ function AdminContainer() {
                         getAllAdminsApi.data.total_admins / ADMINS_PER_PAGE
                     )
                 );
-
             } else if (!getAllAdminsApi.loading && getAllAdminsApi.error != "")
                 toast.error(getAllAdminsApi.error, TOAST_CONFIG);
         }
@@ -107,10 +106,15 @@ function AdminContainer() {
 
     return (
         <>
-            <div className="d-flex justify-content-end">
-                <Link className="button" to={ROUTES.INVITE_ROUTE}>
-                    Invite Admins
-                </Link>
+            <div className="d-flex justify-content-around m-3">
+                <div>
+                    <h1>List of Admins</h1>
+                </div>
+                <div className="m-2">
+                    <Link className="button" to={ROUTES.INVITE_ROUTE}>
+                        Invite Admins
+                    </Link>
+                </div>
             </div>
             {getAllAdminsApi.data && getAllAdminsApi.data.admins && (
                 <TableComponent

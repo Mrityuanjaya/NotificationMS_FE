@@ -88,39 +88,51 @@ function ChannelContainer() {
         }
     }, [deleteChannelApi.loading]);
     return (
-        <div>
-            {systemAdminStatus && (
-                <div className="d-flex justify-content-end">
-                    <Link className="button" to={ROUTES.CREATE_CHANNEL_ROUTE}>
-                        CREATE CHANNEL
-                    </Link>
+        <>
+            <div className="d-flex justify-content-around m-3">
+                <div>
+                    <h1>List of Channels</h1>
                 </div>
-            )}
-            {getChannelsApi.data &&
-                (systemAdminStatus ? (
-                    <TableComponent
-                        headingFields={headingFields}
-                        dataFields={getChannelsApi.data.channels}
-                        currentPage={currentPage}
-                        totalPages={totalPages}
-                        nextFunction={handleNextClick}
-                        prevFunction={handlePrevClick}
-                        editFunction={handleEdit}
-                        editFunctionArgs={["alias"]}
-                        deleteFunction={deleteChannel}
-                        deleteFunctionArgs={["alias"]}
-                    />
-                ) : (
-                    <TableComponent
-                        headingFields={headingFields}
-                        dataFields={getChannelsApi.data.channels}
-                        currentPage={currentPage}
-                        totalPages={totalPages}
-                        nextFunction={handleNextClick}
-                        prevFunction={handlePrevClick}
-                    />
-                ))}
-        </div>
+                <div>
+                    {systemAdminStatus && (
+                        <div className="m-2">
+                            <Link
+                                className="button"
+                                to={ROUTES.CREATE_CHANNEL_ROUTE}
+                            >
+                                CREATE CHANNEL
+                            </Link>
+                        </div>
+                    )}
+                </div>
+            </div>
+            <div>
+                {getChannelsApi.data &&
+                    (systemAdminStatus ? (
+                        <TableComponent
+                            headingFields={headingFields}
+                            dataFields={getChannelsApi.data.channels}
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            nextFunction={handleNextClick}
+                            prevFunction={handlePrevClick}
+                            editFunction={handleEdit}
+                            editFunctionArgs={["alias"]}
+                            deleteFunction={deleteChannel}
+                            deleteFunctionArgs={["alias"]}
+                        />
+                    ) : (
+                        <TableComponent
+                            headingFields={headingFields}
+                            dataFields={getChannelsApi.data.channels}
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            nextFunction={handleNextClick}
+                            prevFunction={handlePrevClick}
+                        />
+                    ))}
+            </div>
+        </>
     );
 }
 

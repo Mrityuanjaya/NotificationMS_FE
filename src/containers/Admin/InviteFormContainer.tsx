@@ -4,7 +4,7 @@ import {
     ERROR_MESSAGES,
     MAX_EMAIL_LENGTH,
     MAX_NAME_LENGTH,
-    SUCCESS_MESSAGES,
+    MIN_NAME_LENGTH,
     TOAST_CONFIG,
 } from "constants/constants";
 import useApi from "hooks/useApi";
@@ -27,11 +27,11 @@ const InviteFormContainer = () => {
             toast.error(ERROR_MESSAGES.NAME_REQUIRED, TOAST_CONFIG);
         else if (name.length > MAX_NAME_LENGTH)
             toast.error(ERROR_MESSAGES.NAME_INVALID, TOAST_CONFIG);
+        else if (name.length < MIN_NAME_LENGTH)
+            toast.error(ERROR_MESSAGES.NAME_TOO_SHORT, TOAST_CONFIG);
         else if (email.length === 0)
             toast.error(ERROR_MESSAGES.EMAIL_REQUIRED, TOAST_CONFIG);
-        else if (email.length > MAX_EMAIL_LENGTH)
-            toast.error(ERROR_MESSAGES.EMAIL_INVALID, TOAST_CONFIG);
-        else if (!EMAIL_REGEX.test(email))
+        else if (!EMAIL_REGEX.test(email) || email.length > MAX_EMAIL_LENGTH)
             toast.error(ERROR_MESSAGES.EMAIL_INVALID, TOAST_CONFIG);
         else
         {

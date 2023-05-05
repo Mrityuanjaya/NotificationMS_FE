@@ -1,8 +1,9 @@
 import { ToastOptions } from "react-toastify"
 
-export const EMAIL_REGEX = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/;
-export const MAX_EMAIL_LENGTH = 360;
+export const EMAIL_REGEX = /^([a-zA-Z0-9._-]+)@([a-zA-Z0-9_-]+)\.([a-zA-Z]{2,5})$/;
+export const MAX_EMAIL_LENGTH = 320;
 export const MAX_NAME_LENGTH = 255;
+export const MIN_NAME_LENGTH = 4;
 
 export const TOAST_CONFIG: ToastOptions = {
     position: "top-right",
@@ -21,6 +22,7 @@ export const ERROR_MESSAGES = {
     MIN_PASSWORD_LENGTH:"Password length must be atleast 8 characters",
     NETWORK_ERROR: 'Network Error',
     NAME_INVALID: 'Name is too long.',
+    NAME_TOO_SHORT: 'Name is too short.',
     NO_FILE_SELECTED: 'No File Selected',
     START_DATE_GREATER_THAN_END_DATE:'Start Date must be less than End Date.' 
 }

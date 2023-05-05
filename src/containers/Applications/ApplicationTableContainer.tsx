@@ -73,12 +73,17 @@ function ApplicationTableContainer() {
 
     return (
         <>
-            <div className="d-flex justify-content-end">
-                {systemAdminStatus && (
-                    <Link className="button" to={routes.APPLICATIONS_ROUTE}>
-                        Add Applications
-                    </Link>
-                )}
+            <div className="d-flex justify-content-around m-3">
+                <div>
+                    <h1>List of Applications</h1>
+                </div>
+                <div className="m-2">
+                    {systemAdminStatus && (
+                        <Link className="button" to={routes.APPLICATIONS_ROUTE}>
+                            Add Applications
+                        </Link>
+                    )}
+                </div>
             </div>
             <div>
                 {data.applications && (

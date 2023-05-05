@@ -110,13 +110,18 @@ function RequestContainer() {
 
     return (
         <>
-            <div className="d-flex justify-content-end">
-                <div className="filter-box">
-                    <Dropdown
-                        initialValue={applicationId}
-                        options={applications}
-                        onSelect={(value: number) => getRequests(value)}
-                    />
+            <div className="d-flex justify-content-around m-3">
+                <div>
+                    <h1 className="m-2">List of Requests</h1>
+                </div>
+                <div>
+                    <div className="filter-box">
+                        <Dropdown
+                            initialValue={applicationId}
+                            options={applications}
+                            onSelect={(value: number) => getRequests(value)}
+                        />
+                    </div>
                 </div>
             </div>
             <div>
