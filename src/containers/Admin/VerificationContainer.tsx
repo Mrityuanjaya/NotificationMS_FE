@@ -1,5 +1,3 @@
-import invite_failure_img from "assets/failure.png";
-import invite_success_img from "assets/success.jpeg";
 import { TOAST_CONFIG } from "constants/constants";
 import ROUTES from "constants/routes";
 import useApi from "hooks/useApi";
@@ -27,6 +25,7 @@ const VerificationContainer = () => {
         if (!postVerifyApi.loading) {
             if (postVerifyApi.data !== null) {
                 localStorage.clear();
+                navigate(ROUTES.LOGIN_ROUTE)
                 toast.success(`${postVerifyApi.data}`, TOAST_CONFIG);
             } else if (postVerifyApi.error !== "") {
                 toast.error(`${postVerifyApi.error}`, TOAST_CONFIG);
@@ -40,7 +39,7 @@ const VerificationContainer = () => {
                     <div className="d-flex justify-content-center row py-5 mt-4 align-items-center">
                         <div className="col-md-15 pr-lg-5 mb-5 mb-md-0">
                             <div className="d-flex justify-content-center">
-                                <h1 className="m-5">Congratulations</h1>
+                                <h1 className="m-5">Congratulations!!</h1>
                             </div>
                             <div className="d-flex justify-content-center">
                                 {!loginStatus && (

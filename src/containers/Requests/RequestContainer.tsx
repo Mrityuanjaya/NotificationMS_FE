@@ -15,7 +15,7 @@ import Dropdown from "components/Dropdown/DropdownComponent";
 function RequestContainer() {
     const [searchParams] = useSearchParams();
     const [currentPage, setCurrentPage] = useState(
-        searchParams.get("page_no") == null
+        searchParams.get("page_no") == null || Number(searchParams.get("page_no")) <= 0
             ? 1
             : Number(searchParams.get("page_no"))
     );
@@ -56,12 +56,12 @@ function RequestContainer() {
     }, []);
 
     useEffect(() => {
-        if (getApplicationListApi.data != null) {
+        if (getApplicationListApi.data) {
             const applications = getApplicationListApi.data.applications;
             let options: { [x: number]: string } = {};
             if (localStorage.getItem("systemAdminStatus") == "true")
                 options[0] = "All";
-            applications.map((application: { [x: string]: any }) => {
+                applications.map((application: { [x: string]: any }) => {
                 options[application["id"]] = application["name"];
             });
             let id = Object.keys(options)[0];
@@ -69,7 +69,7 @@ function RequestContainer() {
             setApplications(options);
             getRequests(Number(id));
         }
-    }, [getApplicationListApi.loading]);
+    }, [getApplicationListApi.data]);
 
     useEffect(() => {
         getRequests(applicationId);
@@ -120,7 +120,7 @@ function RequestContainer() {
                 </div>
             </div>
             <div>
-                {data != null && data.requests != null && (
+                {data != null && data.requests && (
                     <TableComponent
                         headingFields={headingFields}
                         dataFields={data.requests}

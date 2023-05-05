@@ -34,12 +34,15 @@ const InviteFormContainer = () => {
         else if (!EMAIL_REGEX.test(email))
             toast.error(ERROR_MESSAGES.EMAIL_INVALID, TOAST_CONFIG);
         else
+        {
+            email = email.toLowerCase()
             await postInviteApi.request(
                 name,
                 email,
                 applicationId,
                 localStorage.getItem("token")
             );
+        }
     }
 
     useEffect(() => {

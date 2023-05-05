@@ -25,7 +25,7 @@ function ChannelContainer() {
     const getChannelsApi = useApi(channelsApi.getChannels);
     const deleteChannelApi = useApi(channelsApi.deleteChannel);
     const [currentPage, setCurrentPage] = useState(
-        searchParams.get("page_no") == null
+        searchParams.get("page_no") == null  || Number(searchParams.get("page_no")) <= 0
             ? 1
             : Number(searchParams.get("page_no"))
     );

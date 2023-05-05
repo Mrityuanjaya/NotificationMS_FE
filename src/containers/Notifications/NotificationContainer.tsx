@@ -13,7 +13,7 @@ function NotificationContainer() {
     const loginStatus = useAppSelector((state) => state.user.loginStatus);
     const loadingStatus = useAppSelector((state) => state.user.loadingStatus);
     const [currentPage, setCurrentPage] = useState(
-        searchParams.get("page_no") == null
+        searchParams.get("page_no") == null || Number(searchParams.get("page_no")) <= 0
             ? 1
             : Number(searchParams.get("page_no"))
     );
