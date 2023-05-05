@@ -117,6 +117,9 @@ function RecipientContainer() {
                     />
                 )}
             </div>
+            <div className="d-flex justify-content-center">
+                    <h1>List of Recipients</h1>
+            </div>
             {data && data.recipients && (
                 <TableComponent
                     headingFields={{

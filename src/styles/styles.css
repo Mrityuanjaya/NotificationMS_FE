@@ -68,3 +68,8 @@ table{
   width: auto !important;
   color: var(--lightpurple)
 }
+
+.disabled-input{
+  background-color: #f8f9fa !important;
+  color: #6c757d;
+}

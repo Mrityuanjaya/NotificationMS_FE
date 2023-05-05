@@ -7,8 +7,10 @@ import {
     MIN_NAME_LENGTH,
     TOAST_CONFIG,
 } from "constants/constants";
+import ROUTES from "constants/routes";
 import useApi from "hooks/useApi";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import inviteApi from "services/admins";
@@ -17,7 +19,7 @@ import applicationApi from "services/application";
 const InviteFormContainer = () => {
     const getApplicationApi = useApi(applicationApi.getApplicationList);
     const postInviteApi = useApi(inviteApi.inviteUser);
-
+    const navigate = useNavigate()
     async function handleClick(
         name: string,
         email: string,
@@ -53,6 +55,7 @@ const InviteFormContainer = () => {
         if (!postInviteApi.loading) {
             if (postInviteApi.data !== null) {
                 toast.success(`${postInviteApi.data}`, TOAST_CONFIG);
+                navigate(ROUTES.ADMIN_ROUTE);
             } else if (postInviteApi.error !== "") {
                 toast.error(`${postInviteApi.error}`, TOAST_CONFIG);
             }

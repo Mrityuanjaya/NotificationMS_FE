@@ -25,7 +25,8 @@ function ChannelContainer() {
     const getChannelsApi = useApi(channelsApi.getChannels);
     const deleteChannelApi = useApi(channelsApi.deleteChannel);
     const [currentPage, setCurrentPage] = useState(
-        searchParams.get("page_no") == null  || Number(searchParams.get("page_no")) <= 0
+        searchParams.get("page_no") == null ||
+            Number(searchParams.get("page_no")) <= 0
             ? 1
             : Number(searchParams.get("page_no"))
     );
@@ -71,7 +72,7 @@ function ChannelContainer() {
         created_at: "Creation Time",
     };
 
-    const handleEdit = async (alias: string) => {
+    const redirectToChannelPage = async (alias: string) => {
         navigate(ROUTES.EDIT_CHANNEL_ROUTE.replace(":alias", alias));
     };
 
@@ -88,51 +89,32 @@ function ChannelContainer() {
         }
     }, [deleteChannelApi.loading]);
     return (
-        <>
-            <div className="d-flex justify-content-around m-3">
+        <div>
+            <div className="d-flex justify-content-around m-3"> 
                 <div>
                     <h1>List of Channels</h1>
                 </div>
-                <div>
-                    {systemAdminStatus && (
-                        <div className="m-2">
-                            <Link
-                                className="button"
-                                to={ROUTES.CREATE_CHANNEL_ROUTE}
-                            >
-                                CREATE CHANNEL
-                            </Link>
-                        </div>
-                    )}
-                </div>
+                {systemAdminStatus && <div className="m-2">
+                    <Link className="button" to={ROUTES.CREATE_CHANNEL_ROUTE}>
+                        CREATE CHANNEL
+                    </Link>
+                </div>}
             </div>
-            <div>
-                {getChannelsApi.data &&
-                    (systemAdminStatus ? (
-                        <TableComponent
-                            headingFields={headingFields}
-                            dataFields={getChannelsApi.data.channels}
-                            currentPage={currentPage}
-                            totalPages={totalPages}
-                            nextFunction={handleNextClick}
-                            prevFunction={handlePrevClick}
-                            editFunction={handleEdit}
-                            editFunctionArgs={["alias"]}
-                            deleteFunction={deleteChannel}
-                            deleteFunctionArgs={["alias"]}
-                        />
-                    ) : (
-                        <TableComponent
-                            headingFields={headingFields}
-                            dataFields={getChannelsApi.data.channels}
-                            currentPage={currentPage}
-                            totalPages={totalPages}
-                            nextFunction={handleNextClick}
-                            prevFunction={handlePrevClick}
-                        />
-                    ))}
-            </div>
-        </>
+            {getChannelsApi.data && (
+                <TableComponent
+                    headingFields={headingFields}
+                    dataFields={getChannelsApi.data.channels}
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    nextFunction={handleNextClick}
+                    prevFunction={handlePrevClick}
+                    viewFunction={redirectToChannelPage}
+                    viewFunctionArgs={["alias"]}
+                    deleteFunction={systemAdminStatus?deleteChannel:undefined}
+                    deleteFunctionArgs={["alias"]}
+                />
+            )}
+        </div>
     );
 }
 

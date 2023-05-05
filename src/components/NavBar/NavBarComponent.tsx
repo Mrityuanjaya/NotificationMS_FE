@@ -10,8 +10,8 @@ function NavBar() {
     );
     const navigate = useNavigate();
     const activeLink = useLocation().pathname;
-    const edit_admin_pattern=/edit\/(\d+)/
-    const edit_channel_pattern=/\/channel\/.*/;
+    const edit_admin_pattern = /edit\/(\d+)/;
+    const edit_channel_pattern = /\/channel\/.*/;
     const logoutUser = () => {
         localStorage.clear();
         dispatch(setLoginStatus(false));
@@ -40,18 +40,6 @@ function NavBar() {
                     id="navbarNavAltMarkup"
                 >
                     <div className="navbar-nav">
-                        {systemAdminStatus && (
-                            <Link
-                                className={`nav-link ${
-                                    (activeLink === ROUTES.ADMIN_ROUTE ||
-                                        activeLink === ROUTES.INVITE_ROUTE || edit_admin_pattern.test(activeLink)) &&
-                                    "active"
-                                }`}
-                                to={ROUTES.ADMIN_ROUTE}
-                            >
-                                Admins
-                            </Link>
-                        )}
                         <Link
                             className={`nav-link ${
                                 activeLink === ROUTES.DASHBOARD_ROUTE &&
@@ -61,6 +49,20 @@ function NavBar() {
                         >
                             Dashboard
                         </Link>
+                        {systemAdminStatus && (
+                            <Link
+                                className={`nav-link ${
+                                    (activeLink === ROUTES.ADMIN_ROUTE ||
+                                        activeLink === ROUTES.INVITE_ROUTE ||
+                                        edit_admin_pattern.test(activeLink)) &&
+                                    "active"
+                                }`}
+                                to={ROUTES.ADMIN_ROUTE}
+                            >
+                                Admins
+                            </Link>
+                        )}
+
                         <Link
                             className={`nav-link ${
                                 (activeLink ===
@@ -74,7 +76,11 @@ function NavBar() {
                         </Link>
                         <Link
                             className={`nav-link ${
-                                (activeLink === ROUTES.CHANNELS_ROUTE || activeLink ===ROUTES.CREATE_CHANNEL_ROUTE || edit_channel_pattern.test(activeLink)) && "active"
+                                (activeLink === ROUTES.CHANNELS_ROUTE ||
+                                    activeLink ===
+                                        ROUTES.CREATE_CHANNEL_ROUTE ||
+                                    edit_channel_pattern.test(activeLink)) &&
+                                "active"
                             }`}
                             to={ROUTES.CHANNELS_ROUTE}
                         >
@@ -82,7 +88,10 @@ function NavBar() {
                         </Link>
                         <Link
                             className={`nav-link ${
-                                (activeLink === ROUTES.REQUESTS_ROUTE || activeLink === ROUTES.NOTIFICATIONS_ROUTE) && "active"
+                                (activeLink === ROUTES.REQUESTS_ROUTE ||
+                                    activeLink ===
+                                        ROUTES.NOTIFICATIONS_ROUTE) &&
+                                "active"
                             }`}
                             to={ROUTES.REQUESTS_ROUTE}
                         >

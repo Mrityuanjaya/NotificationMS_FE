@@ -25,14 +25,12 @@ const EditChannelContainer = () => {
     const loadingStatus = useAppSelector((state) => state.user.loadingStatus);
 
     if (!loadingStatus && !loginStatus) navigate(ROUTES.LOGIN_ROUTE);
-    else if (!loadingStatus && !systemAdminStatus)
-        navigate(ROUTES.DASHBOARD_ROUTE);
 
     const { alias } = useParams();
     const getChannelApi = useApi(channelsApi.getChannel);
     const updateChannelApi = useApi(channelsApi.updateChannel);
     const [data, setData] = useState();
-
+    const [viewMode, setViewMode] = useState(true);
     useEffect(() => {
         getChannelApi.request(alias, localStorage.getItem("token"));
     }, []);
@@ -46,42 +44,24 @@ const EditChannelContainer = () => {
         name: string,
         alias: string,
         description: string,
-        MAIL_USERNAME: string,
-        MAIL_PASSWORD: string,
-        MAIL_FROM: string,
-        MAIL_PORT: number,
-        MAIL_SERVER: string,
-        USE_CREDENTIALS: number,
-        MAIL_STARTTLS: number,
-        MAIL_SSL_TLS: number
+        configuration: {}
     ) => {
+        if (viewMode) {
+            setViewMode(false);
+            return;
+        }
         if (name.length === 0)
             toast.error(ERROR_MESSAGES.NAME_REQUIRED, TOAST_CONFIG);
         else if (name.length > MAX_NAME_LENGTH)
             toast.error(ERROR_MESSAGES.NAME_INVALID, TOAST_CONFIG);
         else if (alias.length > MAX_NAME_LENGTH)
             toast.error(ERROR_MESSAGES.NAME_INVALID, TOAST_CONFIG);
-        else if (MAIL_USERNAME.length === 0)
-            toast.error(ERROR_MESSAGES.EMAIL_REQUIRED, TOAST_CONFIG);
-        else if (MAIL_USERNAME.length > MAX_EMAIL_LENGTH)
-            toast.error(ERROR_MESSAGES.EMAIL_INVALID, TOAST_CONFIG);
-        else if (MAIL_PASSWORD.length < 8)
-            toast.error(ERROR_MESSAGES.MIN_PASSWORD_LENGTH, TOAST_CONFIG);
-        else if (!EMAIL_REGEX.test(MAIL_USERNAME))
-            toast.error(ERROR_MESSAGES.EMAIL_INVALID, TOAST_CONFIG);
         else {
             updateChannelApi.request(
                 alias,
                 name,
                 description,
-                MAIL_USERNAME,
-                MAIL_PASSWORD,
-                MAIL_FROM,
-                MAIL_PORT,
-                MAIL_SERVER,
-                USE_CREDENTIALS,
-                MAIL_STARTTLS,
-                MAIL_SSL_TLS,
+                configuration,
                 localStorage.getItem("token")
             );
         }
@@ -103,7 +83,9 @@ const EditChannelContainer = () => {
                 <ChannelFormComponent
                     data={data}
                     onClickFunction={handleSubmit}
-                    buttonLabel={"UPDATE CHANNEL"}
+                    buttonLabel={viewMode ? "Edit" : "UPDATE CHANNEL"}
+                    viewMode={viewMode}
+                    isButtonVisible={systemAdminStatus}
                 />
             )}
         </div>
