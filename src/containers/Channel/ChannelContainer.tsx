@@ -70,7 +70,7 @@ function ChannelContainer() {
         "created_at",
     ];
 
-    const handleEdit = async (alias: string) => {
+    const redirectToChannelPage = async (alias: string) => {
         navigate(ROUTES.EDIT_CHANNEL_ROUTE.replace(":alias", alias));
     };
 
@@ -101,8 +101,8 @@ function ChannelContainer() {
                     totalPages={totalPages}
                     nextFunction={handleNextClick}
                     prevFunction={handlePrevClick}
-                    editFunction={handleEdit}
-                    editFunctionArgs={["alias"]}
+                    viewFunction={redirectToChannelPage}
+                    viewFunctionArgs={["alias"]}
                     deleteFunction={deleteChannel}
                     deleteFunctionArgs={["alias"]}
                 />

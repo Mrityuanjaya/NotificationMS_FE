@@ -1,19 +1,9 @@
-interface EmailConf{
-    MAIL_USERNAME: string,
-    MAIL_PASSWORD: string,
-    MAIL_FROM: string,
-    MAIL_PORT: number,
-    MAIL_SERVER: string,
-    USE_CREDENTIALS: number,
-    MAIL_STARTTLS: number,
-    MAIL_SSL_TLS: number
-}
 interface channelData{
     name:string,
     alias:string,
     description:string, 
     application_name:string,
-    configuration:EmailConf
+    configuration:{}
    
 }
 export interface ChannelProps {
@@ -24,14 +14,8 @@ export interface ChannelProps {
         name:string,
         alias:string,
         description:string, 
-        MAIL_USERNAME: string,
-        MAIL_PASSWORD: string,
-        MAIL_FROM: string,
-        MAIL_PORT: number,
-        MAIL_SERVER: string,
-        USE_CREDENTIALS: number,
-        MAIL_STARTTLS: number,
-        MAIL_SSL_TLS: number
+        configuration:{[key:string]:any}
     )=>void
     buttonLabel:string
+    viewMode:boolean
 }
