@@ -1,7 +1,7 @@
 import { ToastOptions } from "react-toastify"
 
 export const EMAIL_REGEX = /^([a-zA-Z0-9._-]+)@([a-zA-Z0-9_-]+)\.([a-zA-Z]{2,5})$/;
-export const MAX_EMAIL_LENGTH = 360;
+export const MAX_EMAIL_LENGTH = 320;
 export const MAX_NAME_LENGTH = 255;
 export const MIN_NAME_LENGTH = 4;
 
