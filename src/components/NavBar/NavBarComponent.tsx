@@ -107,6 +107,7 @@ function NavBar() {
                             Recipients
                         </Link>
                     </div>
+                </div>
                     <button
                         type="button"
                         className="btn btn-light mx-3 py-2 float-end"
@@ -114,7 +115,6 @@ function NavBar() {
                     >
                         Logout
                     </button>
-                </div>
             </div>
         </nav>
     );
