@@ -193,7 +193,7 @@ function DashboardContainer() {
             )}
             <div className="d-flex justify-content-center">
                 {getDashboardApi.data != null && (
-                    <div className="m-3 p-3">
+                    <div className="m-3 p-3 ">
                         <Piechart pieChartData={data} />
                     </div>
                 )}
