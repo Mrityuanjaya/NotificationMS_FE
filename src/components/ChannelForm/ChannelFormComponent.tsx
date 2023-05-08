@@ -75,7 +75,7 @@ const ChannelFormComponent = (props: ChannelProps) => {
                                         name="applicationName"
                                         placeholder="Name"
                                         className="form-control disabled-input border-md p-3"
-                                        readOnly
+                                        disabled
                                         required
                                     />
                                 </div>

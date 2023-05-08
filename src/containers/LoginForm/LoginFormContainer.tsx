@@ -34,7 +34,9 @@ const LoginFormContainer = () => {
             await postLoginApi.request(email, password);
         }
     }
-    if (!loadingStatus && loginStatus) navigate(ROUTES.DASHBOARD_ROUTE);
+    useEffect(()=>{
+        if (!loadingStatus && loginStatus) navigate(ROUTES.DASHBOARD_ROUTE);
+    },[])
     useEffect(() => {
         if (!postLoginApi.loading) {
             if (postLoginApi.data !== null) {

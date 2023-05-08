@@ -6,18 +6,17 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import inviteApi from "services/admins";
-import { useAppSelector } from "store/hooks";
+import { useAppDispatch, useAppSelector } from "store/hooks";
+import { setLoadingStatus, setLoginStatus, setSystemAdminStatus } from "store/slices/userSlice";
 
 const VerificationContainer = () => {
     const params = new URLSearchParams(window.location.search);
     const token = params.get("invitation_code");
+    const dispatch = useAppDispatch();
     const postVerifyApi = useApi(inviteApi.verifyCode);
     const navigate = useNavigate();
     const loginStatus = useAppSelector((state) => state.user.loginStatus);
 
-    const handleClick = () => {
-        navigate(ROUTES.LOGIN_ROUTE);
-    };
     useEffect(() => {
         postVerifyApi.request(token);
     }, []);
@@ -25,6 +24,9 @@ const VerificationContainer = () => {
         if (!postVerifyApi.loading) {
             if (postVerifyApi.data !== null) {
                 localStorage.clear();
+                dispatch(setLoginStatus(false))
+                dispatch(setSystemAdminStatus(false))
+                dispatch(setLoadingStatus(false))
                 navigate(ROUTES.LOGIN_ROUTE)
                 toast.success(`${postVerifyApi.data}`, TOAST_CONFIG);
             } else if (postVerifyApi.error !== "") {
@@ -40,16 +42,6 @@ const VerificationContainer = () => {
                         <div className="col-md-15 pr-lg-5 mb-5 mb-md-0">
                             <div className="d-flex justify-content-center">
                                 <h1 className="m-5">Congratulations!!</h1>
-                            </div>
-                            <div className="d-flex justify-content-center">
-                                {!loginStatus && (
-                                    <button
-                                        className="button"
-                                        onClick={handleClick}
-                                    >
-                                        Login
-                                    </button>
-                                )}
                             </div>
                         </div>
                     </div>
