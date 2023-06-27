@@ -2,7 +2,7 @@ import { Cell, Legend, Pie, PieChart } from "recharts";
 
 import { PieChartProps } from "components/DashBoard/types";
 
-const COLORS = ["#0088FE", "#FF8042"];
+const COLORS = ["#1abc9c", "#e74c3c"];
 
 const generateColors = () => {
     return COLORS.map((color, index) => (

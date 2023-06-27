@@ -20,9 +20,10 @@ function DashboardContainer() {
     const navigate = useNavigate();
     const loginStatus = useAppSelector((state) => state.user.loginStatus);
     const loadingStatus = useAppSelector((state) => state.user.loadingStatus);
-    if (!loginStatus && !loadingStatus)
-        navigate(ROUTES.LOGIN_ROUTE);
-
+    useEffect(()=>{
+        if (!loginStatus && !loadingStatus)
+            navigate(ROUTES.LOGIN_ROUTE);
+    }, [])
     const getDashboardApi = useApi(dashboardApi.getdashboard);
     const getTotalRecipientsApi = useApi(dashboardApi.getTotalRecipient);
     const getApplicationListApi = useApi(applicationApi.getApplicationList);
